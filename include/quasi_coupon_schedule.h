@@ -22,19 +22,31 @@
 
 #pragma once
 
+#include <../../calendar/include/schedule.h>
+
 #include <chrono>
 
 
 namespace coupon_schedule
 {
 
+	// probably not the right place for these
+	constexpr auto SemiAnnualy = std::chrono::months{ 6 };
+	constexpr auto Quarterly = std::chrono::months{ 3 };
+
+
 	inline auto make_quasi_coupon_schedule(
-		const std::chrono::month_day& anchor,
-		const std::chrono::months& frequency, // months only - is it too restrictive?
 		const std::chrono::year_month_day& effective, // or should it be called an issue?
-		const std::chrono::year_month_day& maturity
-	) -> void // return the schedule at some time in the future
+		const std::chrono::year_month_day& maturity,
+		const std::chrono::months& frequency, // months only - is it too restrictive?
+		const std::chrono::month_day& anchor
+	) -> calendar::schedule
 	{
+		return calendar::schedule{
+			effective,
+			maturity,
+			calendar::schedule::storage{}
+		};
 	}
 
 }

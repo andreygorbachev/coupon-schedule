@@ -25,6 +25,7 @@
 #include <../../calendar/include/schedule.h>
 
 #include <chrono>
+#include <memory>
 
 
 namespace coupon_schedule
@@ -35,18 +36,41 @@ namespace coupon_schedule
 	constexpr auto Quarterly = std::chrono::months{ 3 };
 
 
-	template<typename freq>
+	// at the moment long coupons are not supported
+	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
 	auto make_quasi_coupon_schedule(
-		const std::chrono::year_month_day& effective, // or should it be called an issue?
-		const std::chrono::year_month_day& maturity,
-		const freq& frequency,
+		std::chrono::year_month_day effective, // or should it be called an issue?
+		std::chrono::year_month_day maturity,
+		const freq& frequency, // at the moment we are not thinking about tricky situations towards the end of month
 		const std::chrono::month_day& anchor
 	) -> calendar::schedule
 	{
+		auto s = calendar::schedule::storage{};
+
+		s.insert(effective);
+
+		auto d = std::chrono::year_month_day{ effective.year(), anchor.month(), anchor.day() };
+
+		// in case the anchor is several periods after the effective
+		while (d > effective)
+			d -= frequency;
+
+		// in case the anchor is several periods before the effective
+		while (d <= effective)
+			d += frequency;
+
+		while (d < maturity)
+		{
+			s.insert(d);
+			d += frequency;
+		}
+
+		s.insert(maturity);
+
 		return calendar::schedule{
-			effective,
-			maturity,
-			calendar::schedule::storage{}
+			std::move(effective),
+			std::move(maturity),
+			std::move(s)
 		};
 	}
 

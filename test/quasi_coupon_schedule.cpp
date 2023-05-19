@@ -22,9 +22,13 @@
 
 #include <quasi_coupon_schedule.h>
 
+//#include <schedule.h>
+
 #include <gtest/gtest.h>
 
 #include <chrono>
+
+using namespace calendar;
 
 using namespace std::chrono;
 
@@ -34,12 +38,20 @@ namespace coupon_schedule
 
 	TEST(coupon_schedule, make_quasi_coupon_schedule)
 	{
+		const auto expected = schedule{
+			2023y / January / 1d,
+			2023y / December / 31d,
+			calendar::schedule::storage{}
+		};
+
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			2023y / January / 1d,
 			2023y / December / 31d,
 			SemiAnnualy,
 			June / 7d
 		);
+
+		EXPECT_EQ(expected, gilt_quasi_coupon_schedule);
 	}
 
 }

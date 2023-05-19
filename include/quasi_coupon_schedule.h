@@ -34,6 +34,7 @@ namespace coupon_schedule
 	// probably not the right place for these
 	constexpr auto SemiAnnualy = std::chrono::months{ 6 };
 	constexpr auto Quarterly = std::chrono::months{ 3 };
+	constexpr auto Monthly = std::chrono::months{ 1 };
 
 
 	// at the moment long coupons are not supported

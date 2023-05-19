@@ -41,7 +41,7 @@ namespace coupon_schedule
 		const auto expected = schedule{
 			2023y / January / 1d,
 			2023y / December / 31d,
-			calendar::schedule::storage{}
+			schedule::storage{}
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(

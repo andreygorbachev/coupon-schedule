@@ -32,8 +32,9 @@ using namespace std::chrono;
 namespace coupon_schedule
 {
 
-	TEST(quasi_coupon_schedule, test1)
+	TEST(coupon_schedule, make_quasi_coupon_schedule)
 	{
+		const auto gilt_quasi_coupon_schedule(June / 7d);
 	}
 
 }

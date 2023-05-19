@@ -28,8 +28,8 @@
 namespace coupon_schedule
 {
 
-	class quasi_coupon_schedule
+	inline auto make_quasi_coupon_schedule(const std::chrono::month_day& anchor) -> void // return the schedule at some time in the future
 	{
-	};
+	}
 
 }

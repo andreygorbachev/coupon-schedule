@@ -35,10 +35,11 @@ namespace coupon_schedule
 	constexpr auto Quarterly = std::chrono::months{ 3 };
 
 
-	inline auto make_quasi_coupon_schedule(
+	template<typename freq>
+	auto make_quasi_coupon_schedule(
 		const std::chrono::year_month_day& effective, // or should it be called an issue?
 		const std::chrono::year_month_day& maturity,
-		const std::chrono::months& frequency, // months only - is it too restrictive?
+		const freq& frequency,
 		const std::chrono::month_day& anchor
 	) -> calendar::schedule
 	{

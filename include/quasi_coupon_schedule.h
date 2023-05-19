@@ -30,7 +30,9 @@ namespace coupon_schedule
 
 	inline auto make_quasi_coupon_schedule(
 		const std::chrono::month_day& anchor,
-		const std::chrono::months& frequency // months only - is it too restrictive?
+		const std::chrono::months& frequency, // months only - is it too restrictive?
+		const std::chrono::year_month_day& effective, // or should it be called an issue?
+		const std::chrono::year_month_day& maturity
 	) -> void // return the schedule at some time in the future
 	{
 	}

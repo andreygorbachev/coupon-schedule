@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
   coupon-schedule
+  Calendar::calendar
   GTest::gtest_main
 )
 

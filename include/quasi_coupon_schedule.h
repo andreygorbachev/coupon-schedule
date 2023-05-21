@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <../../calendar/include/schedule.h>
+#include <schedule.h>
 
 #include <chrono>
 #include <memory>

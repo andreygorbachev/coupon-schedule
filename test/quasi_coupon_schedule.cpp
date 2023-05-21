@@ -22,7 +22,7 @@
 
 #include <quasi_coupon_schedule.h>
 
-//#include <schedule.h>
+#include <schedule.h>
 
 #include <gtest/gtest.h>
 

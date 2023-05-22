@@ -48,8 +48,6 @@ namespace coupon_schedule
 	{
 		auto s = calendar::schedule::storage{};
 
-		s.insert(effective);
-
 		auto d = std::chrono::year_month_day{ effective.year(), anchor.month(), anchor.day() };
 
 		// in case the anchor is several periods after the effective
@@ -57,16 +55,14 @@ namespace coupon_schedule
 			d -= frequency;
 
 		// in case the anchor is several periods before the effective
-		while (d <= effective)
+		while (d < effective)
 			d += frequency;
 
-		while (d < maturity)
+		while (d <= maturity)
 		{
 			s.insert(d);
 			d += frequency;
 		}
-
-		s.insert(maturity);
 
 		return calendar::schedule{
 			std::move(effective),

@@ -34,6 +34,9 @@ namespace coupon_schedule
 		std::chrono::year_month_day _end;
 
 		std::chrono::year_month_day _pay;
+
+		// invariant to consider: _start <= _end (could be the same day for 1 day trades)
+		// _pay is usually >= _end, but I am not sure it is guranteed
 	};
 
 }

@@ -9,8 +9,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_executable(${PROJECT_NAME}
-  quasi_coupon_schedule.cpp
   period.cpp
+  quasi_coupon_schedule.cpp
+  coupon_schedule.cpp
+  setup.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

@@ -20,12 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <period.h>
+#include "setup.h"
+
+#include <coupon_schedule.h>
+#include <quasi_coupon_schedule.h>
+
+#include <calendar.h>
 
 #include <gtest/gtest.h>
 
 #include <chrono>
 
+using namespace calendar;
 
 using namespace std::chrono;
 
@@ -33,9 +39,26 @@ using namespace std::chrono;
 namespace coupon_schedule
 {
 
-	TEST(period, constructor)
+	TEST(coupon_schedule, make_coupon_schedule)
 	{
-		const auto p = period{ {}, {}, {} };
+		const auto expected = periods{
+			{ 2023y / January / 1d, 2023y / June / 7d, 2023y / June / 7d },
+			{ 2023y / June / 7d, 2023y / December / 7d, 2023y / December / 7d },
+		};
+
+		const auto cal = make_calendar_england();
+
+		const auto gilt_coupon_schedule = make_coupon_schedule(
+			make_quasi_coupon_schedule(
+				2023y / January / 1d,
+				2023y / December / 7d,
+				SemiAnnualy,
+				June / 7d
+			),
+			cal
+		);
+
+		EXPECT_EQ(expected, gilt_coupon_schedule);
 	}
 
 }

@@ -22,65 +22,63 @@
 
 #pragma once
 
+#include "period.h"
+#include "quasi_coupon_schedule.h"
+
+#include <schedule.h>
+#include <calendar.h>
+#include <business_day_conventions.h>
+
 #include <chrono>
-#include <vector>
 #include <memory>
 
 
 namespace coupon_schedule
 {
 
-	class period
+	inline auto _make_coupon_schedule(const calendar::schedule& qcs) -> periods
 	{
+		auto result = periods{};
 
-	public:
+		const auto& f = qcs.get_front();
+		const auto& b = qcs.get_back();
+		const auto& hols = qcs.get_hols(); // get_hols needs a better name
 
-		period() noexcept = delete;
-		period(const period&) = default;
-		period(period&&) noexcept = default;
+		// naive implementation for now
+		if (f == b)
+		{
+			result.emplace_back(f, b, b);
+		}
+		else
+		{
+			auto dates = hols;
+			dates.insert(f);
+			dates.insert(b);
 
-		period(
-			std::chrono::year_month_day start,
-			std::chrono::year_month_day end,
-			std::chrono::year_month_day pay
-		) noexcept;
+			auto i = dates.cbegin();
+			auto prev = *i;
+			++i;
+			while (i != dates.cend())
+			{
+				result.emplace_back(prev, *i, *i);
+				prev = *i;
+				++i;
+			}
+		}
 
-		~period() noexcept = default;
-
-		period& operator=(const period&) = default;
-		period& operator=(period&&) noexcept = default;
-
-	public:
-
-		friend auto operator==(const period& p1, const period& p2) noexcept -> bool = default;
-
-//	private:
-	public:
-
-		std::chrono::year_month_day _start;
-		std::chrono::year_month_day _end;
-
-		std::chrono::year_month_day _pay;
-
-		// invariant to consider: _start <= _end (could be the same day for 1 day trades)
-		// _pay is usually >= _end, but I am not sure it is guranteed
-	};
+		return result;
+	}
 
 
-
-	using periods = std::vector<period>; // is this the right data structure?
-
-
-
-	inline period::period(
-		std::chrono::year_month_day start,
-		std::chrono::year_month_day end,
-		std::chrono::year_month_day pay
-	) noexcept :
-		_start{ std::move(start) },
-		_end{ std::move(end) },
-		_pay{ std::move(pay) }
+	inline auto make_coupon_schedule(const calendar::schedule& qcs, const calendar::calendar& c) -> periods
 	{
+		auto result = _make_coupon_schedule(qcs);
+
+		// adjust for good payment dates
+		for (auto& p : result)
+			/*p._pay =*/ calendar::Following.adjust(p._end, c);
+
+		return result;
 	}
 
 }

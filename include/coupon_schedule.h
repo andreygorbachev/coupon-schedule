@@ -76,7 +76,7 @@ namespace coupon_schedule
 
 		// adjust for good payment dates
 		for (auto& p : result)
-			/*p._pay =*/ calendar::Following.adjust(p._end, c);
+			p._pay = calendar::Following.adjust(p._end, c);
 
 		return result;
 	}

@@ -22,22 +22,26 @@
 
 #pragma once
 
-#include "day_count_interface.h"
-
 #include <chrono>
 
 
 namespace coupon_schedule
 {
 
-	class no_day_count final : public day_count
+	class calendar;
+
+
+	class day_count_fraction
 	{
+
+	public:
+
+		virtual ~day_count_fraction() noexcept = default;
+
+	public:
 
 	private:
 
 	};
-
-
-	const auto NoDayCount = no_day_count{};
 
 }

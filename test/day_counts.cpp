@@ -32,6 +32,11 @@ using namespace std::chrono;
 namespace coupon_schedule
 {
 
+	TEST(one_1, fraction)
+	{
+		EXPECT_DOUBLE_EQ(1.0, One1.fraction(2023y / January / 1d, 2023y / January / 2d));
+	}
+
 	TEST(actual_365_fixed, fraction)
 	{
 		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365Fixed.fraction(2023y / January / 1d, 2023y / January / 2d));

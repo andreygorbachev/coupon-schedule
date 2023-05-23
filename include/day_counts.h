@@ -30,6 +30,21 @@
 namespace coupon_schedule
 {
 
+	class one_1 final : public day_count
+	{
+
+	private:
+
+		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
+		auto _denominator() const noexcept -> int final;
+
+	};
+
+
+	const auto One1 = one_1{};
+
+
+
 	class actual_365_fixed final : public day_count
 	{
 
@@ -42,6 +57,19 @@ namespace coupon_schedule
 
 
 	const auto Actual365Fixed = actual_365_fixed{};
+
+
+
+	auto one_1::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
+	{
+		return 1;
+	}
+
+
+	auto one_1::_denominator() const noexcept -> int
+	{
+		return 1;
+	}
 
 
 

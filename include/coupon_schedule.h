@@ -40,20 +40,20 @@ namespace coupon_schedule
 	{
 		auto result = periods{};
 
-		const auto& f = qcs.get_front();
-		const auto& b = qcs.get_back();
-		const auto& hols = qcs.get_hols(); // get_hols needs a better name
+		const auto& f = qcs.get_from();
+		const auto& u = qcs.get_until();
+		const auto& d = qcs.get_dates();
 
 		// naive implementation for now
-		if (f == b)
+		if (f == u)
 		{
-			result.emplace_back(f, b, b);
+			result.emplace_back(f, u, u);
 		}
 		else
 		{
-			auto dates = hols;
+			auto dates = d;
 			dates.insert(f);
-			dates.insert(b);
+			dates.insert(u);
 
 			auto i = dates.cbegin();
 			auto prev = *i;

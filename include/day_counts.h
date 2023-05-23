@@ -60,6 +60,21 @@ namespace coupon_schedule
 
 
 
+	class actual_360 final : public day_count
+	{
+
+	private:
+
+		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
+		auto _denominator() const noexcept -> int final;
+
+	};
+
+
+	const auto Actual360 = actual_360{};
+
+
+
 	auto one_1::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
 	{
 		return 1;
@@ -84,6 +99,21 @@ namespace coupon_schedule
 	auto actual_365_fixed::_denominator() const noexcept -> int
 	{
 		return 365; // is there a const for this?
+	}
+
+
+
+	auto actual_360::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
+	{
+		// assert that start <= end?
+		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
+		return dur.count();
+	}
+
+
+	auto actual_360::_denominator() const noexcept -> int
+	{
+		return 360;
 	}
 
 }

@@ -30,7 +30,7 @@
 namespace coupon_schedule
 {
 
-	class no_day_count final : public day_count
+	class actual_365_fixed final : public day_count
 	{
 
 	private:
@@ -38,6 +38,6 @@ namespace coupon_schedule
 	};
 
 
-	const auto NoDayCount = no_day_count{};
+	const auto Actual365Fixed = actual_365_fixed{};
 
 }

@@ -32,7 +32,7 @@ using namespace std::chrono;
 namespace coupon_schedule
 {
 
-	TEST(day_count, no_day_count)
+	TEST(actual_365_fixed, fraction)
 	{
 	}
 

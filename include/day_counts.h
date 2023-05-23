@@ -35,9 +35,27 @@ namespace coupon_schedule
 
 	private:
 
+		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
+		auto _denominator() const noexcept -> int final;
+
 	};
 
 
 	const auto Actual365Fixed = actual_365_fixed{};
+
+
+
+	auto actual_365_fixed::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
+	{
+		// assert that start <= end?
+		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
+		return dur.count();
+	}
+
+
+	auto actual_365_fixed::_denominator() const noexcept -> int
+	{
+		return 365; // is there a const for this?
+	}
 
 }

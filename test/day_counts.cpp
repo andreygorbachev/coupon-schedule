@@ -34,7 +34,7 @@ namespace coupon_schedule
 
 	TEST(actual_365_fixed, fraction)
 	{
-		EXPECT_DOUBLE_EQ(0.0, Actual365Fixed.fraction(2023y / January / 1d, 2023y / January / 2d));
+		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365Fixed.fraction(2023y / January / 1d, 2023y / January / 2d));
 	}
 
 }

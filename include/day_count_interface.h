@@ -45,6 +45,10 @@ namespace coupon_schedule
 
 	private:
 
+		virtual auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int = 0; // noexcept?
+		virtual auto _denominator() const noexcept -> int = 0;
+		// correct return types?
+
 	};
 
 
@@ -53,7 +57,7 @@ namespace coupon_schedule
 	{
 		// what is start > end?
 
-		return 0.0; // temp only
+		return static_cast<double>(_numerator(start, end)) / static_cast<double>(_denominator());
 	}
 
 }

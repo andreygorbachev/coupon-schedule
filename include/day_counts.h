@@ -33,7 +33,7 @@ namespace coupon_schedule
 	class no_day_count final : public day_count
 	{
 
-	public:
+	private:
 
 	};
 

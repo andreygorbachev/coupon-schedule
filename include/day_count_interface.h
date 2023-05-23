@@ -40,6 +40,8 @@ namespace coupon_schedule
 
 	public:
 
+	private:
+
 	};
 
 }

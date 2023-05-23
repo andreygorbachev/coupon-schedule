@@ -20,24 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include <day_counts.h>
 
-#include "day_count_fraction_interface.h"
+#include <gtest/gtest.h>
 
 #include <chrono>
+
+using namespace std::chrono;
 
 
 namespace coupon_schedule
 {
 
-	class actual_365_fixed final : public day_count_fraction
+	TEST(day_count, no_day_count)
 	{
-
-	private:
-
-	};
-
-
-	const auto Actual365Fixed = actual_365_fixed{};
+	}
 
 }

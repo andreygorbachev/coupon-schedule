@@ -12,7 +12,7 @@ add_executable(${PROJECT_NAME}
   period.cpp
   quasi_coupon_schedule.cpp
   coupon_schedule.cpp
-  day_count_fractions.cpp
+  day_counts.cpp
   setup.h
 )
 

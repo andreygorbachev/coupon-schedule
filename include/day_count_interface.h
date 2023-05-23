@@ -40,8 +40,20 @@ namespace coupon_schedule
 
 	public:
 
+		auto fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double; // noexcept?
+		// return a ratio?
+
 	private:
 
 	};
+
+
+
+	inline auto day_count::fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	{
+		// what is start > end?
+
+		return 0.0; // temp only
+	}
 
 }

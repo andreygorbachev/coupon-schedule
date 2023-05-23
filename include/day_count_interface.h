@@ -53,6 +53,10 @@ namespace coupon_schedule
 
 
 
+	// should we have a function which takes a period and a day count and returns a fraction?
+
+
+
 	inline auto day_count::fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		// what is start > end?

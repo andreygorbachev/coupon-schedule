@@ -24,6 +24,8 @@
 
 #include "day_count_interface.h"
 
+#include <calendar.h>
+
 #include <chrono>
 
 
@@ -75,6 +77,29 @@ namespace coupon_schedule
 
 
 
+	class calculation_252 final : public day_count
+	{
+
+	public:
+
+		explicit calculation_252(const calendar::calendar* const cal) noexcept;
+
+	private:
+
+		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
+		auto _denominator() const noexcept -> int final;
+
+	private:
+
+		const calendar::calendar* _cal;
+
+	};
+
+
+//	const auto Calculation252 = calculation_252{};
+
+
+
 	auto one_1::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
 	{
 		return 1;
@@ -114,6 +139,27 @@ namespace coupon_schedule
 	auto actual_360::_denominator() const noexcept -> int
 	{
 		return 360;
+	}
+
+
+
+	// we also need to think if start is included/excluded and end is included/excluded
+	calculation_252::calculation_252(const calendar::calendar* const cal) noexcept :
+		_cal{ cal }
+	{
+	}
+
+
+	auto calculation_252::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
+	{
+		// assert that start <= end?
+		return _cal->count_business_days(start, end);
+	}
+
+
+	auto calculation_252::_denominator() const noexcept -> int
+	{
+		return 252;
 	}
 
 }

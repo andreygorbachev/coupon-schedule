@@ -20,10 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <schedule.h>
 #include <annual_holidays.h>
 #include <weekend.h>
+#include <schedule.h>
 #include <calendar.h>
+#include <business_day_conventions.h>
 
 #include <chrono>
 #include <unordered_set>
@@ -133,11 +134,25 @@ namespace coupon_schedule
 
 	inline auto make_calendar_england() -> calendar::calendar
 	{
-		return calendar::calendar
+		auto cal = calendar::calendar
 		{
 			calendar::SaturdaySundayWeekend,
 			make_holiday_schedule_england()
 		};
+		cal.substitute(&calendar::Following);
+
+		return cal;
+	}
+
+
+	inline auto make_calendar_brazil() -> calendar::calendar
+	{
+		return calendar::calendar
+		{
+			calendar::SaturdaySundayWeekend,
+			make_holiday_schedule_england() // temp only
+		};
+		// no adjustment - temp only
 	}
 
 }

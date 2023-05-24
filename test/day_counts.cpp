@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "setup.h"
+
 #include <day_counts.h>
 
 #include <gtest/gtest.h>
@@ -45,6 +47,14 @@ namespace coupon_schedule
 	TEST(actual_360, fraction)
 	{
 		EXPECT_DOUBLE_EQ(1.0 / 360.0, Actual360.fraction(2023y / January / 1d, 2023y / January / 2d));
+	}
+
+	TEST(calculation_252, fraction)
+	{
+		const auto cal = make_calendar_brazil();
+		const auto dc = calculation_252{ &cal };
+
+		EXPECT_DOUBLE_EQ(1.0 / 252.0, dc.fraction(2023y / January / 1d, 2023y / January / 2d));
 	}
 
 }

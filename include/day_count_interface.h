@@ -28,9 +28,6 @@
 namespace coupon_schedule
 {
 
-	class calendar;
-
-
 	class day_count
 	{
 

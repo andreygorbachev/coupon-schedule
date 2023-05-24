@@ -38,7 +38,7 @@ namespace coupon_schedule
 	private:
 
 		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
-		auto _denominator() const noexcept -> int final;
+		auto _denominator(const std::chrono::year_month_day& end) const noexcept -> int final;
 
 	};
 
@@ -53,7 +53,7 @@ namespace coupon_schedule
 	private:
 
 		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
-		auto _denominator() const noexcept -> int final;
+		auto _denominator(const std::chrono::year_month_day& end) const noexcept -> int final;
 
 	};
 
@@ -68,7 +68,7 @@ namespace coupon_schedule
 	private:
 
 		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
-		auto _denominator() const noexcept -> int final;
+		auto _denominator(const std::chrono::year_month_day& end) const noexcept -> int final;
 
 	};
 
@@ -83,7 +83,7 @@ namespace coupon_schedule
 	private:
 
 		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
-		auto _denominator() const noexcept -> int final;
+		auto _denominator(const std::chrono::year_month_day& end) const noexcept -> int final;
 
 	};
 
@@ -102,7 +102,7 @@ namespace coupon_schedule
 	private:
 
 		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
-		auto _denominator() const noexcept -> int final;
+		auto _denominator(const std::chrono::year_month_day& end) const noexcept -> int final;
 
 	private:
 
@@ -121,7 +121,7 @@ namespace coupon_schedule
 	}
 
 
-	auto one_1::_denominator() const noexcept -> int
+	auto one_1::_denominator(const std::chrono::year_month_day& end) const noexcept -> int
 	{
 		return 1;
 	}
@@ -136,7 +136,7 @@ namespace coupon_schedule
 	}
 
 
-	auto actual_365_fixed::_denominator() const noexcept -> int
+	auto actual_365_fixed::_denominator(const std::chrono::year_month_day& end) const noexcept -> int
 	{
 		return 365;
 	}
@@ -151,7 +151,7 @@ namespace coupon_schedule
 	}
 
 
-	auto actual_360::_denominator() const noexcept -> int
+	auto actual_360::_denominator(const std::chrono::year_month_day& end) const noexcept -> int
 	{
 		return 360;
 	}
@@ -166,9 +166,12 @@ namespace coupon_schedule
 	}
 
 
-	auto actual_365_l::_denominator() const noexcept -> int
+	auto actual_365_l::_denominator(const std::chrono::year_month_day& end) const noexcept -> int
 	{
-		return 365; // temp only
+		if (!end.year().is_leap())
+			return 365;
+		else
+			return 366;
 	}
 
 
@@ -187,7 +190,7 @@ namespace coupon_schedule
 	}
 
 
-	auto calculation_252::_denominator() const noexcept -> int
+	auto calculation_252::_denominator(const std::chrono::year_month_day& end) const noexcept -> int
 	{
 		return 252;
 	}

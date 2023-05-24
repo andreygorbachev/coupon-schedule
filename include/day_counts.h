@@ -77,6 +77,21 @@ namespace coupon_schedule
 
 
 
+	class actual_365_l final : public day_count
+	{
+
+	private:
+
+		auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int final; // noexcept?
+		auto _denominator() const noexcept -> int final;
+
+	};
+
+
+	const auto Actual365L = actual_365_l{}; // or should it be Act365L? (looks like ISDA does not provide a "long" name)
+
+
+
 	class calculation_252 final : public day_count
 	{
 
@@ -139,6 +154,21 @@ namespace coupon_schedule
 	auto actual_360::_denominator() const noexcept -> int
 	{
 		return 360;
+	}
+
+
+
+	auto actual_365_l::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
+	{
+		// assert that start <= end?
+		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
+		return dur.count();
+	}
+
+
+	auto actual_365_l::_denominator() const noexcept -> int
+	{
+		return 365; // temp only
 	}
 
 

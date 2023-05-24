@@ -123,7 +123,7 @@ namespace coupon_schedule
 
 	auto actual_365_fixed::_denominator() const noexcept -> int
 	{
-		return 365; // is there a const for this?
+		return 365;
 	}
 
 

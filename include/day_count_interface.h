@@ -23,6 +23,7 @@
 #pragma once
 
 #include <chrono>
+#include <stdexcept>
 
 
 namespace coupon_schedule
@@ -56,7 +57,8 @@ namespace coupon_schedule
 
 	inline auto day_count::fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
-		// what is start > end?
+		if (start > end)
+			throw std::out_of_range{ "Start and end are not consistent" };
 
 		return static_cast<double>(_numerator(start, end)) / static_cast<double>(_denominator(end));
 	}

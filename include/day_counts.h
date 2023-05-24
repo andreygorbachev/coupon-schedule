@@ -130,7 +130,6 @@ namespace coupon_schedule
 
 	auto actual_365_fixed::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
 	{
-		// assert that start <= end?
 		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
 		return dur.count();
 	}
@@ -145,7 +144,6 @@ namespace coupon_schedule
 
 	auto actual_360::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
 	{
-		// assert that start <= end?
 		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
 		return dur.count();
 	}
@@ -160,7 +158,6 @@ namespace coupon_schedule
 
 	auto actual_365_l::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
 	{
-		// assert that start <= end?
 		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
 		return dur.count();
 	}
@@ -185,7 +182,6 @@ namespace coupon_schedule
 
 	auto calculation_252::_numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int
 	{
-		// assert that start <= end?
 		return _cal->count_business_days(start, end);
 	}
 

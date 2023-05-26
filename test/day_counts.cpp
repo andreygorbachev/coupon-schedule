@@ -41,6 +41,11 @@ namespace coupon_schedule
 		EXPECT_THROW(One1.fraction(2023y / January / 2d, 2023y / January / 1d), out_of_range);
 	}
 
+	TEST(actual_actual, fraction)
+	{
+		EXPECT_DOUBLE_EQ(1.0 / 365.0, ActualActual.fraction(2023y / January / 1d, 2023y / January / 2d));
+	}
+
 	TEST(actual_365_fixed, fraction)
 	{
 		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365Fixed.fraction(2023y / January / 1d, 2023y / January / 2d));

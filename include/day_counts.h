@@ -44,6 +44,18 @@ namespace coupon_schedule
 
 	const auto One1 = one_1{};
 
+	class actual_actual final : public day_count
+	{
+
+	private:
+
+		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+
+	};
+
+
+	const auto ActualActual = actual_actual{};
+
 
 
 	class actual_365_fixed final : public day_count
@@ -113,6 +125,43 @@ namespace coupon_schedule
 	auto one_1::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		return 1.0;
+	}
+
+
+
+	auto actual_actual::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	{
+		const auto sy = start.year();
+		const auto ey = end.year();
+
+		if (sy == ey)
+		{
+			if (!sy.is_leap())
+				return Actual365Fixed.fraction(start, end);
+			else
+				return Actual365L.fraction(start, end);
+		}
+		else
+		{
+			auto result = 0.0;
+
+			const auto td1 = std::chrono::year_month_day{ sy + std::chrono::years{ 1 }, std::chrono::January, std::chrono::day{ 1u } };
+			if (!sy.is_leap())
+				result += Actual365Fixed.fraction(start, td1);
+			else
+				result += Actual365L.fraction(start, td1);
+
+			const auto dur = ey - sy - std::chrono::years{ 1 };
+			result += static_cast<double>(dur.count());
+
+			const auto td2 = std::chrono::year_month_day{ ey, std::chrono::January, std::chrono::day{ 1u } };
+			if (!ey.is_leap())
+				result += Actual365Fixed.fraction(td2, end);
+			else
+				result += Actual365L.fraction(td2, end);
+
+			return result;
+		}
 	}
 
 

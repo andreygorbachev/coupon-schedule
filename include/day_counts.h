@@ -220,9 +220,9 @@ namespace coupon_schedule
 			ed = std::chrono::day{ 30u };
 
 		const auto nom =
-			(ey - sy).count() * 360.0 +
-			(em - em).count() * 30.0 +
-			(ed - sd).count();
+			static_cast<double>((ey - sy).count()) * 360.0 +
+			static_cast<double>((em - em).count()) * 30.0 +
+			static_cast<double>((ed - sd).count());
 
 		return nom / 360.0;
 	}

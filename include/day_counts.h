@@ -277,7 +277,7 @@ namespace coupon_schedule
 
 
 
-	// we also need to think if start is included/excluded and end is included/excluded
+	// we also need to think if start is included/excluded and if end is included/excluded
 	calculation_252::calculation_252(const calendar::calendar* const cal) noexcept :
 		_cal{ cal }
 	{

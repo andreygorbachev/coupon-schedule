@@ -43,9 +43,8 @@ namespace coupon_schedule
 
 	private:
 
-		virtual auto _numerator(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> int = 0; // noexcept?
-		virtual auto _denominator(const std::chrono::year_month_day& end) const noexcept -> int = 0;
-		// correct return types?
+		virtual auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double = 0; // noexcept?
+		// return a ratio?
 
 	};
 
@@ -60,7 +59,7 @@ namespace coupon_schedule
 		if (start > end)
 			throw std::out_of_range{ "Start and end are not consistent" };
 
-		return static_cast<double>(_numerator(start, end)) / static_cast<double>(_denominator(end));
+		return _fraction(start, end);
 	}
 
 }

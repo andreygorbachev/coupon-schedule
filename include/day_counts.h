@@ -122,6 +122,14 @@ namespace coupon_schedule
 
 
 
+	inline auto _actual(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) -> double
+	{
+		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
+		return static_cast<double>(dur.count());
+	}
+
+
+
 	auto one_1::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		return 1.0;
@@ -137,9 +145,9 @@ namespace coupon_schedule
 		if (sy == ey)
 		{
 			if (!sy.is_leap())
-				return Actual365Fixed.fraction(start, end);
+				return _actual(start, end) / 365.0;
 			else
-				return Actual365L.fraction(start, end);
+				return _actual(start, end) / 366.0;
 		}
 		else
 		{
@@ -147,18 +155,18 @@ namespace coupon_schedule
 
 			const auto td1 = std::chrono::year_month_day{ sy + std::chrono::years{ 1 }, std::chrono::January, std::chrono::day{ 1u } };
 			if (!sy.is_leap())
-				result += Actual365Fixed.fraction(start, td1);
+				result += _actual(start, td1) / 365.0;
 			else
-				result += Actual365L.fraction(start, td1);
+				result += _actual(start, td1) / 366.0;
 
 			const auto dur = ey - sy - std::chrono::years{ 1 };
 			result += static_cast<double>(dur.count());
 
 			const auto td2 = std::chrono::year_month_day{ ey, std::chrono::January, std::chrono::day{ 1u } };
 			if (!ey.is_leap())
-				result += Actual365Fixed.fraction(td2, end);
+				result += _actual(td2, end) / 365.0;
 			else
-				result += Actual365L.fraction(td2, end);
+				result += _actual(td2, end) / 366.0;
 
 			return result;
 		}
@@ -168,16 +176,14 @@ namespace coupon_schedule
 
 	auto actual_365_fixed::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
-		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
-		return static_cast<double>(dur.count()) / 365.0;
+		return _actual(start, end) / 365.0;
 	}
 
 
 
 	auto actual_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
-		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
-		return static_cast<double>(dur.count()) / 360.0;
+		return _actual(start, end) / 360.0;
 	}
 
 
@@ -186,8 +192,7 @@ namespace coupon_schedule
 	{
 		const auto denom = !end.year().is_leap() ? 365.0 : 366.0;
 
-		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
-		return static_cast<double>(dur.count()) / denom;
+		return _actual(start, end) / denom;
 	}
 
 

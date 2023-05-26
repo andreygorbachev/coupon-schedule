@@ -44,6 +44,8 @@ namespace coupon_schedule
 
 	const auto One1 = one_1{};
 
+
+
 	class actual_actual final : public day_count
 	{
 
@@ -83,6 +85,20 @@ namespace coupon_schedule
 
 
 	const auto Actual360 = actual_360{};
+
+
+
+	class thirty_360 final : public day_count
+	{
+
+	private:
+
+		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+
+	};
+
+
+	const auto Thirty360 = thirty_360{};
 
 
 
@@ -184,6 +200,31 @@ namespace coupon_schedule
 	auto actual_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		return _actual(start, end) / 360.0;
+	}
+
+
+
+	auto thirty_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	{
+		auto sd = start.day();
+		const auto sm = start.month();
+		const auto sy = start.year();
+
+		auto ed = end.day();
+		const auto em = end.month();
+		const auto ey = end.year();
+
+		if (sd == std::chrono::day{ 31u })
+			sd = std::chrono::day{ 30u };
+		if (ed == std::chrono::day{ 31u } && sd > std::chrono::day{ 29u }) // at this stage sd might have changed, but the formula is still correct
+			ed = std::chrono::day{ 30u };
+
+		const auto nom =
+			(ey - sy).count() * 360.0 +
+			(em - em).count() * 30.0 +
+			(ed - sd).count();
+
+		return nom / 360.0;
 	}
 
 

@@ -116,6 +116,20 @@ namespace coupon_schedule
 
 
 
+	class thirty_e_360_isda final : public day_count
+	{
+
+	private:
+
+		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+
+	};
+
+
+	const auto ThirtyE360ISDA = thirty_e_360_isda{};
+
+
+
 	class actual_365_l final : public day_count
 	{
 
@@ -256,6 +270,31 @@ namespace coupon_schedule
 		if (sd == std::chrono::day{ 31u })
 			sd = std::chrono::day{ 30u };
 		if (ed == std::chrono::day{ 31u })
+			ed = std::chrono::day{ 30u };
+
+		const auto nom =
+			static_cast<double>((ey - sy).count()) * 360.0 +
+			static_cast<double>((em - em).count()) * 30.0 +
+			static_cast<double>((ed - sd).count());
+
+		return nom / 360.0;
+	}
+
+
+
+	auto thirty_e_360_isda::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	{
+		auto sd = start.day();
+		const auto sm = start.month();
+		const auto sy = start.year();
+
+		auto ed = end.day();
+		const auto em = end.month();
+		const auto ey = end.year();
+
+		if (start == std::chrono::year_month_day_last{ sy, sm / std::chrono::last })
+			sd = std::chrono::day{ 30u };
+		if (end == std::chrono::year_month_day_last{ ey, em / std::chrono::last }) // handle termination date
 			ed = std::chrono::day{ 30u };
 
 		const auto nom =

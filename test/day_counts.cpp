@@ -68,7 +68,9 @@ namespace coupon_schedule
 
 	TEST(thirty_e_360_isda, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0 / 360.0, ThirtyE360ISDA.fraction(2023y / January / 1d, 2023y / January / 2d));
+		const auto dc = thirty_e_360_isda{ 2023y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0 / 360.0, dc.fraction(2023y / January / 1d, 2023y / January / 2d));
 	}
 
 	TEST(actual_365_l, fraction)

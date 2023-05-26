@@ -119,14 +119,22 @@ namespace coupon_schedule
 	class thirty_e_360_isda final : public day_count
 	{
 
+	public:
+
+		explicit thirty_e_360_isda(std::chrono::year_month_day termination) noexcept;
+
 	private:
 
 		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
 
+	private:
+
+		std::chrono::year_month_day _termination;
+
 	};
 
 
-	const auto ThirtyE360ISDA = thirty_e_360_isda{};
+//	const auto ThirtyE360ISDA = thirty_e_360_isda{};
 
 
 
@@ -174,14 +182,14 @@ namespace coupon_schedule
 
 
 
-	auto one_1::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto one_1::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		return 1.0;
 	}
 
 
 
-	auto actual_actual::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_actual::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		const auto sy = start.year();
 		const auto ey = end.year();
@@ -218,21 +226,21 @@ namespace coupon_schedule
 
 
 
-	auto actual_365_fixed::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_365_fixed::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		return _actual(start, end) / 365.0;
 	}
 
 
 
-	auto actual_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		return _actual(start, end) / 360.0;
 	}
 
 
 
-	auto thirty_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto thirty_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		auto sd = start.day();
 		const auto sm = start.month();
@@ -257,7 +265,7 @@ namespace coupon_schedule
 
 
 
-	auto thirty_e_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto thirty_e_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		auto sd = start.day();
 		const auto sm = start.month();
@@ -282,7 +290,13 @@ namespace coupon_schedule
 
 
 
-	auto thirty_e_360_isda::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline thirty_e_360_isda::thirty_e_360_isda(std::chrono::year_month_day termination) noexcept :
+		_termination{ termination }
+	{
+	}
+
+
+	inline auto thirty_e_360_isda::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		auto sd = start.day();
 		const auto sm = start.month();
@@ -294,8 +308,16 @@ namespace coupon_schedule
 
 		if (start == std::chrono::year_month_day_last{ sy, sm / std::chrono::last })
 			sd = std::chrono::day{ 30u };
-		if (end == std::chrono::year_month_day_last{ ey, em / std::chrono::last }) // handle termination date
-			ed = std::chrono::day{ 30u };
+		if (end != _termination)
+		{
+			if (end == std::chrono::year_month_day_last{ ey, em / std::chrono::last })
+				ed = std::chrono::day{ 30u };
+		}
+		else
+		{
+			if (em != std::chrono::February && end == std::chrono::year_month_day_last{ ey, em / std::chrono::last })
+				ed = std::chrono::day{ 30u };
+		}
 
 		const auto nom =
 			static_cast<double>((ey - sy).count()) * 360.0 +
@@ -307,7 +329,7 @@ namespace coupon_schedule
 
 
 
-	auto actual_365_l::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_365_l::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		const auto denom = !end.year().is_leap() ? 365.0 : 366.0;
 
@@ -317,13 +339,13 @@ namespace coupon_schedule
 
 
 	// we also need to think if start is included/excluded and if end is included/excluded
-	calculation_252::calculation_252(const calendar::calendar* const cal) noexcept :
+	inline calculation_252::calculation_252(const calendar::calendar* const cal) noexcept :
 		_cal{ cal }
 	{
 	}
 
 
-	auto calculation_252::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto calculation_252::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
 		return static_cast<double>(_cal->count_business_days(start, end)) / 252.0;
 	}

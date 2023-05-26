@@ -61,6 +61,11 @@ namespace coupon_schedule
 		EXPECT_DOUBLE_EQ(1.0 / 360.0, Thirty360.fraction(2023y / January / 1d, 2023y / January / 2d));
 	}
 
+	TEST(thirty_e_360, fraction)
+	{
+		EXPECT_DOUBLE_EQ(1.0 / 360.0, ThirtyE360.fraction(2023y / January / 1d, 2023y / January / 2d));
+	}
+
 	TEST(actual_365_l, fraction)
 	{
 		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365L.fraction(2023y / January / 1d, 2023y / January / 2d));

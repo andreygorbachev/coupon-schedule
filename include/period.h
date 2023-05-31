@@ -30,6 +30,8 @@
 namespace coupon_schedule
 {
 
+	// should there be a notion of a calendar::period of just 2 dates?
+	// (and here it could be extended to coupon_period by addition of a pay date?)
 	class period
 	{
 

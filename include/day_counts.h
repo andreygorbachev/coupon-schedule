@@ -37,7 +37,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	};
 
@@ -51,7 +51,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	};
 
@@ -65,7 +65,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	};
 
@@ -79,7 +79,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	};
 
@@ -93,7 +93,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	};
 
@@ -107,7 +107,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	};
 
@@ -125,7 +125,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	private:
 
@@ -143,7 +143,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	};
 
@@ -161,7 +161,7 @@ namespace coupon_schedule
 
 	private:
 
-		auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double final; // noexcept?
+		auto _fraction(const calendar::period& period) const -> double final; // noexcept?
 
 	private:
 
@@ -174,32 +174,32 @@ namespace coupon_schedule
 
 
 
-	inline auto _actual(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) -> double
+	inline auto _actual(const calendar::period& period) -> double
 	{
-		const auto dur = std::chrono::sys_days{ end } - std::chrono::sys_days{ start };
+		const auto dur = std::chrono::sys_days{ period.get_until() } - std::chrono::sys_days{ period.get_from() };
 		return static_cast<double>(dur.count());
 	}
 
 
 
-	inline auto one_1::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto one_1::_fraction(const calendar::period& period) const -> double
 	{
 		return 1.0;
 	}
 
 
 
-	inline auto actual_actual::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_actual::_fraction(const calendar::period& period) const -> double
 	{
-		const auto sy = start.year();
-		const auto ey = end.year();
+		const auto sy = period.get_from().year();
+		const auto ey = period.get_until().year();
 
 		if (sy == ey)
 		{
 			if (!sy.is_leap())
-				return _actual(start, end) / 365.0;
+				return _actual(period) / 365.0;
 			else
-				return _actual(start, end) / 366.0;
+				return _actual(period) / 366.0;
 		}
 		else
 		{
@@ -207,18 +207,18 @@ namespace coupon_schedule
 
 			const auto td1 = std::chrono::year_month_day{ sy + std::chrono::years{ 1 }, std::chrono::January, std::chrono::day{ 1u } };
 			if (!sy.is_leap())
-				result += _actual(start, td1) / 365.0;
+				result += _actual({ period.get_from(), td1 }) / 365.0;
 			else
-				result += _actual(start, td1) / 366.0;
+				result += _actual({ period.get_from(), td1 }) / 366.0;
 
 			const auto dur = ey - sy - std::chrono::years{ 1 };
 			result += static_cast<double>(dur.count());
 
 			const auto td2 = std::chrono::year_month_day{ ey, std::chrono::January, std::chrono::day{ 1u } };
 			if (!ey.is_leap())
-				result += _actual(td2, end) / 365.0;
+				result += _actual({ td2, period.get_until() }) / 365.0;
 			else
-				result += _actual(td2, end) / 366.0;
+				result += _actual({ td2, period.get_until() }) / 366.0;
 
 			return result;
 		}
@@ -226,26 +226,28 @@ namespace coupon_schedule
 
 
 
-	inline auto actual_365_fixed::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_365_fixed::_fraction(const calendar::period& period) const -> double
 	{
-		return _actual(start, end) / 365.0;
+		return _actual(period) / 365.0;
 	}
 
 
 
-	inline auto actual_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_360::_fraction(const calendar::period& period) const -> double
 	{
-		return _actual(start, end) / 360.0;
+		return _actual(period) / 360.0;
 	}
 
 
 
-	inline auto thirty_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto thirty_360::_fraction(const calendar::period& period) const -> double
 	{
+		const auto& start = period.get_from();
 		auto sd = start.day();
 		const auto sm = start.month();
 		const auto sy = start.year();
 
+		const auto& end = period.get_until();
 		auto ed = end.day();
 		const auto em = end.month();
 		const auto ey = end.year();
@@ -265,12 +267,14 @@ namespace coupon_schedule
 
 
 
-	inline auto thirty_e_360::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto thirty_e_360::_fraction(const calendar::period& period) const -> double
 	{
+		const auto& start = period.get_from();
 		auto sd = start.day();
 		const auto sm = start.month();
 		const auto sy = start.year();
 
+		const auto& end = period.get_until();
 		auto ed = end.day();
 		const auto em = end.month();
 		const auto ey = end.year();
@@ -296,12 +300,14 @@ namespace coupon_schedule
 	}
 
 
-	inline auto thirty_e_360_isda::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto thirty_e_360_isda::_fraction(const calendar::period& period) const -> double
 	{
+		const auto& start = period.get_from();
 		auto sd = start.day();
 		const auto sm = start.month();
 		const auto sy = start.year();
 
+		const auto& end = period.get_until();
 		auto ed = end.day();
 		const auto em = end.month();
 		const auto ey = end.year();
@@ -329,11 +335,11 @@ namespace coupon_schedule
 
 
 
-	inline auto actual_365_l::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto actual_365_l::_fraction(const calendar::period& period) const -> double
 	{
-		const auto denom = !end.year().is_leap() ? 365.0 : 366.0;
+		const auto denom = !period.get_until().year().is_leap() ? 365.0 : 366.0;
 
-		return _actual(start, end) / denom;
+		return _actual(period) / denom;
 	}
 
 
@@ -345,9 +351,9 @@ namespace coupon_schedule
 	}
 
 
-	inline auto calculation_252::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto calculation_252::_fraction(const calendar::period& period) const -> double
 	{
-		return static_cast<double>(_cal->count_business_days({ start, end })) / 252.0;
+		return static_cast<double>(_cal->count_business_days(period)) / 252.0;
 	}
 
 }

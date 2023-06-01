@@ -24,10 +24,13 @@
 
 #include <day_counts.h>
 
+#include <period.h>
+
 #include <gtest/gtest.h>
 
 #include <chrono>
 
+using namespace calendar;
 using namespace std;
 using namespace std::chrono;
 
@@ -37,54 +40,72 @@ namespace coupon_schedule
 
 	TEST(one_1, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0, One1.fraction(2023y / January / 1d, 2023y / January / 2d));
-		EXPECT_THROW(One1.fraction(2023y / January / 2d, 2023y / January / 1d), out_of_range);
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0, One1.fraction(p));
 	}
 
 	TEST(actual_actual, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0 / 365.0, ActualActual.fraction(2023y / January / 1d, 2023y / January / 2d));
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0 / 365.0, ActualActual.fraction(p));
 	}
 
 	TEST(actual_365_fixed, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365Fixed.fraction(2023y / January / 1d, 2023y / January / 2d));
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365Fixed.fraction(p));
 	}
 
 	TEST(actual_360, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0 / 360.0, Actual360.fraction(2023y / January / 1d, 2023y / January / 2d));
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0 / 360.0, Actual360.fraction(p));
 	}
 
 	TEST(thirty_360, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0 / 360.0, Thirty360.fraction(2023y / January / 1d, 2023y / January / 2d));
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0 / 360.0, Thirty360.fraction(p));
 	}
 
 	TEST(thirty_e_360, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0 / 360.0, ThirtyE360.fraction(2023y / January / 1d, 2023y / January / 2d));
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0 / 360.0, ThirtyE360.fraction(p));
 	}
 
 	TEST(thirty_e_360_isda, fraction)
 	{
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
 		const auto dc = thirty_e_360_isda{ 2023y / January / 2d };
 
-		EXPECT_DOUBLE_EQ(1.0 / 360.0, dc.fraction(2023y / January / 1d, 2023y / January / 2d));
+		EXPECT_DOUBLE_EQ(1.0 / 360.0, dc.fraction(p));
 	}
 
 	TEST(actual_365_l, fraction)
 	{
-		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365L.fraction(2023y / January / 1d, 2023y / January / 2d));
-		EXPECT_DOUBLE_EQ(1.0 / 366.0, Actual365L.fraction(2020y / January / 1d, 2020y / January / 2d));
+		const auto p1 = period{ 2023y / January / 1d, 2023y / January / 2d };
+		const auto p2 = period{ 2020y / January / 1d, 2020y / January / 2d };
+
+		EXPECT_DOUBLE_EQ(1.0 / 365.0, Actual365L.fraction(p1));
+		EXPECT_DOUBLE_EQ(1.0 / 366.0, Actual365L.fraction(p2));
 	}
 
 	TEST(calculation_252, fraction)
 	{
+		const auto p = period{ 2023y / January / 1d, 2023y / January / 2d };
+
 		const auto cal = make_calendar_brazil();
 		const auto dc = calculation_252{ &cal };
 
-		EXPECT_DOUBLE_EQ(1.0 / 252.0, dc.fraction(2023y / January / 1d, 2023y / January / 2d));
+		EXPECT_DOUBLE_EQ(1.0 / 252.0, dc.fraction(p));
 	}
 
 }

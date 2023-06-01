@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <period.h>
+
 #include <chrono>
 #include <stdexcept>
 
@@ -38,28 +40,21 @@ namespace coupon_schedule
 
 	public:
 
-		auto fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double; // noexcept?
+		auto fraction(const calendar::period& period) const -> double; // noexcept?
 		// return a ratio?
 
 	private:
 
-		virtual auto _fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double = 0; // noexcept?
+		virtual auto _fraction(const calendar::period& period) const -> double = 0; // noexcept?
 		// return a ratio?
 
 	};
 
 
 
-	// should we have a function which takes a period and a day count and returns a fraction?
-
-
-
-	inline auto day_count::fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
+	inline auto day_count::fraction(const calendar::period& period) const -> double
 	{
-		if (start > end)
-			throw std::out_of_range{ "Start and end are not consistent" };
-
-		return _fraction(start, end);
+		return _fraction(period);
 	}
 
 }

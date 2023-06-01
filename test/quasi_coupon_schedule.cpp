@@ -39,12 +39,8 @@ namespace coupon_schedule
 	TEST(coupon_schedule, make_quasi_coupon_schedule)
 	{
 		const auto expected = schedule{
-			2023y / January / 1d,
-			2023y / December / 7d,
-			schedule::storage{
-				2023y / June / 7d,
-				2023y / December / 7d
-			}
+			{ 2023y / January / 1d,	2023y / December / 7d },
+			schedule::storage{ 2023y / June / 7d, 2023y / December / 7d	}
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(

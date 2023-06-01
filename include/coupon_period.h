@@ -20,26 +20,67 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
+
 #include <period.h>
 
-#include <gtest/gtest.h>
-
 #include <chrono>
-
-
-using namespace std::chrono;
+#include <vector>
+#include <memory>
 
 
 namespace coupon_schedule
 {
 
-	TEST(period, constructor)
+	class coupon_period
 	{
-		const auto p = period{ 2023y / January / 1d, 2023y / June / 7d, 2023y / June / 7d };
 
-		EXPECT_EQ(2023y / January / 1d, p._start);
-		EXPECT_EQ(2023y / June / 7d, p._end);
-		EXPECT_EQ(2023y / June / 7d, p._pay);
+	public:
+
+		coupon_period() noexcept = delete;
+		coupon_period(const coupon_period&) = default;
+		coupon_period(coupon_period&&) noexcept = default;
+
+		coupon_period(
+			calendar::period period,
+			std::chrono::year_month_day pay
+		) noexcept;
+
+		~coupon_period() noexcept = default;
+
+		coupon_period& operator=(const coupon_period&) = default;
+		coupon_period& operator=(coupon_period&&) noexcept = default;
+
+	public:
+
+		friend auto operator==(const coupon_period& p1, const coupon_period& p2) noexcept -> bool = default;
+
+	public:
+
+		// we should consider start/end here (calling into from/until) as these are more natural for this domain
+
+//	private:
+	public:
+
+		calendar::period _period;
+
+		std::chrono::year_month_day _pay;
+
+	};
+
+
+
+	using coupon_periods = std::vector<coupon_period>; // is this the right data structure?
+
+
+
+	inline coupon_period::coupon_period(
+		calendar::period period,
+		std::chrono::year_month_day pay
+	) noexcept :
+		_period{ std::move(period) },
+		_pay{ std::move(pay) }
+	{
 	}
 
 }

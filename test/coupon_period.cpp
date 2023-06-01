@@ -20,66 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "coupon_period.h"
-#include "quasi_coupon_schedule.h"
+#include <coupon_period.h>
 
 #include <period.h>
-#include <schedule.h>
-#include <calendar.h>
-#include <business_day_conventions.h>
+
+#include <gtest/gtest.h>
 
 #include <chrono>
-#include <memory>
+
+
+using namespace std::chrono;
 
 
 namespace coupon_schedule
 {
 
-	inline auto _make_coupon_schedule(const calendar::schedule& qcs) -> coupon_periods
+	TEST(coupon_period, constructor)
 	{
-		auto result = coupon_periods{};
+		const auto p = coupon_period{ { 2023y / January / 1d, 2023y / June / 7d }, 2023y / June / 7d };
 
-		const auto& f = qcs.get_from_until().get_from();
-		const auto& u = qcs.get_from_until().get_until();
-		const auto& d = qcs.get_dates();
-
-		// naive implementation for now
-		if (f == u)
-		{
-			result.emplace_back(calendar::period{ f, u }, u);
-		}
-		else
-		{
-			auto dates = d;
-			dates.insert(f);
-			dates.insert(u);
-
-			auto i = dates.cbegin();
-			auto prev = *i;
-			++i;
-			while (i != dates.cend())
-			{
-				result.emplace_back(calendar::period{ prev, *i }, *i);
-				prev = *i;
-				++i;
-			}
-		}
-
-		return result;
-	}
-
-
-	inline auto make_coupon_schedule(const calendar::schedule& qcs, const calendar::calendar& c) -> coupon_periods
-	{
-		auto result = _make_coupon_schedule(qcs);
-
-		// adjust for good payment dates
-		for (auto& p : result)
-			p._pay = calendar::Following.adjust(p._period.get_until(), c); // in the future allow for other adjustments, not just following
-
-		return result;
+		EXPECT_EQ(2023y / January / 1d, p._period.get_from());
+		EXPECT_EQ(2023y / June / 7d, p._period.get_until());
+		EXPECT_EQ(2023y / June / 7d, p._pay);
 	}
 
 }

@@ -65,8 +65,7 @@ namespace coupon_schedule
 		}
 
 		return calendar::schedule{
-			std::move(effective),
-			std::move(maturity),
+			{ std::move(effective), std::move(maturity) },
 			std::move(s)
 		};
 	}

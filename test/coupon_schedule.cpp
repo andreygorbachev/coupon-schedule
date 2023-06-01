@@ -22,6 +22,7 @@
 
 #include "setup.h"
 
+#include <coupon_period.h>
 #include <coupon_schedule.h>
 #include <quasi_coupon_schedule.h>
 
@@ -41,9 +42,9 @@ namespace coupon_schedule
 
 	TEST(coupon_schedule, make_coupon_schedule)
 	{
-		const auto expected = periods{
-			{ 2023y / January / 1d, 2023y / June / 7d, 2023y / June / 7d },
-			{ 2023y / June / 7d, 2023y / December / 7d, 2023y / December / 7d },
+		const auto expected = coupon_periods{
+			{ { 2023y / January / 1d, 2023y / June / 7d }, 2023y / June / 7d },
+			{ { 2023y / June / 7d, 2023y / December / 7d }, 2023y / December / 7d },
 		};
 
 		const auto cal = make_calendar_england();

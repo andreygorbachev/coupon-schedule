@@ -9,7 +9,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_executable(${PROJECT_NAME}
-  period.cpp
+  coupon_period.cpp
   quasi_coupon_schedule.cpp
   coupon_schedule.cpp
   day_counts.cpp

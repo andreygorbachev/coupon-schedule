@@ -347,7 +347,7 @@ namespace coupon_schedule
 
 	inline auto calculation_252::_fraction(const std::chrono::year_month_day& start, const std::chrono::year_month_day& end) const -> double
 	{
-		return static_cast<double>(_cal->count_business_days(start, end)) / 252.0;
+		return static_cast<double>(_cal->count_business_days({ start, end })) / 252.0;
 	}
 
 }

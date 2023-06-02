@@ -166,7 +166,7 @@ namespace coupon_schedule
 		rules.insert(&AllSoulsDay);
 		rules.insert(&RepublicProclamationDay);
 		rules.insert(&ChristmasDay);
-		// do we need to add election days?
+		// we should also consider election days (but as they are always on Sundays it probably does not matter here)
 
 		const auto hs2018_2025 = make_holiday_schedule(
 			std::chrono::year{ 2018 },
@@ -180,11 +180,13 @@ namespace coupon_schedule
 
 	inline auto make_calendar_brazil() -> calendar::calendar
 	{
-		return calendar::calendar{
+		auto cal = calendar::calendar{
 			calendar::SaturdaySundayWeekend,
 			make_holiday_schedule_brazil()
 		};
-		// no adjustment - temp only
+		cal.substitute(&calendar::NoAdjustment); // make it explicit that no adjustment is needed
+
+		return cal;
 	}
 
 }

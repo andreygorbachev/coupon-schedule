@@ -144,11 +144,45 @@ namespace coupon_schedule
 	}
 
 
+	inline auto make_holiday_schedule_brazil() -> calendar::schedule
+	{
+		using namespace calendar;
+
+		// nationwide holidays
+
+		const auto TiradentesDay = named_holiday{ std::chrono::April / std::chrono::day{ 21u } };
+		const auto LabourDay = named_holiday{ std::chrono::May / std::chrono::day{ 1u } }; // should this be in calendar?
+		const auto IndependenceDay = named_holiday{ std::chrono::September / std::chrono::day{ 7u } };
+		const auto OurLadyOfAparecida = named_holiday{ std::chrono::October / std::chrono::day{ 12u } };
+		const auto AllSoulsDay = named_holiday{ std::chrono::November / std::chrono::day{ 2u } };
+		const auto RepublicProclamationDay = named_holiday{ std::chrono::November / std::chrono::day{ 15u } };
+
+		auto rules = std::unordered_set<const annual_holiday*>{};
+		rules.insert(&NewYearsDay);
+		rules.insert(&TiradentesDay);
+		rules.insert(&LabourDay);
+		rules.insert(&IndependenceDay);
+		rules.insert(&OurLadyOfAparecida);
+		rules.insert(&AllSoulsDay);
+		rules.insert(&RepublicProclamationDay);
+		rules.insert(&ChristmasDay);
+		// do we need to add election days?
+
+		const auto hs2018_2025 = make_holiday_schedule(
+			std::chrono::year{ 2018 },
+			std::chrono::year{ 2025 },
+			rules
+		);
+
+		return hs2018_2025;
+	}
+
+
 	inline auto make_calendar_brazil() -> calendar::calendar
 	{
 		return calendar::calendar{
 			calendar::SaturdaySundayWeekend,
-			make_holiday_schedule_england() // temp only
+			make_holiday_schedule_brazil()
 		};
 		// no adjustment - temp only
 	}

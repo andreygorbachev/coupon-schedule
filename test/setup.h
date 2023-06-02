@@ -134,8 +134,7 @@ namespace coupon_schedule
 
 	inline auto make_calendar_england() -> calendar::calendar
 	{
-		auto cal = calendar::calendar
-		{
+		auto cal = calendar::calendar{
 			calendar::SaturdaySundayWeekend,
 			make_holiday_schedule_england()
 		};
@@ -147,8 +146,7 @@ namespace coupon_schedule
 
 	inline auto make_calendar_brazil() -> calendar::calendar
 	{
-		return calendar::calendar
-		{
+		return calendar::calendar{
 			calendar::SaturdaySundayWeekend,
 			make_holiday_schedule_england() // temp only
 		};

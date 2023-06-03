@@ -40,19 +40,19 @@ namespace coupon_schedule
 
 	public:
 
-		auto fraction(const calendar::period& period) const -> double; // noexcept?
+		auto fraction(const calendar::days_period& period) const -> double; // noexcept?
 		// return a ratio?
 
 	private:
 
-		virtual auto _fraction(const calendar::period& period) const -> double = 0; // noexcept?
+		virtual auto _fraction(const calendar::days_period& period) const -> double = 0; // noexcept?
 		// return a ratio?
 
 	};
 
 
 
-	inline auto day_count::fraction(const calendar::period& period) const -> double
+	inline auto day_count::fraction(const calendar::days_period& period) const -> double
 	{
 		return _fraction(period);
 	}

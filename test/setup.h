@@ -52,8 +52,7 @@ namespace coupon_schedule
 		rules.insert(&BoxingDay);
 
 		const auto hs2018_2019 = make_holiday_schedule(
-			std::chrono::year{ 2018 },
-			std::chrono::year{ 2019 },
+			{ std::chrono::year{ 2018 }, std::chrono::year{ 2019 } },
 			rules
 		);
 
@@ -71,12 +70,10 @@ namespace coupon_schedule
 
 		const auto hs2020 = make_holiday_schedule(
 			std::chrono::year{ 2020 },
-			std::chrono::year{ 2020 },
 			rules2020
 		);
 
 		const auto hs2021 = make_holiday_schedule(
-			std::chrono::year{ 2021 },
 			std::chrono::year{ 2021 },
 			rules
 		);
@@ -99,7 +96,6 @@ namespace coupon_schedule
 
 		const auto hs2022 = make_holiday_schedule(
 			std::chrono::year{ 2022 },
-			std::chrono::year{ 2022 },
 			rules2022
 		);
 
@@ -118,13 +114,11 @@ namespace coupon_schedule
 
 		const auto hs2023 = make_holiday_schedule(
 			std::chrono::year{ 2023 },
-			std::chrono::year{ 2023 },
 			rules2023
 		);
 
 		const auto hs2024_2025 = make_holiday_schedule(
-			std::chrono::year{ 2024 },
-			std::chrono::year{ 2025 },
+			{ std::chrono::year{ 2024 }, std::chrono::year{ 2025 } },
 			rules
 		);
 
@@ -169,8 +163,7 @@ namespace coupon_schedule
 		// we should also consider election days (but as they are always on Sundays it probably does not matter here)
 
 		const auto hs2018_2025 = make_holiday_schedule(
-			std::chrono::year{ 2018 },
-			std::chrono::year{ 2025 },
+			{ std::chrono::year{ 2018 }, std::chrono::year{ 2025 } },
 			rules
 		);
 

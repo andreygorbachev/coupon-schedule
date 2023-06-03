@@ -42,7 +42,7 @@ namespace coupon_schedule
 		coupon_period(coupon_period&&) noexcept = default;
 
 		coupon_period(
-			calendar::period period,
+			calendar::days_period period,
 			std::chrono::year_month_day pay
 		) noexcept;
 
@@ -62,7 +62,7 @@ namespace coupon_schedule
 //	private:
 	public:
 
-		calendar::period _period;
+		calendar::days_period _period;
 
 		std::chrono::year_month_day _pay;
 
@@ -75,7 +75,7 @@ namespace coupon_schedule
 
 
 	inline coupon_period::coupon_period(
-		calendar::period period,
+		calendar::days_period period,
 		std::chrono::year_month_day pay
 	) noexcept :
 		_period{ std::move(period) },

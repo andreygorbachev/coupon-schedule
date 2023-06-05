@@ -1,4 +1,6 @@
-add_library(coupon-schedule INTERFACE
+project("coupon-schedule")
+
+add_library(${PROJECT_NAME} INTERFACE
   coupon_period.h
   quasi_coupon_schedule.h
   coupon_schedule.h
@@ -6,4 +8,4 @@ add_library(coupon-schedule INTERFACE
   day_counts.h
 )
 
-target_include_directories(coupon-schedule INTERFACE .)
+target_include_directories(${PROJECT_NAME} INTERFACE .)

@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME}
   quasi_coupon_schedule.cpp
   coupon_schedule.cpp
   day_counts.cpp
+  compounding_period.cpp
   setup.h
 )
 

@@ -32,13 +32,26 @@
 
 #include <chrono>
 
-using namespace calendar;
+//using namespace calendar;
 
 using namespace std::chrono;
 
 
 namespace coupon_schedule
 {
+
+	TEST(compounding_schedule, make_overnight_maturity)
+	{
+		const auto publication = calendar::calendar{
+			calendar::SaturdaySundayWeekend,
+			calendar::schedule{
+				calendar::period{ 2023y / May / 26d, 2023y / May / 30d },
+				{ 2023y / May / 29d }
+			}
+		};
+
+		EXPECT_EQ(2023y / May / 30d, make_overnight_maturity(2023y / May / 26d, publication));
+	}
 
 	TEST(compounding_schedule, make_compounding_schedule)
 	{

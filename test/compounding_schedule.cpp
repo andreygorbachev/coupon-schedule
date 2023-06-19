@@ -53,7 +53,7 @@ namespace coupon_schedule
 		EXPECT_EQ(2023y / May / 30d, make_overnight_maturity(2023y / May / 26d, publication));
 	}
 
-	TEST(compounding_schedule, make_compounding_schedule)
+	TEST(compounding_schedule, make_compounding_schedule1)
 	{
 		const auto expected = compounding_periods{
 			{ { 2023y / June / 1d, 2023y / June / 2d }, 2023y / June / 1d },
@@ -65,6 +65,67 @@ namespace coupon_schedule
 
 		const auto period = coupon_period{
 			{ 2023y / June / 1d, 2023y / June / 8d },
+			2023y / June / 8d
+		};
+
+		const auto cal = make_calendar_england();
+
+		const auto compounding_schedule = make_compounding_schedule(period, cal);
+
+		EXPECT_EQ(expected, compounding_schedule);
+	}
+
+	TEST(compounding_schedule, make_compounding_schedule2)
+	{
+		// non-standard first period
+		const auto expected = compounding_periods{
+			{ { 2023y / June / 3d, 2023y / June / 5d }, 2023y / June / 2d },
+			{ { 2023y / June / 5d, 2023y / June / 6d }, 2023y / June / 5d },
+			{ { 2023y / June / 6d, 2023y / June / 7d }, 2023y / June / 6d },
+			{ { 2023y / June / 7d, 2023y / June / 8d }, 2023y / June / 7d },
+		};
+
+		const auto period = coupon_period{
+			{ 2023y / June / 3d, 2023y / June / 8d },
+			2023y / June / 8d
+		};
+
+		const auto cal = make_calendar_england();
+
+		const auto compounding_schedule = make_compounding_schedule(period, cal);
+
+		EXPECT_EQ(expected, compounding_schedule);
+	}
+
+	TEST(compounding_schedule, make_compounding_schedule3)
+	{
+		// non-standard last period
+		const auto expected = compounding_periods{
+			{ { 2023y / June / 1d, 2023y / June / 2d }, 2023y / June / 1d },
+			{ { 2023y / June / 2d, 2023y / June / 4d }, 2023y / June / 2d },
+		};
+
+		const auto period = coupon_period{
+			{ 2023y / June / 1d, 2023y / June / 4d },
+			2023y / June / 8d
+		};
+
+		const auto cal = make_calendar_england();
+
+		const auto compounding_schedule = make_compounding_schedule(period, cal);
+
+		EXPECT_EQ(expected, compounding_schedule);
+	}
+
+	TEST(compounding_schedule, make_compounding_schedule4)
+	{
+		// non-standard first and last periods
+		const auto expected = compounding_periods{
+			{ { 2023y / June / 3d, 2023y / June / 4d }, 2023y / June / 2d },
+		};
+
+		const auto period = coupon_period{
+			{ 2023y / June / 3d, 2023y / June / 4d },
 			2023y / June / 8d
 		};
 

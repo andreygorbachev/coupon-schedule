@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} INTERFACE
   day_count_interface.h
   day_counts.h
   compounding_period.h
+  compounding_schedule.h
 )
 
 target_include_directories(${PROJECT_NAME} INTERFACE .)

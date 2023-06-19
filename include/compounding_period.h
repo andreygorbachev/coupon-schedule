@@ -70,7 +70,7 @@ namespace coupon_schedule
 
 
 
-	using ccompounding_periods = std::vector<compounding_period>; // is this the right data structure?
+	using compounding_periods = std::vector<compounding_period>; // is this the right data structure?
 
 
 

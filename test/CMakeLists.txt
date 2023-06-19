@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
   coupon_schedule.cpp
   day_counts.cpp
   compounding_period.cpp
+  compounding_schedule.cpp
   setup.h
 )
 

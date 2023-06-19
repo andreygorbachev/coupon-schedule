@@ -46,6 +46,7 @@ namespace coupon_schedule
 			publication
 		);
 	}
+	// or should we do from/until instead of effective/maturity?
 
 
 	// naive, recursive implementation for now

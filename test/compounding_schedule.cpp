@@ -119,7 +119,7 @@ namespace coupon_schedule
 
 	TEST(compounding_schedule, make_compounding_schedule4)
 	{
-		// non-standard first and last periods
+		// non-standard first period, which is also a non-standard last period
 		const auto expected = compounding_periods{
 			{ { 2023y / June / 3d, 2023y / June / 4d }, 2023y / June / 2d },
 		};

@@ -136,4 +136,23 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, compounding_schedule);
 	}
 
+	TEST(compounding_schedule, make_compounding_schedule5)
+	{
+		// compounding schedule for an empty coupon period
+		const auto expected = compounding_periods{
+			{ { 2023y / June / 1d, 2023y / June / 1d }, 2023y / June / 1d }, // or should it be an exception?
+		};
+
+		const auto period = coupon_period{
+			{ 2023y / June / 1d, 2023y / June / 1d },
+			2023y / June / 8d
+		};
+
+		const auto cal = make_calendar_england();
+
+		const auto compounding_schedule = make_compounding_schedule(period, cal);
+
+		EXPECT_EQ(expected, compounding_schedule);
+	}
+
 }

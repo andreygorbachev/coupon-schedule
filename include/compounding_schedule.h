@@ -74,6 +74,7 @@ namespace coupon_schedule
 			return result;
 		}
 	}
+	// or should it be a generic "1d" schedule adjuste for good business days? (so nothin special is needed for business days?)
 
 
 	inline auto make_compounding_schedule(const coupon_period& cp, const calendar::calendar& c) -> compounding_periods

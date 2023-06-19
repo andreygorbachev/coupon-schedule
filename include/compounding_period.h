@@ -64,7 +64,7 @@ namespace coupon_schedule
 
 		calendar::days_period _period;
 
-		std::chrono::year_month_day _reset;
+		std::chrono::year_month_day _reset; // is it clear that this is a date?
 
 	};
 

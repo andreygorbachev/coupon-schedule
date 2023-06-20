@@ -48,7 +48,7 @@ namespace coupon_schedule
 		// naive implementation for now
 		if (f == u)
 		{
-			result.emplace_back(calendar::period{ f, u }, u);
+			result.emplace_back(calendar::period{ f, u }, std::chrono::year_month_day{});
 		}
 		else
 		{
@@ -61,7 +61,7 @@ namespace coupon_schedule
 			++i;
 			while (i != dates.cend())
 			{
-				result.emplace_back(calendar::period{ prev, *i }, *i);
+				result.emplace_back(calendar::period{ prev, *i }, std::chrono::year_month_day{});
 				prev = *i;
 				++i;
 			}

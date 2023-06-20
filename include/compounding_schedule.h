@@ -61,7 +61,7 @@ namespace coupon_schedule
 		{
 			auto result = _make_compounding_schedule(coupon_period{ calendar::period{ maturity, u }, cp._pay }, c);
 
-			result.emplace(result.begin(), calendar::period{ effective, maturity }, effective);
+			result.emplace(result.begin(), calendar::period{ effective, maturity }, std::chrono::year_month_day{});
 
 			return result;
 		}
@@ -69,7 +69,7 @@ namespace coupon_schedule
 		{
 			auto result = compounding_periods{};
 
-			result.emplace_back(calendar::period{ f, u }, f);
+			result.emplace_back(calendar::period{ f, u }, std::chrono::year_month_day{});
 
 			return result;
 		}

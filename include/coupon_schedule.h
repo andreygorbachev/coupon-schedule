@@ -71,7 +71,7 @@ namespace coupon_schedule
 	}
 
 
-	inline auto make_coupon_schedule(const calendar::schedule& qcs, const calendar::calendar& c) -> coupon_periods
+	inline auto make_coupon_schedule(const calendar::schedule& qcs, const calendar::calendar& c) -> coupon_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
 	{
 		auto result = _make_coupon_schedule(qcs);
 

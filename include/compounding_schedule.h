@@ -77,7 +77,7 @@ namespace coupon_schedule
 	// or should it be a generic "1d" schedule adjuste for good business days? (so nothin special is needed for business days?)
 
 
-	inline auto make_compounding_schedule(const coupon_period& cp, const calendar::calendar& c) -> compounding_periods
+	inline auto make_compounding_schedule(const coupon_period& cp, const calendar::calendar& c) -> compounding_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
 	{
 		auto result = _make_compounding_schedule(cp, c); // we assume that the compounding calendar and reset calendar are the same (is it true for SOFR?)
 

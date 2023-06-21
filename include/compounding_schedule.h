@@ -46,6 +46,17 @@ namespace coupon_schedule
 			publication
 		);
 	}
+
+	inline auto make_overnight_effective(
+		const std::chrono::year_month_day& maturity,
+		const calendar::calendar& publication
+	) -> std::chrono::year_month_day
+	{
+		return calendar::Preceding.adjust(
+			std::chrono::sys_days{ maturity } - std::chrono::days{ 1 },
+			publication
+		);
+	}
 	// or should we do from/until instead of effective/maturity?
 
 

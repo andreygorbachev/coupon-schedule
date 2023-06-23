@@ -28,7 +28,7 @@
 
 #include <chrono>
 
-using namespace calendar;
+using namespace gregorian;
 
 using namespace std::chrono;
 

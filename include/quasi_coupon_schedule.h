@@ -44,9 +44,9 @@ namespace coupon_schedule
 		std::chrono::year_month_day maturity,
 		const freq& frequency, // at the moment we are not thinking about tricky situations towards the end of month
 		const std::chrono::month_day& anchor
-	) -> calendar::schedule
+	) -> gregorian::schedule
 	{
-		auto s = calendar::schedule::storage{};
+		auto s = gregorian::schedule::storage{};
 
 		auto d = std::chrono::year_month_day{ effective.year(), anchor.month(), anchor.day() };
 
@@ -64,7 +64,7 @@ namespace coupon_schedule
 			d += frequency;
 		}
 
-		return calendar::schedule{
+		return gregorian::schedule{
 			{ std::move(effective), std::move(maturity) },
 			std::move(s)
 		};

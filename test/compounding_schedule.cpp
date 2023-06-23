@@ -32,7 +32,7 @@
 
 #include <chrono>
 
-//using namespace calendar;
+using namespace gregorian;
 
 using namespace std::chrono;
 
@@ -42,10 +42,10 @@ namespace coupon_schedule
 
 	TEST(compounding_schedule, make_overnight_maturity)
 	{
-		const auto publication = calendar::calendar{
-			calendar::SaturdaySundayWeekend,
-			calendar::schedule{
-				calendar::period{ 2023y / May / 26d, 2023y / May / 30d },
+		const auto publication = calendar{
+			SaturdaySundayWeekend,
+			schedule{
+				period{ 2023y / May / 26d, 2023y / May / 30d },
 				{ 2023y / May / 29d }
 			}
 		};
@@ -55,10 +55,10 @@ namespace coupon_schedule
 
 	TEST(compounding_schedule, make_overnight_effective)
 	{
-		const auto publication = calendar::calendar{
-			calendar::SaturdaySundayWeekend,
-			calendar::schedule{
-				calendar::period{ 2023y / May / 26d, 2023y / May / 30d },
+		const auto publication = calendar{
+			SaturdaySundayWeekend,
+			schedule{
+				period{ 2023y / May / 26d, 2023y / May / 30d },
 				{ 2023y / May / 29d }
 			}
 		};

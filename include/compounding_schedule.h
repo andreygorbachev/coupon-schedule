@@ -38,10 +38,10 @@ namespace coupon_schedule
 
 	inline auto make_overnight_maturity(
 		const std::chrono::year_month_day& effective,
-		const calendar::calendar& publication
+		const gregorian::calendar& publication
 	) -> std::chrono::year_month_day
 	{
-		return calendar::Following.adjust(
+		return gregorian::Following.adjust(
 			std::chrono::sys_days{ effective } + std::chrono::days{ 1 },
 			publication
 		);
@@ -49,10 +49,10 @@ namespace coupon_schedule
 
 	inline auto make_overnight_effective(
 		const std::chrono::year_month_day& maturity,
-		const calendar::calendar& publication
+		const gregorian::calendar& publication
 	) -> std::chrono::year_month_day
 	{
-		return calendar::Preceding.adjust(
+		return gregorian::Preceding.adjust(
 			std::chrono::sys_days{ maturity } - std::chrono::days{ 1 },
 			publication
 		);
@@ -61,7 +61,7 @@ namespace coupon_schedule
 
 
 	// naive, recursive implementation for now
-	inline auto _make_compounding_schedule(const coupon_period& cp, const calendar::calendar& c) -> compounding_periods
+	inline auto _make_compounding_schedule(const coupon_period& cp, const gregorian::calendar& c) -> compounding_periods
 	{
 		const auto& f = cp._period.get_from();
 		const auto& u = cp._period.get_until();
@@ -70,9 +70,9 @@ namespace coupon_schedule
 		const auto maturity = make_overnight_maturity(effective, c);
 		if (maturity < u)
 		{
-			auto result = _make_compounding_schedule(coupon_period{ calendar::period{ maturity, u }, cp._pay }, c);
+			auto result = _make_compounding_schedule(coupon_period{ gregorian::period{ maturity, u }, cp._pay }, c);
 
-			result.emplace(result.begin(), calendar::period{ effective, maturity }, std::chrono::year_month_day{});
+			result.emplace(result.begin(), gregorian::period{ effective, maturity }, std::chrono::year_month_day{});
 
 			return result;
 		}
@@ -80,7 +80,7 @@ namespace coupon_schedule
 		{
 			auto result = compounding_periods{};
 
-			result.emplace_back(calendar::period{ f, u }, std::chrono::year_month_day{});
+			result.emplace_back(gregorian::period{ f, u }, std::chrono::year_month_day{});
 
 			return result;
 		}
@@ -88,13 +88,13 @@ namespace coupon_schedule
 	// or should it be a generic "1d" schedule adjuste for good business days? (so nothin special is needed for business days?)
 
 
-	inline auto make_compounding_schedule(const coupon_period& cp, const calendar::calendar& c) -> compounding_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
+	inline auto make_compounding_schedule(const coupon_period& cp, const gregorian::calendar& c) -> compounding_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
 	{
 		auto result = _make_compounding_schedule(cp, c); // we assume that the compounding calendar and reset calendar are the same (is it true for SOFR?)
 
 		// adjust for good reset dates
 		for (auto& p : result)
-			p._reset = calendar::Preceding.adjust(p._period.get_from(), c);
+			p._reset = gregorian::Preceding.adjust(p._period.get_from(), c);
 
 		return result;
 	}

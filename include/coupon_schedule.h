@@ -37,7 +37,7 @@
 namespace coupon_schedule
 {
 
-	inline auto _make_coupon_schedule(const calendar::schedule& qcs) -> coupon_periods
+	inline auto _make_coupon_schedule(const gregorian::schedule& qcs) -> coupon_periods
 	{
 		auto result = coupon_periods{};
 
@@ -48,7 +48,7 @@ namespace coupon_schedule
 		// naive implementation for now
 		if (f == u)
 		{
-			result.emplace_back(calendar::period{ f, u }, std::chrono::year_month_day{});
+			result.emplace_back(gregorian::period{ f, u }, std::chrono::year_month_day{});
 		}
 		else
 		{
@@ -61,7 +61,7 @@ namespace coupon_schedule
 			++i;
 			while (i != dates.cend())
 			{
-				result.emplace_back(calendar::period{ prev, *i }, std::chrono::year_month_day{});
+				result.emplace_back(gregorian::period{ prev, *i }, std::chrono::year_month_day{});
 				prev = *i;
 				++i;
 			}
@@ -71,13 +71,13 @@ namespace coupon_schedule
 	}
 
 
-	inline auto make_coupon_schedule(const calendar::schedule& qcs, const calendar::calendar& c) -> coupon_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
+	inline auto make_coupon_schedule(const gregorian::schedule& qcs, const gregorian::calendar& c) -> coupon_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
 	{
 		auto result = _make_coupon_schedule(qcs);
 
 		// adjust for good payment dates
 		for (auto& p : result)
-			p._pay = calendar::Following.adjust(p._period.get_until(), c); // in the future allow for other adjustments, not just following
+			p._pay = gregorian::Following.adjust(p._period.get_until(), c); // in the future allow for other adjustments, not just following
 
 		return result;
 	}

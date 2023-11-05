@@ -36,8 +36,9 @@ using namespace std::chrono;
 namespace coupon_schedule
 {
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule)
+	TEST(coupon_schedule, make_quasi_coupon_schedule_1)
 	{
+		// expcted usage
 		const auto expected = schedule{
 			{ 2023y / January / 1d,	2023y / December / 7d },
 			schedule::storage{ 2023y / June / 7d, 2023y / December / 7d	}
@@ -48,6 +49,42 @@ namespace coupon_schedule
 			2023y / December / 7d,
 			SemiAnnualy,
 			June / 7d
+		);
+
+		EXPECT_EQ(expected, gilt_quasi_coupon_schedule);
+	}
+
+	TEST(coupon_schedule, make_quasi_coupon_schedule_2)
+	{
+		// anchor is before the "from"
+		const auto expected = schedule{
+			{ 2023y / July / 1d, 2023y / December / 7d },
+			schedule::storage{ 2023y / June / 7d, 2023y / December / 7d	}
+		};
+
+		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
+			2023y / July / 1d,
+			2023y / December / 7d,
+			SemiAnnualy,
+			June / 7d
+		);
+
+		EXPECT_EQ(expected, gilt_quasi_coupon_schedule);
+	}
+
+	TEST(coupon_schedule, make_quasi_coupon_schedule_3)
+	{
+		// anchor is after the "until"
+		const auto expected = schedule{
+			{ 2023y / June / 7d, 2023y / December / 1d },
+			schedule::storage{ 2023y / June / 7d, 2023y / December / 7d	}
+		};
+
+		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
+			2023y / June / 7d,
+			2023y / December / 1d,
+			SemiAnnualy,
+			December / 7d
 		);
 
 		EXPECT_EQ(expected, gilt_quasi_coupon_schedule);

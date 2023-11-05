@@ -45,15 +45,16 @@ namespace coupon_schedule
 		const auto SpringBankHoliday = weekday_last_holiday{ May / Monday[last] };
 		const auto SummerBankHoliday = weekday_last_holiday{ August / Monday[last] };
 
-		auto rules = annual_holiday_storage{};
-		rules.insert(&NewYearsDay);
-		rules.insert(&GoodFriday);
-		rules.insert(&EasterMonday);
-		rules.insert(&EarlyMayBankHoliday);
-		rules.insert(&SpringBankHoliday);
-		rules.insert(&SummerBankHoliday);
-		rules.insert(&ChristmasDay);
-		rules.insert(&BoxingDay);
+		auto rules = annual_holiday_storage{
+			&NewYearsDay,
+			&GoodFriday,
+			&EasterMonday,
+			&EarlyMayBankHoliday,
+			&SpringBankHoliday,
+			&SummerBankHoliday,
+			&ChristmasDay,
+			&BoxingDay
+		};
 
 		const auto hs2018_2019 = make_holiday_schedule(
 			{ 2018y, 2019y },
@@ -62,15 +63,16 @@ namespace coupon_schedule
 
 		const auto VictoryInEuropeDay = named_holiday{ May / 8d };
 
-		auto rules2020 = annual_holiday_storage{};
-		rules2020.insert(&NewYearsDay);
-		rules2020.insert(&GoodFriday);
-		rules2020.insert(&EasterMonday);
-		rules2020.insert(&VictoryInEuropeDay);
-		rules2020.insert(&SpringBankHoliday);
-		rules2020.insert(&SummerBankHoliday);
-		rules2020.insert(&ChristmasDay);
-		rules2020.insert(&BoxingDay);
+		auto rules2020 = annual_holiday_storage{
+			&NewYearsDay,
+			&GoodFriday,
+			&EasterMonday,
+			&VictoryInEuropeDay,
+			&SpringBankHoliday,
+			&SummerBankHoliday,
+			&ChristmasDay,
+			&BoxingDay
+		};
 
 		const auto hs2020 = make_holiday_schedule(
 			2020y,
@@ -86,17 +88,18 @@ namespace coupon_schedule
 		const auto PlatinumJubileeHoliday = named_holiday{ June / 3d };
 		const auto StateFuneral = named_holiday{ September / 19d }; // Bank Holiday for the State Funeral of Queen Elizabeth II
 
-		auto rules2022 = annual_holiday_storage{};
-		rules2022.insert(&NewYearsDay);
-		rules2022.insert(&GoodFriday);
-		rules2022.insert(&EasterMonday);
-		rules2022.insert(&EarlyMayBankHoliday);
-		rules2022.insert(&SpringBankHoliday2);
-		rules2022.insert(&PlatinumJubileeHoliday);
-		rules2022.insert(&SummerBankHoliday);
-		rules2022.insert(&StateFuneral);
-		rules2022.insert(&ChristmasDay);
-		rules2022.insert(&BoxingDay);
+		auto rules2022 = annual_holiday_storage{
+			&NewYearsDay,
+			&GoodFriday,
+			&EasterMonday,
+			&EarlyMayBankHoliday,
+			&SpringBankHoliday2,
+			&PlatinumJubileeHoliday,
+			&SummerBankHoliday,
+			&StateFuneral,
+			&ChristmasDay,
+			&BoxingDay
+		};
 
 		const auto hs2022 = make_holiday_schedule(
 			2022y,
@@ -105,16 +108,17 @@ namespace coupon_schedule
 
 		const auto Coronation = named_holiday{ May / 8d }; // Bank holiday for the coronation of King Charles III
 
-		auto rules2023 = annual_holiday_storage{};
-		rules2023.insert(&NewYearsDay);
-		rules2023.insert(&GoodFriday);
-		rules2023.insert(&EasterMonday);
-		rules2023.insert(&EarlyMayBankHoliday);
-		rules2023.insert(&Coronation);
-		rules2023.insert(&SpringBankHoliday);
-		rules2023.insert(&SummerBankHoliday);
-		rules2023.insert(&ChristmasDay);
-		rules2023.insert(&BoxingDay);
+		auto rules2023 = annual_holiday_storage{
+			&NewYearsDay,
+			&GoodFriday,
+			&EasterMonday,
+			&EarlyMayBankHoliday,
+			&Coronation,
+			&SpringBankHoliday,
+			&SummerBankHoliday,
+			&ChristmasDay,
+			&BoxingDay
+		};
 
 		const auto hs2023 = make_holiday_schedule(
 			2023y,
@@ -153,15 +157,16 @@ namespace coupon_schedule
 		const auto AllSoulsDay = named_holiday{ November / 2d };
 		const auto RepublicProclamationDay = named_holiday{ November / 15d };
 
-		auto rules = annual_holiday_storage{};
-		rules.insert(&NewYearsDay);
-		rules.insert(&TiradentesDay);
-		rules.insert(&LabourDay);
-		rules.insert(&IndependenceDay);
-		rules.insert(&OurLadyOfAparecida);
-		rules.insert(&AllSoulsDay);
-		rules.insert(&RepublicProclamationDay);
-		rules.insert(&ChristmasDay);
+		auto rules = annual_holiday_storage{
+			&NewYearsDay,
+			&TiradentesDay,
+			&LabourDay,
+			&IndependenceDay,
+			&OurLadyOfAparecida,
+			&AllSoulsDay,
+			&RepublicProclamationDay,
+			&ChristmasDay
+		};
 		// we should also consider election days (but as they are always on Sundays it probably does not matter here)
 
 		const auto hs2018_2025 = make_holiday_schedule(

@@ -31,6 +31,8 @@
 namespace coupon_schedule
 {
 
+	// where should we consider schedules running on month end?
+
 	// probably not the right place for these
 	constexpr auto SemiAnnualy = std::chrono::months{ 6 };
 	constexpr auto Quarterly = std::chrono::months{ 3 };

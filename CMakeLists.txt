@@ -6,7 +6,14 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_EXTENSIONS Off)
 
-find_package(Calendar)
+#find_package(Calendar)
+include(FetchContent)
+FetchContent_Declare(
+  calendar
+  GIT_REPOSITORY https://github.com/andreygorbachev/calendar.git
+  GIT_TAG        v0.1.0
+)
+FetchContent_MakeAvailable(calendar)
 
 enable_testing()
 

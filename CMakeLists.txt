@@ -11,7 +11,7 @@ include(FetchContent)
 FetchContent_Declare(
   calendar
   GIT_REPOSITORY https://github.com/andreygorbachev/calendar.git
-  GIT_TAG        v0.1.0
+  GIT_TAG        main
 )
 FetchContent_MakeAvailable(calendar)
 

@@ -1,5 +1,4 @@
 project(coupon-schedule-test)
-#project(test)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -21,9 +20,12 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
   coupon-schedule
-  Calendar::calendar
+#  Calendar::calendar
+  calendar
   GTest::gtest_main
 )
+
+export(TARGETS coupon-schedule NAMESPACE CouponSchedule:: FILE CouponScheduleConfig.cmake)
 
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME})

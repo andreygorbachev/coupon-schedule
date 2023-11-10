@@ -20,7 +20,5 @@ enable_testing()
 add_subdirectory(include)
 add_subdirectory(test)
 
-export(TARGETS coupon-schedule NAMESPACE CouponSchedule:: FILE CouponScheduleConfig.cmake)
-
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 export(PACKAGE CouponSchedule)

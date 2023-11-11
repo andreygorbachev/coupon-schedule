@@ -39,7 +39,6 @@ namespace coupon_schedule
 	constexpr auto Monthly = std::chrono::months{ 1 };
 
 
-	// at the moment long coupons are not supported
 	// should "effective"/"maturity" be passes into as a period?
 	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
 	auto make_quasi_coupon_schedule(

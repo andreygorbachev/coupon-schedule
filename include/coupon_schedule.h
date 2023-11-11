@@ -79,6 +79,7 @@ namespace coupon_schedule
 	}
 
 
+	// at the moment long coupons are not supported
 	inline auto make_coupon_schedule(const gregorian::schedule& qcs, const gregorian::calendar& c) -> coupon_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
 	{
 		auto result = _make_coupon_schedule(qcs);

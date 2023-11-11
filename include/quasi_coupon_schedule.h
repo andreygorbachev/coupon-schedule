@@ -49,20 +49,21 @@ namespace coupon_schedule
 		const std::chrono::month_day& anchor
 	) -> gregorian::schedule
 	{
-		auto s = gregorian::schedule::storage{};
-
 		auto d = std::chrono::year_month_day{ effective.year(), anchor.month(), anchor.day() };
 
-		if (d <= effective)
+		if (d < effective)
 		{
 			while (d + frequency <= effective)
 				d += frequency;
 		}
-		else
+		else if (d > effective)
 		{
 			while (d > effective)
 				d -= frequency;
 		}
+		// if d == effective no need to do anything more
+
+		auto s = gregorian::schedule::storage{};
 
 		while(s.insert(d), d < maturity)
 			d += frequency;

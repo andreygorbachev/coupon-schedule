@@ -52,13 +52,16 @@ namespace coupon_schedule
 
 		auto d = std::chrono::year_month_day{ effective.year(), anchor.month(), anchor.day() };
 
-		// in case the anchor is several periods after the effective
-		while (d > effective)
-			d -= frequency;
-
-		// in case the anchor is several periods before the effective
-		while (d + frequency < effective)
-			d += frequency;
+		if (d <= effective)
+		{
+			while (d + frequency <= effective)
+				d += frequency;
+		}
+		else
+		{
+			while (d > effective)
+				d -= frequency;
+		}
 
 		s.insert(d);
 		do

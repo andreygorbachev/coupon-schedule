@@ -64,13 +64,8 @@ namespace coupon_schedule
 				d -= frequency;
 		}
 
-		s.insert(d);
-		do
-		{
+		while(s.insert(d), d < maturity)
 			d += frequency;
-			s.insert(d);
-		}
-		while (d < maturity);
 
 		auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };
 

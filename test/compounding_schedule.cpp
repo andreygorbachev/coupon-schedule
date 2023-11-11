@@ -78,6 +78,7 @@ namespace coupon_schedule
 
 		const auto period = coupon_period{
 			{ 2023y / June / 1d, 2023y / June / 8d },
+			2023y / June / 8d,
 			2023y / June / 8d
 		};
 
@@ -100,6 +101,7 @@ namespace coupon_schedule
 
 		const auto period = coupon_period{
 			{ 2023y / June / 3d, 2023y / June / 8d },
+			2023y / June / 8d,
 			2023y / June / 8d
 		};
 
@@ -120,7 +122,8 @@ namespace coupon_schedule
 
 		const auto period = coupon_period{
 			{ 2023y / June / 1d, 2023y / June / 4d },
-			2023y / June / 8d
+			2023y / June / 8d,
+			2023y / June / 4d
 		};
 
 		const auto cal = make_calendar_england();
@@ -139,7 +142,8 @@ namespace coupon_schedule
 
 		const auto period = coupon_period{
 			{ 2023y / June / 3d, 2023y / June / 4d },
-			2023y / June / 8d
+			2023y / June / 8d,
+			2023y / June / 4d
 		};
 
 		const auto cal = make_calendar_england();
@@ -158,7 +162,8 @@ namespace coupon_schedule
 
 		const auto period = coupon_period{
 			{ 2023y / June / 1d, 2023y / June / 1d },
-			2023y / June / 8d
+			2023y / June / 8d,
+			2023y / June / 1d
 		};
 
 		const auto cal = make_calendar_england();

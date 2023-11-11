@@ -70,9 +70,16 @@ namespace coupon_schedule
 		const auto maturity = make_overnight_maturity(effective, c);
 		if (maturity < u)
 		{
-			auto result = _make_compounding_schedule(coupon_period{ gregorian::period{ maturity, u }, cp._pay }, c);
+			auto result = _make_compounding_schedule(
+				coupon_period{ gregorian::period{ maturity, u }, cp._pay, cp._ex_div },
+				c
+			);
 
-			result.emplace(result.begin(), gregorian::period{ effective, maturity }, std::chrono::year_month_day{});
+			result.emplace(
+				result.begin(),
+				gregorian::period{ effective, maturity },
+				std::chrono::year_month_day{}
+			);
 
 			return result;
 		}
@@ -80,7 +87,10 @@ namespace coupon_schedule
 		{
 			auto result = compounding_periods{};
 
-			result.emplace_back(gregorian::period{ f, u }, std::chrono::year_month_day{});
+			result.emplace_back(
+				gregorian::period{ f, u },
+				std::chrono::year_month_day{}
+			);
 
 			return result;
 		}

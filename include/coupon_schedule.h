@@ -48,7 +48,11 @@ namespace coupon_schedule
 		// naive implementation for now
 		if (f == u)
 		{
-			result.emplace_back(gregorian::period{ f, u }, std::chrono::year_month_day{});
+			result.emplace_back(
+				gregorian::period{ f, u },
+				std::chrono::year_month_day{},
+				std::chrono::year_month_day{}
+			);
 		}
 		else
 		{
@@ -61,7 +65,11 @@ namespace coupon_schedule
 			++i;
 			while (i != dates.cend())
 			{
-				result.emplace_back(gregorian::period{ prev, *i }, std::chrono::year_month_day{});
+				result.emplace_back(
+					gregorian::period{ prev, *i },
+					std::chrono::year_month_day{},
+					std::chrono::year_month_day{}
+				);
 				prev = *i;
 				++i;
 			}
@@ -78,6 +86,8 @@ namespace coupon_schedule
 		// adjust for good payment dates
 		for (auto& p : result)
 			p._pay = gregorian::Following.adjust(p._period.get_until(), c); // in the future allow for other adjustments, not just following
+
+		// what do we need to do about ex-divs here?
 
 		return result;
 	}

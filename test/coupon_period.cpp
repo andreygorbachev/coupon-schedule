@@ -37,11 +37,16 @@ namespace coupon_schedule
 
 	TEST(coupon_period, constructor)
 	{
-		const auto p = coupon_period{ { 2023y / January / 1d, 2023y / June / 7d }, 2023y / June / 7d };
+		const auto p = coupon_period{
+			{ 2023y / January / 1d, 2023y / June / 7d },
+			2023y / June / 7d,
+			2023y / June / 1d
+		};
 
 		EXPECT_EQ(2023y / January / 1d, p._period.get_from());
 		EXPECT_EQ(2023y / June / 7d, p._period.get_until());
 		EXPECT_EQ(2023y / June / 7d, p._pay);
+		EXPECT_EQ(2023y / June / 1d, p._ex_div);
 	}
 
 }

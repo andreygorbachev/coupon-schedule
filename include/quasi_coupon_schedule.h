@@ -42,7 +42,7 @@ namespace coupon_schedule
 	// at the moment long coupons are not supported
 	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
 	auto make_quasi_coupon_schedule(
-		std::chrono::year_month_day effective, // or should it be called an issue?
+		std::chrono::year_month_day effective, // or should it be called "issue"?
 		std::chrono::year_month_day maturity,
 		const freq& frequency, // at the moment we are not thinking about tricky situations towards the end of month
 		const std::chrono::month_day& anchor
@@ -57,19 +57,20 @@ namespace coupon_schedule
 			d -= frequency;
 
 		// in case the anchor is several periods before the effective
-		while (d < effective)
+		while (d + frequency < effective)
 			d += frequency;
 
-		while (d <= maturity)
+		s.insert(d);
+		do
 		{
-			s.insert(d);
 			d += frequency;
+			s.insert(d);
 		}
+		while (d < maturity);
 
-		return gregorian::schedule{
-			{ std::move(effective), std::move(maturity) },
-			std::move(s)
-		};
+		auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };
+
+		return gregorian::schedule{	std::move(p), std::move(s) };
 	}
 
 }

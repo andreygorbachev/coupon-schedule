@@ -38,10 +38,14 @@ namespace coupon_schedule
 
 	TEST(coupon_schedule, make_quasi_coupon_schedule_1)
 	{
-		// expected usage
+		// basic usage
 		const auto expected = schedule{
-			{ 2023y / January / 1d,	2023y / December / 7d },
-			schedule::storage{ 2023y / June / 7d, 2023y / December / 7d	}
+			{ 2022y / December / 7d, 2023y / December / 7d },
+			schedule::storage{
+				2022y / December / 7d,
+				2023y / June / 7d,
+				2023y / December / 7d,
+			}
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
@@ -56,10 +60,13 @@ namespace coupon_schedule
 
 	TEST(coupon_schedule, make_quasi_coupon_schedule_2)
 	{
-		// anchor is before the "from"
+		// anchor is before the "from" ("from" is not on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / July / 1d, 2023y / December / 7d },
-			schedule::storage{ 2023y / June / 7d, 2023y / December / 7d	}
+			{ 2023y / June / 7d, 2023y / December / 7d },
+			schedule::storage{
+				2023y / June / 7d,
+				2023y / December / 7d,
+			}
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
@@ -74,10 +81,13 @@ namespace coupon_schedule
 
 	TEST(coupon_schedule, make_quasi_coupon_schedule_3)
 	{
-		// anchor is after the "until"
+		// anchor is after the "until" ("until" is not on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / June / 7d, 2023y / December / 1d },
-			schedule::storage{ 2023y / June / 7d, 2023y / December / 7d	}
+			{ 2023y / June / 7d, 2023y / December / 7d },
+			schedule::storage{
+				2023y / June / 7d,
+				2023y / December / 7d,
+			}
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(

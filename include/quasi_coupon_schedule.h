@@ -40,6 +40,7 @@ namespace coupon_schedule
 
 
 	// at the moment long coupons are not supported
+	// should "effective"/"maturity" be passes into as a period?
 	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
 	auto make_quasi_coupon_schedule(
 		std::chrono::year_month_day effective, // or should it be called "issue"?

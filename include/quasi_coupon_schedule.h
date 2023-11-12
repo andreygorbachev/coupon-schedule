@@ -42,7 +42,7 @@ namespace coupon_schedule
 	template<typename freq>
 	auto _increase_ymd_as_needed(
 		std::chrono::year_month_day d,
-		const std::chrono::year_month_day effective,
+		const std::chrono::year_month_day& effective,
 		const freq& frequency
 	) -> std::chrono::year_month_day
 	{
@@ -55,7 +55,7 @@ namespace coupon_schedule
 	template<typename freq>
 	auto _decrease_ymd_as_needed(
 		std::chrono::year_month_day d,
-		const std::chrono::year_month_day effective,
+		const std::chrono::year_month_day& effective,
 		const freq& frequency
 	) -> std::chrono::year_month_day
 	{
@@ -68,7 +68,7 @@ namespace coupon_schedule
 	template<typename freq>
 	auto _make_quasi_coupon_schedule_storage(
 		std::chrono::year_month_day d,
-		const std::chrono::year_month_day maturity,
+		const std::chrono::year_month_day& maturity,
 		const freq& frequency
 	) -> gregorian::schedule::storage
 	{
@@ -84,8 +84,8 @@ namespace coupon_schedule
 	// should "effective"/"maturity" be passed into as a period?
 	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
 	auto make_quasi_coupon_schedule(
-		std::chrono::year_month_day effective, // or should it be called "issue"?
-		std::chrono::year_month_day maturity,
+		const std::chrono::year_month_day& effective, // or should it be called "issue"?
+		const std::chrono::year_month_day& maturity,
 		const freq& frequency, // at the moment we are not thinking about tricky situations towards the end of month
 		const std::chrono::month_day& anchor
 	) -> gregorian::schedule

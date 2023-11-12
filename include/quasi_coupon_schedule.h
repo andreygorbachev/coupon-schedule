@@ -40,7 +40,7 @@ namespace coupon_schedule
 
 
 	template<typename freq>
-	inline auto _increase_ymd_as_needed(
+	auto _increase_ymd_as_needed(
 		std::chrono::year_month_day d,
 		const std::chrono::year_month_day effective,
 		const freq& frequency
@@ -53,7 +53,7 @@ namespace coupon_schedule
 	}
 
 	template<typename freq>
-	inline auto _decrease_ymd_as_needed(
+	auto _decrease_ymd_as_needed(
 		std::chrono::year_month_day d,
 		const std::chrono::year_month_day effective,
 		const freq& frequency
@@ -63,6 +63,21 @@ namespace coupon_schedule
 			d -= frequency;
 
 		return d;
+	}
+
+	template<typename freq>
+	auto _make_quasi_coupon_schedule_storage(
+		std::chrono::year_month_day d,
+		const std::chrono::year_month_day maturity,
+		const freq& frequency
+	) -> gregorian::schedule::storage
+	{
+		auto s = gregorian::schedule::storage{};
+
+		while (s.insert(d), d < maturity)
+			d += frequency;
+
+		return s;
 	}
 
 
@@ -83,10 +98,7 @@ namespace coupon_schedule
 			d = _decrease_ymd_as_needed(d, effective, frequency);
 		// if d == effective no need to do anything more
 
-		auto s = gregorian::schedule::storage{};
-
-		while(s.insert(d), d < maturity)
-			d += frequency;
+		auto s = _make_quasi_coupon_schedule_storage(d, maturity, frequency);
 
 		// we can assert that s is not empty
 		auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };

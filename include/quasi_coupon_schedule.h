@@ -39,6 +39,33 @@ namespace coupon_schedule
 	constexpr auto Monthly = std::chrono::months{ 1 };
 
 
+	template<typename freq>
+	inline auto _increase_ymd_as_needed(
+		std::chrono::year_month_day d,
+		const std::chrono::year_month_day effective,
+		const freq& frequency
+	) -> std::chrono::year_month_day
+	{
+		while (d + frequency <= effective)
+			d += frequency;
+
+		return d;
+	}
+
+	template<typename freq>
+	inline auto _decrease_ymd_as_needed(
+		std::chrono::year_month_day d,
+		const std::chrono::year_month_day effective,
+		const freq& frequency
+	) -> std::chrono::year_month_day
+	{
+		while (d > effective)
+			d -= frequency;
+
+		return d;
+	}
+
+
 	// should "effective"/"maturity" be passed into as a period?
 	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
 	auto make_quasi_coupon_schedule(
@@ -51,15 +78,9 @@ namespace coupon_schedule
 		auto d = std::chrono::year_month_day{ effective.year(), anchor.month(), anchor.day() };
 
 		if (d < effective)
-		{
-			while (d + frequency <= effective)
-				d += frequency;
-		}
+			d = _increase_ymd_as_needed(d, effective, frequency);
 		else if (d > effective)
-		{
-			while (d > effective)
-				d -= frequency;
-		}
+			d = _decrease_ymd_as_needed(d, effective, frequency);
 		// if d == effective no need to do anything more
 
 		auto s = gregorian::schedule::storage{};

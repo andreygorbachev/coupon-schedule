@@ -67,6 +67,7 @@ namespace coupon_schedule
 		while(s.insert(d), d < maturity)
 			d += frequency;
 
+		// we can assert that s is not empty
 		auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };
 
 		return gregorian::schedule{	std::move(p), std::move(s) };

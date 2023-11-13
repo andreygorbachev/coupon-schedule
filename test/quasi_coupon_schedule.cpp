@@ -36,7 +36,7 @@ using namespace std::chrono;
 namespace coupon_schedule
 {
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule_1)
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_1)
 	{
 		// basic usage
 		const auto expected = schedule{
@@ -58,7 +58,7 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, gilt_quasi_coupon_schedule);
 	}
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule_2)
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_2)
 	{
 		// anchor is before the "from" ("from" is not on the quasi date strip)
 		const auto expected = schedule{
@@ -79,7 +79,7 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, gilt_quasi_coupon_schedule);
 	}
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule_3)
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_3)
 	{
 		// anchor is before the "from" ("from" is on the quasi date strip)
 		const auto expected = schedule{
@@ -100,7 +100,7 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule_4)
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_4)
 	{
 		// anchor is after the "from" ("from" is on the quasi date strip)
 		const auto expected = schedule{
@@ -122,7 +122,7 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule_5)
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_5)
 	{
 		// anchor is after the "until" ("until" is not on the quasi date strip)
 		const auto expected = schedule{
@@ -143,7 +143,7 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, gilt_quasi_coupon_schedule);
 	}
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule_6)
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_6)
 	{
 		// anchor is after the "until" ("until" is on the quasi date strip)
 		const auto expected = schedule{
@@ -164,7 +164,7 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
 
-	TEST(coupon_schedule, make_quasi_coupon_schedule_7)
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_7)
 	{
 		// anchor is before the "until" ("until" is on the quasi date strip)
 		const auto expected = schedule{

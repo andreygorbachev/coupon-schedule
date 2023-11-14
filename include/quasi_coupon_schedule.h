@@ -96,7 +96,8 @@ namespace coupon_schedule
 			d = _increase_ymd_as_needed(d, effective, frequency);
 		else if (d > effective)
 			d = _decrease_ymd_as_needed(d, effective, frequency);
-		// if d == effective no need to do anything more
+		else
+			; // if d == effective no need to do anything more
 
 		auto s = _make_quasi_coupon_schedule_storage(d, maturity, frequency);
 

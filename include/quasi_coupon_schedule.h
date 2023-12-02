@@ -42,11 +42,11 @@ namespace coupon_schedule
 	template<typename freq>
 	auto _increase_ymd_as_needed(
 		std::chrono::year_month_day d,
-		const std::chrono::year_month_day& effective,
+		const std::chrono::year_month_day& issue,
 		const freq& frequency
 	) -> std::chrono::year_month_day
 	{
-		while (d + frequency <= effective)
+		while (d + frequency <= issue)
 			d += frequency;
 
 		return d;
@@ -55,11 +55,11 @@ namespace coupon_schedule
 	template<typename freq>
 	auto _decrease_ymd_as_needed(
 		std::chrono::year_month_day d,
-		const std::chrono::year_month_day& effective,
+		const std::chrono::year_month_day& issue,
 		const freq& frequency
 	) -> std::chrono::year_month_day
 	{
-		while (d > effective)
+		while (d > issue)
 			d -= frequency;
 
 		return d;
@@ -81,23 +81,24 @@ namespace coupon_schedule
 	}
 
 
-	// should "effective"/"maturity" be passed into as a period?
 	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
 	auto make_quasi_coupon_schedule(
-		const std::chrono::year_month_day& effective, // or should it be called "issue"?
-		const std::chrono::year_month_day& maturity,
+		const gregorian::days_period& issue_maturity,
 		const freq& frequency, // at the moment we are not thinking about tricky situations towards the end of month
 		const std::chrono::month_day& anchor
 	) -> gregorian::schedule
 	{
-		auto d = std::chrono::year_month_day{ effective.year(), anchor.month(), anchor.day() };
+		const auto& issue = issue_maturity.get_from();
+		const auto& maturity = issue_maturity.get_until();
 
-		if (d < effective)
-			d = _increase_ymd_as_needed(d, effective, frequency);
-		else if (d > effective)
-			d = _decrease_ymd_as_needed(d, effective, frequency);
+		auto d = std::chrono::year_month_day{ issue.year(), anchor.month(), anchor.day() };
+
+		if (d < issue)
+			d = _increase_ymd_as_needed(d, issue, frequency);
+		else if (d > issue)
+			d = _decrease_ymd_as_needed(d, issue, frequency);
 		else
-			; // if d == effective no need to do anything more
+			; // if d == issue no need to do anything more
 
 		auto s = _make_quasi_coupon_schedule_storage(d, maturity, frequency);
 

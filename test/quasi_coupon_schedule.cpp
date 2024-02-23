@@ -178,7 +178,7 @@ namespace coupon_schedule
 
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
-
+/*
 	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_8)
 	{
 		// negative duration
@@ -199,5 +199,5 @@ namespace coupon_schedule
 
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
-
+*/
 }

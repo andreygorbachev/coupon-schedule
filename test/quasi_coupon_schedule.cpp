@@ -179,4 +179,25 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
 
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_8)
+	{
+		// negative duration
+		const auto expected = schedule{
+			{ 2023y / March / 20d, 2023y / September / 20d },
+			schedule::storage{
+				2023y / March / 20d,
+				2023y / June / 20d,
+				2023y / September / 20d,
+			}
+		};
+
+		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
+			{ 2023y / March / 20d, 2023y / September / 20d },
+			duration_variant{ months{ -3 } },
+			September / 20d
+		);
+
+		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
+	}
+
 }

@@ -215,13 +215,16 @@ namespace coupon_schedule
                 return retreat(d, frequency) < issue_maturity.get_until();
             };
 
-            auto result =
+            auto s =
                 quasi_coupon_schedule_view{ a, frequency } |
                 std::views::drop_while(is_not_just_before) |
                 std::views::take_while(is_not_past_just_after) |
                 std::ranges::to<std::set>(); // can we have "to" directly to gregorian::schedule?
 
-            return gregorian::schedule{ std::move(result) };
+            // we can assert that s is not empty
+            auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };
+
+            return gregorian::schedule{ std::move(p), std::move(s) };
         }
 
     }

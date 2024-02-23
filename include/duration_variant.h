@@ -49,7 +49,7 @@ namespace coupon_schedule
             [&ymd](const std::chrono::weeks& ws) { ymd = std::chrono::sys_days{ ymd } + ws; },
             [&ymd](const std::chrono::months& ms) { ymd += ms; },
             [&ymd](const std::chrono::years& ys) { ymd += ys; },
-            }, dv);
+        }, dv);
 
         return ymd;
     }
@@ -61,7 +61,7 @@ namespace coupon_schedule
             [&ymd](const std::chrono::weeks& ws) { ymd = std::chrono::sys_days{ ymd } - ws; },
             [&ymd](const std::chrono::months& ms) { ymd -= ms; },
             [&ymd](const std::chrono::years& ys) { ymd -= ys; },
-            }, dv);
+        }, dv);
 
         return ymd;
     }

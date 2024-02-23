@@ -141,8 +141,7 @@ namespace coupon_schedule
                 explicit iterator(
                     value_type ymd,
                     duration_variant frequency
-                ) :
-                    ymd_{ std::move(ymd) },
+                ) : ymd_{ std::move(ymd) },
                     frequency_{ std::move(frequency) }
                 {
                 }

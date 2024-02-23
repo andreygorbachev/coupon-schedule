@@ -133,22 +133,22 @@ namespace coupon_schedule
             private:
 
                 value_type ymd_;
-                duration_variant advance_;
+                duration_variant frequency_;
 
             public:
 
                 explicit iterator(
                     value_type ymd,
-                    duration_variant advance
+                    duration_variant frequency
                 ) :
                     ymd_{ std::move(ymd) },
-                    advance_{ std::move(advance) }
+                    frequency_{ std::move(frequency) }
                 {
                 }
 
                 auto operator++() -> iterator&
                 {
-                    ymd_ = advance(ymd_, advance_);
+                    ymd_ = advance(ymd_, frequency_);
                     return *this;
                 }
 
@@ -178,9 +178,9 @@ namespace coupon_schedule
         public:
 
             explicit quasi_coupon_schedule_view(
-                std::chrono::year_month_day anchor, // should it also be just month_day?
-                duration_variant advance // make names more consistent
-            ) : begin_{ iterator{ std::move(anchor), std::move(advance) } }
+                std::chrono::year_month_day anchor,
+                duration_variant frequency
+            ) : begin_{ iterator{ std::move(anchor), std::move(frequency) } }
             {
             }
 
@@ -203,16 +203,19 @@ namespace coupon_schedule
             const std::chrono::month_day& anchor
         ) -> gregorian::schedule
         {
-            const auto a = --issue_maturity.get_from().year() / anchor;
+            const auto& from = issue_maturity.get_from();
+            const auto& until = issue_maturity.get_until();
+
+            const auto a = --from.year() / anchor;
 
             const auto is_not_just_before = [&](const auto d)
             {
-                return advance(d, frequency) <= issue_maturity.get_from();
+                return advance(d, frequency) <= from;
             };
 
             const auto is_not_past_just_after = [&](const auto d)
             {
-                return retreat(d, frequency) < issue_maturity.get_until();
+                return retreat(d, frequency) < until;
             };
 
             auto s =

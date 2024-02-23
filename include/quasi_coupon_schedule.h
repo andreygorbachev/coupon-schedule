@@ -102,7 +102,7 @@ namespace coupon_schedule
 		else if (a > issue)
 			a = _decrease_ymd_as_needed(a, issue, frequency);
 		else
-			; // if d == issue no need to do anything more
+			; // if a == issue no need to do anything more
 
 		auto s = _make_quasi_coupon_schedule_storage(a, maturity, frequency);
 

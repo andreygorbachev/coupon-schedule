@@ -206,7 +206,7 @@ namespace coupon_schedule
             const auto& from = issue_maturity.get_from();
             const auto& until = issue_maturity.get_until();
 
-            const auto a = --from.year() / anchor;
+            const auto a = --from.year() / anchor; // this is not optimal (as we might be making too many steps back)
 
             const auto is_not_just_before = [&](const auto d)
             {

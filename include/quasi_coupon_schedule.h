@@ -95,16 +95,16 @@ namespace coupon_schedule
 		const auto& issue = issue_maturity.get_from();
 		const auto& maturity = issue_maturity.get_until();
 
-		auto d = issue.year() / anchor;
+		auto a = issue.year() / anchor;
 
-		if (d < issue)
-			d = _increase_ymd_as_needed(d, issue, frequency);
-		else if (d > issue)
-			d = _decrease_ymd_as_needed(d, issue, frequency);
+		if (a < issue)
+			a = _increase_ymd_as_needed(a, issue, frequency);
+		else if (a > issue)
+			a = _decrease_ymd_as_needed(a, issue, frequency);
 		else
 			; // if d == issue no need to do anything more
 
-		auto s = _make_quasi_coupon_schedule_storage(d, maturity, frequency);
+		auto s = _make_quasi_coupon_schedule_storage(a, maturity, frequency);
 
         assert(!s.empty());
 		auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };

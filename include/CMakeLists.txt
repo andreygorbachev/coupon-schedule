@@ -1,6 +1,7 @@
 project("coupon-schedule")
 
 add_library(${PROJECT_NAME} INTERFACE
+  duration_variant.h
   coupon_period.h
   quasi_coupon_schedule.h
   coupon_schedule.h

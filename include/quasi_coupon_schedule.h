@@ -204,19 +204,19 @@ namespace coupon_schedule
             const std::chrono::month_day& anchor
         ) -> auto
         {
-            const auto& from = issue_maturity.get_from();
-            const auto& until = issue_maturity.get_until();
+            const auto& issue = issue_maturity.get_from();
+            const auto& maturity = issue_maturity.get_until();
 
-            const auto a = --from.year() / anchor; // this is not optimal (as we might be making too many steps back)
+            const auto a = --issue.year() / anchor; // this is not optimal (as we might be making too many steps back)
 
             const auto is_not_just_before = [&](const auto d)
             {
-                return advance(d, frequency) <= from;
+                return advance(d, frequency) <= issue;
             };
 
             const auto is_not_past_just_after = [&](const auto d)
             {
-                return retreat(d, frequency) < until;
+                return retreat(d, frequency) < maturity;
             };
 
             return

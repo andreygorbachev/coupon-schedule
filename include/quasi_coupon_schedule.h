@@ -203,7 +203,7 @@ namespace coupon_schedule
             const std::chrono::month_day& anchor
         ) -> gregorian::schedule
         {
-            const auto a = (issue_maturity.get_from().year() - std::chrono::years{ 1 }) / anchor;
+            const auto a = --issue_maturity.get_from().year() / anchor;
 
             const auto is_not_just_before = [&](const auto d)
             {

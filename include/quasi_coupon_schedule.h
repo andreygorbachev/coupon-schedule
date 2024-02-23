@@ -95,7 +95,7 @@ namespace coupon_schedule
 		const auto& issue = issue_maturity.get_from();
 		const auto& maturity = issue_maturity.get_until();
 
-		auto d = std::chrono::year_month_day{ issue.year(), anchor.month(), anchor.day() };
+		auto d = issue.year() / anchor;
 
 		if (d < issue)
 			d = _increase_ymd_as_needed(d, issue, frequency);

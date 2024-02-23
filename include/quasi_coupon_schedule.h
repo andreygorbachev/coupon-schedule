@@ -28,6 +28,7 @@
 
 #include <chrono>
 #include <memory>
+#include <cassert>
 
 #include <ranges>
 #include <iterator>
@@ -105,7 +106,7 @@ namespace coupon_schedule
 
 		auto s = _make_quasi_coupon_schedule_storage(d, maturity, frequency);
 
-		// we can assert that s is not empty
+        assert(!s.empty());
 		auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };
 
 		return gregorian::schedule{	std::move(p), std::move(s) };
@@ -224,7 +225,7 @@ namespace coupon_schedule
                 std::views::take_while(is_not_past_just_after) |
                 std::ranges::to<std::set>(); // can we have "to" directly to gregorian::schedule?
 
-            // we can assert that s is not empty
+            assert(!s.empty());
             auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };
 
             return gregorian::schedule{ std::move(p), std::move(s) };

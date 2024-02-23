@@ -118,6 +118,9 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
 
+	// as we handle anchor as month/day now - until cases probably do not make sense any more
+	// (but will do again when we allow rolling from the back)
+
 	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_5)
 	{
 		// anchor is after the "until" ("until" is not on the quasi date strip)

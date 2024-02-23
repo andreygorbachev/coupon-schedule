@@ -198,11 +198,11 @@ namespace coupon_schedule
         };
 
 
-        inline auto make_quasi_coupon_schedule(
+        inline auto _make_quasi_coupon_schedule(
             const gregorian::days_period& issue_maturity,
-            const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
+            const duration_variant& frequency,
             const std::chrono::month_day& anchor
-        ) -> gregorian::schedule
+        ) -> auto
         {
             const auto& from = issue_maturity.get_from();
             const auto& until = issue_maturity.get_until();
@@ -219,10 +219,21 @@ namespace coupon_schedule
                 return retreat(d, frequency) < until;
             };
 
-            auto s =
+            return
                 quasi_coupon_schedule_view{ a, frequency } |
                 std::views::drop_while(is_not_just_before) |
-                std::views::take_while(is_not_past_just_after) |
+                std::views::take_while(is_not_past_just_after);
+        }
+
+
+        inline auto make_quasi_coupon_schedule(
+            const gregorian::days_period& issue_maturity,
+            const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
+            const std::chrono::month_day& anchor
+        ) -> gregorian::schedule
+        {
+            auto s =
+                _make_quasi_coupon_schedule(issue_maturity, frequency, anchor) |
                 std::ranges::to<std::set>(); // can we have "to" directly to gregorian::schedule?
 
             assert(!s.empty());

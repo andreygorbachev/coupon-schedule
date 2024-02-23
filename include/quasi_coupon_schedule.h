@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "duration_variant.h"
+
 #include <schedule.h>
 
 #include <chrono>
@@ -34,57 +36,53 @@ namespace coupon_schedule
 	// where should we consider schedules running on month end?
 
 	// probably not the right place for these
-	constexpr auto SemiAnnualy = std::chrono::months{ 6 };
-	constexpr auto Quarterly = std::chrono::months{ 3 };
-	constexpr auto Monthly = std::chrono::months{ 1 };
+	constexpr auto SemiAnnualy = duration_variant{ std::chrono::months{ 6 } };
+	constexpr auto Quarterly = duration_variant{ std::chrono::months{ 3 } };
+	constexpr auto Monthly = duration_variant{ std::chrono::months{ 1 } };
 
 
-	template<typename freq>
-	auto _increase_ymd_as_needed(
+	inline auto _increase_ymd_as_needed(
 		std::chrono::year_month_day d,
 		const std::chrono::year_month_day& issue,
-		const freq& frequency
+		const duration_variant& frequency
 	) -> std::chrono::year_month_day
 	{
-		while (d + frequency <= issue)
-			d += frequency;
+		while (advance(d, frequency) <= issue)
+			d = advance(d, frequency);
 
 		return d;
 	}
 
-	template<typename freq>
-	auto _decrease_ymd_as_needed(
+	inline auto _decrease_ymd_as_needed(
 		std::chrono::year_month_day d,
 		const std::chrono::year_month_day& issue,
-		const freq& frequency
+		const duration_variant& frequency
 	) -> std::chrono::year_month_day
 	{
 		while (d > issue)
-			d -= frequency;
+			d = retreat(d, frequency);
 
 		return d;
 	}
 
-	template<typename freq>
-	auto _make_quasi_coupon_schedule_storage(
+	inline auto _make_quasi_coupon_schedule_storage(
 		std::chrono::year_month_day d,
 		const std::chrono::year_month_day& maturity,
-		const freq& frequency
+		const duration_variant& frequency
 	) -> gregorian::schedule::storage
 	{
 		auto s = gregorian::schedule::storage{};
 
 		while (s.insert(d), d < maturity)
-			d += frequency;
+			d = advance(d, frequency);
 
 		return s;
 	}
 
 
-	template<typename freq> // I think the current implemetation would only compile for freq in months or years - too restrictive?
-	auto make_quasi_coupon_schedule(
+	inline auto make_quasi_coupon_schedule(
 		const gregorian::days_period& issue_maturity,
-		const freq& frequency, // at the moment we are not thinking about tricky situations towards the end of month
+		const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
 		const std::chrono::month_day& anchor
 	) -> gregorian::schedule
 	{

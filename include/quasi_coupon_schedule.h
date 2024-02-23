@@ -29,6 +29,11 @@
 #include <chrono>
 #include <memory>
 
+#include <ranges>
+#include <iterator>
+#include <concepts>
+#include <memory>
+
 
 namespace coupon_schedule
 {
@@ -105,5 +110,120 @@ namespace coupon_schedule
 
 		return gregorian::schedule{	std::move(p), std::move(s) };
 	}
+
+
+	namespace experimental
+	{
+
+        class quasi_coupon_schedule_view : public std::ranges::view_interface<quasi_coupon_schedule_view>
+        {
+
+        public:
+
+            class iterator
+            {
+
+            public:
+
+                using iterator_category = std::input_iterator_tag;
+                using value_type = std::chrono::year_month_day;
+                using difference_type = int; // is this correct?
+                using reference = value_type;
+
+            private:
+
+                value_type ymd_;
+                duration_variant advance_;
+
+            public:
+
+                explicit iterator(
+                    value_type ymd,
+                    duration_variant advance
+                ) :
+                    ymd_{ std::move(ymd) },
+                    advance_{ std::move(advance) }
+                {
+                }
+
+                auto operator++() -> iterator&
+                {
+                    ymd_ = advance(ymd_, advance_);
+                    return *this;
+                }
+
+                auto operator++(int) -> iterator
+                {
+                    auto retval = *this;
+                    ++(*this);
+                    return retval;
+                }
+
+                friend auto operator==(const iterator& x, const iterator& y) -> bool
+                {
+                    return *x == *y;
+                }
+
+                auto operator*() const -> value_type
+                {
+                    return ymd_;
+                }
+
+            };
+
+        private:
+
+            iterator begin_;
+
+        public:
+
+            explicit quasi_coupon_schedule_view(
+                std::chrono::year_month_day anchor, // should it also be just month_day?
+                duration_variant advance // make names more consistent
+            ) : begin_{ iterator{ std::move(anchor), std::move(advance) } }
+            {
+            }
+
+            auto begin() const
+            {
+                return begin_;
+            }
+
+            auto end() const
+            {
+                return std::unreachable_sentinel;
+            }
+
+        };
+
+
+        inline auto make_quasi_coupon_schedule(
+            const gregorian::days_period& issue_maturity,
+            const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
+            const std::chrono::month_day& anchor
+        ) -> gregorian::schedule
+        {
+            const auto a = (issue_maturity.get_from().year() - std::chrono::years{ 1 }) / anchor.month() / anchor.day();
+
+            const auto is_not_just_before = [&](const auto d)
+            {
+                return advance(d, frequency) <= issue_maturity.get_from();
+            };
+
+            const auto is_not_past_just_after = [&](const auto d)
+            {
+                return retreat(d, frequency) < issue_maturity.get_until();
+            };
+
+            auto result =
+                quasi_coupon_schedule_view{ a, frequency } |
+                std::views::drop_while(is_not_just_before) |
+                std::views::take_while(is_not_past_just_after) |
+                std::ranges::to<std::set>(); // can we have "to" directly to gregorian::schedule?
+
+            return gregorian::schedule{ std::move(result) };
+        }
+
+    }
 
 }

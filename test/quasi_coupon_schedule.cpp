@@ -120,9 +120,6 @@ namespace coupon_schedule
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
 
-	// as we handle anchor as month/day now - until cases probably do not make sense any more
-	// (but will do again when we allow rolling from the back)
-
 	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_5)
 	{
 		// anchor is after the "until" ("until" is not on the quasi date strip)
@@ -136,7 +133,7 @@ namespace coupon_schedule
 
 		const auto gilt_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
 			{ 2023y / June / 7d, 2023y / December / 1d },
-			SemiAnnualy,
+			duration_variant{ months{ -6 } },
 			December / 7d
 		);
 
@@ -156,7 +153,7 @@ namespace coupon_schedule
 
 		const auto cds_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
 			{ 2023y / March / 20d, 2023y / June / 20d },
-			Quarterly,
+			duration_variant{ months{ -3 } },
 			December / 20d
 		);
 
@@ -177,7 +174,7 @@ namespace coupon_schedule
 
 		const auto cds_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
 			{ 2023y / March / 20d, 2023y / September / 20d },
-			Quarterly,
+			duration_variant{ months{ -3 } },
 			June / 20d
 		);
 
@@ -193,26 +190,5 @@ namespace coupon_schedule
 
 		EXPECT_THROW(experimental::make_quasi_coupon_schedule(i_m, f, a), out_of_range);
 	}
-/*
-	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_9)
-	{
-		// negative duration
-		const auto expected = schedule{
-			{ 2023y / March / 20d, 2023y / September / 20d },
-			schedule::storage{
-				2023y / March / 20d,
-				2023y / June / 20d,
-				2023y / September / 20d,
-			}
-		};
 
-		const auto cds_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
-			{ 2023y / March / 20d, 2023y / September / 20d },
-			duration_variant{ months{ -3 } },
-			September / 20d
-		);
-
-		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
-	}
-*/
 }

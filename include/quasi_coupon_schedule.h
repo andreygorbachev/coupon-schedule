@@ -44,9 +44,12 @@ namespace coupon_schedule
 	// where should we consider schedules running on month end?
 
 	// probably not the right place for these
-	constexpr auto SemiAnnualy = duration_variant{ std::chrono::months{ 6 } };
+    constexpr auto Annualy = duration_variant{ std::chrono::years{ 1 } };
+    constexpr auto SemiAnnualy = duration_variant{ std::chrono::months{ 6 } };
 	constexpr auto Quarterly = duration_variant{ std::chrono::months{ 3 } };
 	constexpr auto Monthly = duration_variant{ std::chrono::months{ 1 } };
+    constexpr auto Weekly = duration_variant{ std::chrono::weeks{ 1 } };
+    constexpr auto Daily = duration_variant{ std::chrono::days{ 1 } };
 
 
 	inline auto _increase_ymd_as_needed(

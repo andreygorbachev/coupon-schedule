@@ -269,7 +269,7 @@ namespace coupon_schedule
         ) -> gregorian::schedule
         {
             if (!is_forward(frequency) && !is_backward(frequency))
-                throw std::out_of_range{ "Empty frequencies do not make sense for quasi coupon schedules" }; // or shold we do something else, like return some type of empty schedule
+                throw std::out_of_range{ "Empty frequency does not work for quasi coupon schedule" }; // or shold we do something else, like return some type of empty schedule
 
             auto s = is_forward(frequency) ?
                 _make_quasi_coupon_schedule_forward(issue_maturity, frequency, anchor) |

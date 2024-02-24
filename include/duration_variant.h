@@ -66,4 +66,32 @@ namespace coupon_schedule
         return ymd;
     }
 
+    inline auto is_forward(std::chrono::year_month_day ymd, const duration_variant& dv) -> bool
+    {
+        auto is = true;
+
+        std::visit(overloaded{
+            [&is](const std::chrono::days& ds) { is = ds > std::chrono::days{ 0 }; },
+            [&is](const std::chrono::weeks& ws) { is = ws > std::chrono::weeks{ 0 }; },
+            [&is](const std::chrono::months& ms) { is = ms > std::chrono::months{ 0 }; },
+            [&is](const std::chrono::years& ys) { is = ys > std::chrono::years{ 0 }; },
+        }, dv);
+
+        return is;
+    }
+
+    inline auto is_backward(std::chrono::year_month_day ymd, const duration_variant& dv) -> bool
+    {
+        auto is = false;
+
+        std::visit(overloaded{
+            [&is](const std::chrono::days& ds) { is = ds < std::chrono::days{ 0 }; },
+            [&is](const std::chrono::weeks& ws) { is = ws < std::chrono::weeks{ 0 }; },
+            [&is](const std::chrono::months& ms) { is = ms < std::chrono::months{ 0 }; },
+            [&is](const std::chrono::years& ys) { is = ys < std::chrono::years{ 0 }; },
+        }, dv);
+
+        return is;
+    }
+
 }

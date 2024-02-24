@@ -50,4 +50,28 @@ namespace coupon_schedule
 		EXPECT_EQ(2023y / January / 1d, retreat(2024y / January / 1d, years{ 1 }));
 	}
 
+	TEST(duration_variant, is_forward)
+	{
+		EXPECT_TRUE(is_forward(2024y / January / 1d, days{ 1 }));
+		EXPECT_TRUE(is_forward(2024y / January / 1d, weeks{ 1 }));
+		EXPECT_TRUE(is_forward(2024y / January / 1d, months{ 1 }));
+		EXPECT_TRUE(is_forward(2024y / January / 1d, years{ 1 }));
+		EXPECT_FALSE(is_forward(2024y / January / 1d, days{ -1 }));
+		EXPECT_FALSE(is_forward(2024y / January / 1d, weeks{ -1 }));
+		EXPECT_FALSE(is_forward(2024y / January / 1d, months{ -1 }));
+		EXPECT_FALSE(is_forward(2024y / January / 1d, years{ -1 }));
+	}
+
+	TEST(duration_variant, is_backward)
+	{
+		EXPECT_FALSE(is_backward(2024y / January / 1d, days{ 1 }));
+		EXPECT_FALSE(is_backward(2024y / January / 1d, weeks{ 1 }));
+		EXPECT_FALSE(is_backward(2024y / January / 1d, months{ 1 }));
+		EXPECT_FALSE(is_backward(2024y / January / 1d, years{ 1 }));
+		EXPECT_TRUE(is_backward(2024y / January / 1d, days{ -1 }));
+		EXPECT_TRUE(is_backward(2024y / January / 1d, weeks{ -1 }));
+		EXPECT_TRUE(is_backward(2024y / January / 1d, months{ -1 }));
+		EXPECT_TRUE(is_backward(2024y / January / 1d, years{ -1 }));
+	}
+
 }

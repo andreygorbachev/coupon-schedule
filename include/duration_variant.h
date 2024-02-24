@@ -66,7 +66,7 @@ namespace coupon_schedule
         return ymd;
     }
 
-    inline auto is_forward(std::chrono::year_month_day ymd, const duration_variant& dv) -> bool
+    inline auto is_forward(const duration_variant& dv) -> bool
     {
         auto is = true;
 
@@ -80,7 +80,7 @@ namespace coupon_schedule
         return is;
     }
 
-    inline auto is_backward(std::chrono::year_month_day ymd, const duration_variant& dv) -> bool
+    inline auto is_backward(const duration_variant& dv) -> bool
     {
         auto is = false;
 

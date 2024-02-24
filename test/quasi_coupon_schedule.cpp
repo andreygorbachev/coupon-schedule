@@ -27,9 +27,11 @@
 #include <gtest/gtest.h>
 
 #include <chrono>
+#include <stdexcept>
 
 using namespace gregorian;
 
+using namespace std;
 using namespace std::chrono;
 
 
@@ -181,8 +183,18 @@ namespace coupon_schedule
 
 		EXPECT_EQ(expected, cds_quasi_coupon_schedule);
 	}
-/*
+
 	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_8)
+	{
+		// empty duration
+		const auto i_m = days_period{ 2023y / March / 20d, 2023y / September / 20d };
+		const auto f = duration_variant{ months{ 0 } };
+		const auto a = September / 20d;
+
+		EXPECT_THROW(experimental::make_quasi_coupon_schedule(i_m, f, a), out_of_range);
+	}
+/*
+	TEST(quasi_coupon_schedule, make_quasi_coupon_schedule_9)
 	{
 		// negative duration
 		const auto expected = schedule{

@@ -30,11 +30,12 @@ namespace coupon_schedule
 {
 
     using duration_variant = std::variant<
+        // I assume that business days would be handled elsewhere
         std::chrono::days,
         std::chrono::weeks,
         std::chrono::months,
         std::chrono::years
-        // I assume that business days would be handled elsewhere
+        // also explicitly handle zero-coupon, which would probably have an effect here
     >;
 
 

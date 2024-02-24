@@ -128,7 +128,7 @@ namespace coupon_schedule
 
             public:
 
-                using iterator_category = std::input_iterator_tag;
+                using iterator_category = std::input_iterator_tag; // or should we allow to move in both directions?
                 using value_type = std::chrono::year_month_day;
                 using difference_type = int; // is this correct?
                 using reference = value_type;

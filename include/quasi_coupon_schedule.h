@@ -207,7 +207,8 @@ namespace coupon_schedule
             const auto& maturity = issue_maturity.get_until();
 
             const auto a = --issue.year() / anchor; // this is not optimal (as we might be making too many steps back)
-            // would not work for frequencies larger than 1 year
+            // would not work for frequencies larger than 1 year, that also includes things like 18m, etc
+            // (probably not clearly defined for month_day anchors anyway, so maybe we want to go back to year_month_day)
 
             const auto is_not_just_before = [&](const auto d)
             {

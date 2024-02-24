@@ -34,6 +34,7 @@
 #include <iterator>
 #include <concepts>
 #include <memory>
+#include <stdexcept>
 
 
 namespace coupon_schedule
@@ -197,7 +198,7 @@ namespace coupon_schedule
         };
 
 
-        inline auto _make_quasi_coupon_schedule(
+        inline auto _make_quasi_coupon_schedule_forward(
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency,
             const std::chrono::month_day& anchor
@@ -227,15 +228,49 @@ namespace coupon_schedule
         }
 
 
+        inline auto _make_quasi_coupon_schedule_backward(
+            const gregorian::days_period& issue_maturity,
+            const duration_variant& frequency,
+            const std::chrono::month_day& anchor
+        ) -> auto
+        {
+            const auto& issue = issue_maturity.get_from();
+            const auto& maturity = issue_maturity.get_until();
+
+            const auto a = ++maturity.year() / anchor; // this is not optimal (as we might be making too many steps back)
+            // would not work for frequencies larger than 1 year, that also includes things like 18m, etc
+            // (probably not clearly defined for month_day anchors anyway, so maybe we want to go back to year_month_day)
+
+            const auto is_not_just_before = [&](const auto d)
+            {
+                return advance(d, frequency) >= maturity;
+            };
+
+            const auto is_not_past_just_after = [&](const auto d)
+            {
+                return retreat(d, frequency) > issue;
+            };
+
+            return
+                quasi_coupon_schedule_view{ a, frequency } |
+                std::views::drop_while(is_not_just_before) |
+                std::views::take_while(is_not_past_just_after);
+        }
+
+
         inline auto make_quasi_coupon_schedule(
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
             const std::chrono::month_day& anchor
         ) -> gregorian::schedule
         {
-            auto s =
-                _make_quasi_coupon_schedule(issue_maturity, frequency, anchor) |
-                std::ranges::to<std::set>(); // can we have "to" directly to gregorian::schedule?
+            if (!is_forward(frequency) && !is_backward(frequency))
+                throw std::out_of_range{ "Empty frequencies do not make sense for quasi coupon schedules" }; // or shold we do something else, like return some type of empty schedule
+
+            auto s = is_forward(frequency) ?
+                _make_quasi_coupon_schedule_forward(issue_maturity, frequency, anchor) | std::ranges::to<std::set>() :
+                _make_quasi_coupon_schedule_backward(issue_maturity, frequency, anchor) | std::ranges::to<std::set>();
+            // can we have "to" directly to gregorian::schedule?
 
             assert(!s.empty());
             auto p = gregorian::period{ *s.cbegin(), *s.crbegin() };

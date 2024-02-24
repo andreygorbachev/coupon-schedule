@@ -69,30 +69,22 @@ namespace coupon_schedule
 
     inline auto is_forward(const duration_variant& dv) -> bool
     {
-        auto is = true;
-
-        std::visit(overloaded{
-            [&is](const std::chrono::days& ds) { is = ds > std::chrono::days{ 0 }; },
-            [&is](const std::chrono::weeks& ws) { is = ws > std::chrono::weeks{ 0 }; },
-            [&is](const std::chrono::months& ms) { is = ms > std::chrono::months{ 0 }; },
-            [&is](const std::chrono::years& ys) { is = ys > std::chrono::years{ 0 }; },
+        return std::visit(overloaded{
+            [](const std::chrono::days& ds) { return ds > std::chrono::days{ 0 }; },
+            [](const std::chrono::weeks& ws) { return ws > std::chrono::weeks{ 0 }; },
+            [](const std::chrono::months& ms) { return ms > std::chrono::months{ 0 }; },
+            [](const std::chrono::years& ys) { return ys > std::chrono::years{ 0 }; },
         }, dv);
-
-        return is;
     }
 
     inline auto is_backward(const duration_variant& dv) -> bool
     {
-        auto is = false;
-
-        std::visit(overloaded{
-            [&is](const std::chrono::days& ds) { is = ds < std::chrono::days{ 0 }; },
-            [&is](const std::chrono::weeks& ws) { is = ws < std::chrono::weeks{ 0 }; },
-            [&is](const std::chrono::months& ms) { is = ms < std::chrono::months{ 0 }; },
-            [&is](const std::chrono::years& ys) { is = ys < std::chrono::years{ 0 }; },
+        return std::visit(overloaded{
+            [](const std::chrono::days& ds) { return ds < std::chrono::days{ 0 }; },
+            [](const std::chrono::weeks& ws) { return ws < std::chrono::weeks{ 0 }; },
+            [](const std::chrono::months& ms) { return ms < std::chrono::months{ 0 }; },
+            [](const std::chrono::years& ys) { return ys < std::chrono::years{ 0 }; },
         }, dv);
-
-        return is;
     }
 
 }

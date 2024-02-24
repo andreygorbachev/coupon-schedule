@@ -33,6 +33,7 @@
 #include <ranges>
 #include <iterator>
 #include <concepts>
+#include <algorithm>
 #include <memory>
 #include <stdexcept>
 
@@ -268,8 +269,11 @@ namespace coupon_schedule
                 throw std::out_of_range{ "Empty frequencies do not make sense for quasi coupon schedules" }; // or shold we do something else, like return some type of empty schedule
 
             auto s = is_forward(frequency) ?
-                _make_quasi_coupon_schedule_forward(issue_maturity, frequency, anchor) | std::ranges::to<std::set>() :
-                _make_quasi_coupon_schedule_backward(issue_maturity, frequency, anchor) | std::ranges::to<std::set>();
+                _make_quasi_coupon_schedule_forward(issue_maturity, frequency, anchor) |
+                std::ranges::to<std::set>()
+            :
+                _make_quasi_coupon_schedule_backward(issue_maturity, frequency, anchor) |
+                std::ranges::to<std::set>(); // do we need to reverse it?
             // can we have "to" directly to gregorian::schedule?
 
             assert(!s.empty());

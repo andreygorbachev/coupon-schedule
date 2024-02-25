@@ -262,6 +262,8 @@ namespace coupon_schedule
         }
 
 
+        // should we combine frequency and anchor into a single structure? (as for quasi-coupon schedule they will always go together)
+        // derive from schedule?
         inline auto make_quasi_coupon_schedule(
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month

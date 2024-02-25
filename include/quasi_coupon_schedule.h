@@ -275,10 +275,10 @@ namespace coupon_schedule
 
             auto s = is_forward(frequency) ?
                 _make_quasi_coupon_schedule_forward(issue_maturity, frequency, anchor) |
-                std::ranges::to<std::set>()
+                std::ranges::to<gregorian::schedule::storage>()
             :
                 _make_quasi_coupon_schedule_backward(issue_maturity, frequency, anchor) |
-                std::ranges::to<std::set>(); // do we need to reverse it?
+                std::ranges::to<gregorian::schedule::storage>(); // do we need to reverse it?
             // can we have "to" directly to gregorian::schedule?
 
             assert(!s.empty());

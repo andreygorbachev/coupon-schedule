@@ -41,16 +41,16 @@ namespace coupon_schedule
 
 		auto adjust(
 			const std::chrono::year_month_day& ymd,
-			const std::chrono::year_month_day& anchor,
-			const duration_variant& frequency
+			const duration_variant& frequency,
+			const std::chrono::year_month_day& anchor
 		) const -> std::chrono::year_month_day; // can we make this noexcept?
 
 	private:
 
 		virtual auto _adjust(
 			const std::chrono::year_month_day& ymd,
-			const std::chrono::year_month_day& anchor,
-			const duration_variant& frequency
+			const duration_variant& frequency,
+			const std::chrono::year_month_day& anchor
 		) const -> std::chrono::year_month_day = 0;
 
 	};
@@ -59,11 +59,11 @@ namespace coupon_schedule
 
 	inline auto date_adjuster::adjust(
 		const std::chrono::year_month_day& ymd,
-		const std::chrono::year_month_day& anchor,
-		const duration_variant& frequency
+		const duration_variant& frequency,
+		const std::chrono::year_month_day& anchor
 	) const -> std::chrono::year_month_day
 	{
-		return _adjust(ymd, anchor, frequency);
+		return _adjust(ymd, frequency, anchor);
 	}
 
 }

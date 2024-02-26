@@ -21,18 +21,11 @@
 // SOFTWARE.
 
 #include <date_adjuster.h>
-#include <quasi_coupon_schedule.h> // for SemiAnnualy etc
-
-#include <schedule.h>
 
 #include <gtest/gtest.h>
 
 #include <chrono>
-#include <stdexcept>
 
-using namespace gregorian;
-
-using namespace std;
 using namespace std::chrono;
 
 
@@ -42,26 +35,43 @@ namespace coupon_schedule
 	TEST(not_after_quasi_coupon_date, adjust) // I wonder if we have "<=" "<" and ">=" ">" here is some sense
 	{
 		// anchor is on the "date" ("date" is on the quasi date strip)
-		EXPECT_EQ(2022y / December / 7d, NotAfter.adjust(2022y / December / 7d, 2022y / December / 7d, SemiAnnualy)); // should anchor and frequency order be the same as in QCS?
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotAfter.adjust(2022y / December / 7d, 2022y / December / 7d, months{ 6 })
+		); // should anchor and frequency order be the same as in QCS?
 
 		// anchor is before the "date" ("date" is not on the quasi date strip)
-		EXPECT_EQ(2022y / December / 7d, NotAfter.adjust(2023y / January / 1d, 2022y / December / 7d, SemiAnnualy));
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotAfter.adjust(2023y / January / 1d, 2022y / December / 7d, months{ 6 })
+		);
 
 		// anchor is before the "date" ("date" is on the quasi date strip)
-		EXPECT_EQ(2022y / December / 7d, NotAfter.adjust(2022y / December / 7d, 2022y / June / 7d, SemiAnnualy));
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotAfter.adjust(2022y / December / 7d, 2022y / June / 7d, months{ 6 })
+		);
 	}
 
 
 	TEST(not_before_quasi_coupon_date, adjust)
 	{
 		// anchor is on the "date" ("date" is on the quasi date strip)
-		EXPECT_EQ(2022y / December / 7d, NotBefore.adjust(2022y / December / 7d, 2022y / December / 7d, SemiAnnualy));
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotBefore.adjust(2022y / December / 7d, 2022y / December / 7d, months{ 6 })
+		);
 
 		// anchor is after the "date" ("date" is not on the quasi date strip)
-		EXPECT_EQ(2022y / December / 7d, NotBefore.adjust(2023y / June / 1d, 2023y / June / 7d, SemiAnnualy));
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotBefore.adjust(2023y / June / 1d, 2023y / June / 7d, months{ 6 }));
 
 		// anchor is after the "date" ("date" is on the quasi date strip)
-		EXPECT_EQ(2022y / December / 7d, NotBefore.adjust(2022y / December / 7d, 2023y / June / 7d, SemiAnnualy));
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotBefore.adjust(2022y / December / 7d, 2023y / June / 7d, months{ 6 })
+		);
 	}
 
 }

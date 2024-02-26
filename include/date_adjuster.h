@@ -39,7 +39,7 @@ namespace coupon_schedule
 			const std::chrono::year_month_day& ymd,
 			const std::chrono::year_month_day& anchor,
 			const duration_variant& frequency
-		) const noexcept -> std::chrono::year_month_day final;
+		) const -> std::chrono::year_month_day final;
 
 	};
 
@@ -57,7 +57,7 @@ namespace coupon_schedule
 			const std::chrono::year_month_day& ymd,
 			const std::chrono::year_month_day& anchor, // should these 2 be captured by the constructor? (consider the same for cal in business_day_convention)
 			const duration_variant& frequency
-		) const noexcept -> std::chrono::year_month_day final;
+		) const -> std::chrono::year_month_day final;
 
 	};
 
@@ -66,11 +66,11 @@ namespace coupon_schedule
 
 
 
-	inline auto not_after_quasi_coupon_date::_adjust(
+	inline auto _adjust_forward_not_after_quasi_coupon_date(
 		const std::chrono::year_month_day& ymd,
 		const std::chrono::year_month_day& anchor,
-		const duration_variant& frequency // for now assume only positive frequencies
-	) const noexcept -> std::chrono::year_month_day
+		const duration_variant& frequency
+	) -> std::chrono::year_month_day
 	{
 		auto d = anchor; // for now assume that anchor is before ymd
 
@@ -80,13 +80,39 @@ namespace coupon_schedule
 		return d;
 	}
 
-
-
-	inline auto not_before_quasi_coupon_date::_adjust(
+	inline auto _adjust_backward_not_after_quasi_coupon_date(
 		const std::chrono::year_month_day& ymd,
 		const std::chrono::year_month_day& anchor,
-		const duration_variant& frequency // for now assume only positive frequencies
-	) const noexcept -> std::chrono::year_month_day
+		const duration_variant& frequency
+	) -> std::chrono::year_month_day
+	{
+		auto d = anchor; // for now assume that anchor is before ymd
+
+		while (advance(d, frequency) >= ymd)
+			d = advance(d, frequency);
+
+		return d;
+	}
+
+	inline auto not_after_quasi_coupon_date::_adjust(
+		const std::chrono::year_month_day& ymd,
+		const std::chrono::year_month_day& anchor,
+		const duration_variant& frequency
+	) const -> std::chrono::year_month_day
+	{
+		if(is_forward(frequency))
+			return _adjust_forward_not_after_quasi_coupon_date(ymd, anchor, frequency);
+		else
+			return _adjust_backward_not_after_quasi_coupon_date(ymd, anchor, frequency); // also covers 0 frequency - what do we want to do there?
+	}
+
+
+
+	inline auto _adjust_forward_not_before_quasi_coupon_date(
+		const std::chrono::year_month_day& ymd,
+		const std::chrono::year_month_day& anchor,
+		const duration_variant& frequency
+	) -> std::chrono::year_month_day
 	{
 		auto d = anchor; // for now assume that anchor is after ymd
 
@@ -94,6 +120,32 @@ namespace coupon_schedule
 			d = retreat(d, frequency);
 
 		return d;
+	}
+
+	inline auto _adjust_backward_not_before_quasi_coupon_date(
+		const std::chrono::year_month_day& ymd,
+		const std::chrono::year_month_day& anchor,
+		const duration_variant& frequency
+	) -> std::chrono::year_month_day
+	{
+		auto d = anchor; // for now assume that anchor is after ymd
+
+		while (d < ymd)
+			d = retreat(d, frequency);
+
+		return d;
+	}
+
+	inline auto not_before_quasi_coupon_date::_adjust(
+		const std::chrono::year_month_day& ymd,
+		const std::chrono::year_month_day& anchor,
+		const duration_variant& frequency // for now assume only positive frequencies
+	) const -> std::chrono::year_month_day
+	{
+		if (is_forward(frequency))
+			return _adjust_forward_not_before_quasi_coupon_date(ymd, anchor, frequency);
+		else
+			return _adjust_backward_not_before_quasi_coupon_date(ymd, anchor, frequency); // also covers 0 frequency - what do we want to do there?
 	}
 
 }

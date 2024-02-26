@@ -43,7 +43,7 @@ namespace coupon_schedule
 			const std::chrono::year_month_day& ymd,
 			const std::chrono::year_month_day& anchor,
 			const duration_variant& frequency
-		) const noexcept -> std::chrono::year_month_day;
+		) const -> std::chrono::year_month_day; // can we make this noexcept?
 
 	private:
 
@@ -51,7 +51,7 @@ namespace coupon_schedule
 			const std::chrono::year_month_day& ymd,
 			const std::chrono::year_month_day& anchor,
 			const duration_variant& frequency
-		) const noexcept -> std::chrono::year_month_day = 0;
+		) const -> std::chrono::year_month_day = 0;
 
 	};
 
@@ -61,7 +61,7 @@ namespace coupon_schedule
 		const std::chrono::year_month_day& ymd,
 		const std::chrono::year_month_day& anchor,
 		const duration_variant& frequency
-	) const noexcept -> std::chrono::year_month_day
+	) const -> std::chrono::year_month_day
 	{
 		return _adjust(ymd, anchor, frequency);
 	}

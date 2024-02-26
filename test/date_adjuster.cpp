@@ -51,6 +51,24 @@ namespace coupon_schedule
 			2022y / December / 7d,
 			NotAfter.adjust(2022y / December / 7d, 2022y / June / 7d, months{ 6 })
 		);
+
+		// anchor is on the "date" ("date" is on the quasi date strip)
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotAfter.adjust(2022y / December / 7d, 2022y / December / 7d, months{ -6 })
+		); // should anchor and frequency order be the same as in QCS?
+
+		// anchor is before the "date" ("date" is not on the quasi date strip)
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotAfter.adjust(2022y / December / 1d, 2022y / December / 7d, months{ -6 })
+		);
+
+		// anchor is before the "date" ("date" is on the quasi date strip)
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotAfter.adjust(2022y / December / 7d, 2023y / June / 7d, months{ -6 })
+		);
 	}
 
 
@@ -71,6 +89,22 @@ namespace coupon_schedule
 		EXPECT_EQ(
 			2022y / December / 7d,
 			NotBefore.adjust(2022y / December / 7d, 2023y / June / 7d, months{ 6 })
+		);
+		// anchor is on the "date" ("date" is on the quasi date strip)
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotBefore.adjust(2022y / December / 7d, 2022y / December / 7d, months{ -6 })
+		);
+
+		// anchor is after the "date" ("date" is not on the quasi date strip)
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotBefore.adjust(2022y / December / 1d, 2022y / June / 7d, months{ -6 }));
+
+		// anchor is after the "date" ("date" is on the quasi date strip)
+		EXPECT_EQ(
+			2022y / December / 7d,
+			NotBefore.adjust(2022y / December / 7d, 2022y / June / 7d, months{ -6 })
 		);
 	}
 

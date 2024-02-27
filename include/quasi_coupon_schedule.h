@@ -240,19 +240,13 @@ namespace coupon_schedule
             const auto& maturity = issue_maturity.get_until();
             assert(anchor <= issue);
 
-            const auto is_not_just_before = [&](const auto d) // are these "business day conventions"? (but we should call them something differently?)
-            {
-                return advance(d, frequency) <= issue; // do we need this?
-            };
-
-            const auto is_not_past_just_after = [&](const auto d)
+            const auto is_not_past_just_after = [&](const auto d) // are these "business day conventions"? (but we should call them something differently?)
             {
                 return retreat(d, frequency) < maturity;
             };
 
             return
                 quasi_coupon_schedule_view{ anchor, frequency } |
-                std::views::drop_while(is_not_just_before) |
                 std::views::take_while(is_not_past_just_after);
         }
 
@@ -269,11 +263,6 @@ namespace coupon_schedule
             const auto& maturity = issue_maturity.get_until();
             assert(anchor >= maturity);
 
-            const auto is_not_just_before = [&](const auto d)
-            {
-                return advance(d, frequency) >= maturity;
-            };
-
             const auto is_not_past_just_after = [&](const auto d)
             {
                 return retreat(d, frequency) > issue;
@@ -281,7 +270,6 @@ namespace coupon_schedule
 
             return
                 quasi_coupon_schedule_view{ anchor, frequency } |
-                std::views::drop_while(is_not_just_before) |
                 std::views::take_while(is_not_past_just_after);
         }
 

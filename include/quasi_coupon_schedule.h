@@ -23,6 +23,7 @@
 #pragma once
 
 #include "duration_variant.h"
+#include "date_adjuster.h"
 
 #include <schedule.h>
 
@@ -206,19 +207,16 @@ namespace coupon_schedule
         inline auto _make_quasi_coupon_schedule_forward(
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency,
-            const std::chrono::month_day& anchor
+            const std::chrono::year_month_day& anchor
         ) -> auto
         {
             const auto& issue = issue_maturity.get_from();
             const auto& maturity = issue_maturity.get_until();
-
-            const auto a = --issue.year() / anchor; // this is not optimal (as we might be making too many steps back)
-            // would not work for frequencies larger than 1 year, that also includes things like 18m, etc
-            // (probably not clearly defined for month_day anchors anyway, so maybe we want to go back to year_month_day)
+            // assert that anchor is before issue
 
             const auto is_not_just_before = [&](const auto d) // are these "business day conventions"? (but we should call them something differently?)
             {
-                return advance(d, frequency) <= issue;
+                return advance(d, frequency) <= issue; // do we need this?
             };
 
             const auto is_not_past_just_after = [&](const auto d)
@@ -227,7 +225,7 @@ namespace coupon_schedule
             };
 
             return
-                quasi_coupon_schedule_view{ a, frequency } |
+                quasi_coupon_schedule_view{ anchor, frequency } |
                 std::views::drop_while(is_not_just_before) |
                 std::views::take_while(is_not_past_just_after);
         }
@@ -236,15 +234,12 @@ namespace coupon_schedule
         inline auto _make_quasi_coupon_schedule_backward(
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency,
-            const std::chrono::month_day& anchor
+            const std::chrono::year_month_day& anchor
         ) -> auto
         {
             const auto& issue = issue_maturity.get_from();
             const auto& maturity = issue_maturity.get_until();
-
-            const auto a = ++maturity.year() / anchor; // this is not optimal (as we might be making too many steps back)
-            // would not work for frequencies larger than 1 year, that also includes things like 18m, etc
-            // (probably not clearly defined for month_day anchors anyway, so maybe we want to go back to year_month_day)
+            // assert that anchor is after maturity
 
             const auto is_not_just_before = [&](const auto d)
             {
@@ -257,7 +252,7 @@ namespace coupon_schedule
             };
 
             return
-                quasi_coupon_schedule_view{ a, frequency } |
+                quasi_coupon_schedule_view{ anchor, frequency } |
                 std::views::drop_while(is_not_just_before) |
                 std::views::take_while(is_not_past_just_after);
         }
@@ -268,17 +263,33 @@ namespace coupon_schedule
         inline auto make_quasi_coupon_schedule(
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
-            const std::chrono::month_day& anchor
+            const std::chrono::year_month_day& anchor
         ) -> gregorian::schedule
         {
             if (!is_forward(frequency) && !is_backward(frequency))
                 throw std::out_of_range{ "Empty frequency does not work for quasi coupon schedule" }; // or shold we do something else, like return some type of empty schedule
 
+            const auto& issue = issue_maturity.get_from();
+            const auto& maturity = issue_maturity.get_until();
+            
+            // simplify, or factor out
+            auto a = std::chrono::year_month_day{};
+            if (is_forward(frequency))
+                if (anchor <= issue)
+                    a = NotAfter.adjust(issue, frequency, anchor);
+                else
+                    a = NotBefore.adjust(issue, frequency, anchor);
+            else
+                if (anchor >= maturity)
+                    a = NotAfter.adjust(maturity, frequency, anchor);
+                else
+                    a = NotBefore.adjust(maturity, frequency, anchor);
+
             auto s = is_forward(frequency) ?
-                _make_quasi_coupon_schedule_forward(issue_maturity, frequency, anchor) |
+                _make_quasi_coupon_schedule_forward(issue_maturity, frequency, a) |
                 std::ranges::to<gregorian::schedule::storage>()
             :
-                _make_quasi_coupon_schedule_backward(issue_maturity, frequency, anchor) |
+                _make_quasi_coupon_schedule_backward(issue_maturity, frequency, a) |
                 std::ranges::to<gregorian::schedule::storage>(); // do we need to reverse it?
             // can we have "to" directly to gregorian::schedule?
 
@@ -299,8 +310,10 @@ namespace coupon_schedule
     ) -> gregorian::schedule
     {
         const auto a = issue_maturity.get_from().year() / anchor; // this would only work for situations where frequency is less that a year - how should we check for that?
+        // are we ok to make adjustment first and then fill a shedule generation as a second step?
+        // (if anchor is after the issue we can adjust a generate the bit prior to the anchor at the same time, but then we'll have to combine this with the part above the anchor)
 
-        return make_quasi_coupon_schedule(issue_maturity, frequency, a);
+        return experimental::make_quasi_coupon_schedule(issue_maturity, frequency, a);
     }
 
 }

@@ -50,7 +50,7 @@ namespace coupon_schedule
 			}
 		};
 
-		const auto gilt_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
+		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			{ 2023y / January / 1d,	2023y / December / 7d },
 			SemiAnnualy,
 			June / 7d
@@ -70,7 +70,7 @@ namespace coupon_schedule
 			}
 		};
 
-		const auto gilt_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
+		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			{ 2023y / July / 1d, 2023y / December / 7d },
 			SemiAnnualy,
 			June / 7d
@@ -90,7 +90,7 @@ namespace coupon_schedule
 			}
 		};
 
-		const auto cds_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
+		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			{ 2023y / September / 20d, 2023y / December / 20d },
 			Quarterly,
 			June / 20d
@@ -111,7 +111,7 @@ namespace coupon_schedule
 			}
 		};
 
-		const auto cds_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
+		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			{ 2023y / June / 20d, 2023y / December / 20d },
 			Quarterly,
 			September / 20d
@@ -131,7 +131,7 @@ namespace coupon_schedule
 			}
 		};
 
-		const auto gilt_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
+		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			{ 2023y / June / 7d, 2023y / December / 1d },
 			duration_variant{ months{ -6 } },
 			December / 7d
@@ -151,7 +151,7 @@ namespace coupon_schedule
 			}
 		};
 
-		const auto cds_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
+		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			{ 2023y / March / 20d, 2023y / June / 20d },
 			duration_variant{ months{ -3 } },
 			December / 20d
@@ -172,7 +172,7 @@ namespace coupon_schedule
 			}
 		};
 
-		const auto cds_quasi_coupon_schedule = experimental::make_quasi_coupon_schedule(
+		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
 			{ 2023y / March / 20d, 2023y / September / 20d },
 			duration_variant{ months{ -3 } },
 			June / 20d
@@ -188,7 +188,7 @@ namespace coupon_schedule
 		const auto f = duration_variant{ months{ 0 } };
 		const auto a = September / 20d;
 
-		EXPECT_THROW(experimental::make_quasi_coupon_schedule(i_m, f, a), out_of_range);
+		EXPECT_THROW(make_quasi_coupon_schedule(i_m, f, a), out_of_range);
 	}
 
 }

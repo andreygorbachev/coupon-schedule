@@ -30,7 +30,7 @@
 namespace coupon_schedule
 {
 
-	class not_after_quasi_coupon_date final : public date_adjuster
+	class not_after_quasi_coupon_date final : public date_adjuster // correct name?
 	{
 
 	private:

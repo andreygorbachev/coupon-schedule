@@ -284,6 +284,8 @@ namespace coupon_schedule
                 throw std::out_of_range{ "Empty frequency does not work for quasi coupon schedule" }; // or shold we do something else, like return some type of empty schedule
 
             const auto adjusted_anchor = _adjust_anchor(issue_maturity, frequency, anchor);
+            // are we ok to make adjustment first and then fill the schedule generation as a second step?
+            // (if anchor is after the issue we can adjust and generate the bit below the anchor at the same time, but then we'll have to combine this with the part above the anchor)
 
             auto s = is_forward(frequency) ?
                 _make_quasi_coupon_schedule_forward(issue_maturity, frequency, adjusted_anchor) |
@@ -309,9 +311,12 @@ namespace coupon_schedule
         const std::chrono::month_day& anchor
     ) -> gregorian::schedule
     {
-        const auto a = issue_maturity.get_from().year() / anchor; // this would only work for situations where frequency is less that a year - how should we check for that?
-        // are we ok to make adjustment first and then fill a shedule generation as a second step?
-        // (if anchor is after the issue we can adjust a generate the bit prior to the anchor at the same time, but then we'll have to combine this with the part above the anchor)
+        // we need to assert that the frequency is below 1 year here
+
+        const auto a = is_forward(frequency) ?
+            issue_maturity.get_from().year() / anchor
+        :
+            issue_maturity.get_until().year() / anchor;
 
         return experimental::make_quasi_coupon_schedule(issue_maturity, frequency, a);
     }

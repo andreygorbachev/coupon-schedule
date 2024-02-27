@@ -233,7 +233,7 @@ namespace coupon_schedule
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency,
             const std::chrono::year_month_day& anchor
-        ) -> auto
+        )
         {
             assert(is_forward(frequency));
             assert(anchor <= issue_maturity.get_from());
@@ -253,7 +253,7 @@ namespace coupon_schedule
             const gregorian::days_period& issue_maturity,
             const duration_variant& frequency,
             const std::chrono::year_month_day& anchor
-        ) -> auto
+        )
         {
             assert(is_backward(frequency));
             assert(anchor >= issue_maturity.get_until());

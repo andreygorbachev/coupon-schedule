@@ -94,7 +94,7 @@ namespace coupon_schedule
 
 	inline auto make_quasi_coupon_schedule(
 		const gregorian::days_period& issue_maturity,
-		const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
+		const duration_variant& frequency,
 		const std::chrono::year_month_day& anchor
 	) -> gregorian::schedule
 	{
@@ -216,7 +216,7 @@ namespace coupon_schedule
             const auto& maturity = issue_maturity.get_until();
 
             if (is_forward(frequency))
-                if (anchor <= issue)
+                if (anchor <= issue) // should we explicitly handle "==" case? (no adjustment needed)
                     return NotAfter.adjust(issue, frequency, anchor);
                 else
                     return NotBefore.adjust(issue, frequency, anchor);
@@ -234,6 +234,8 @@ namespace coupon_schedule
             const std::chrono::year_month_day& anchor
         ) -> auto
         {
+            assert(is_forward(frequency));
+
             const auto& issue = issue_maturity.get_from();
             const auto& maturity = issue_maturity.get_until();
             // assert that anchor is before issue
@@ -261,6 +263,8 @@ namespace coupon_schedule
             const std::chrono::year_month_day& anchor
         ) -> auto
         {
+            assert(is_backward(frequency));
+
             const auto& issue = issue_maturity.get_from();
             const auto& maturity = issue_maturity.get_until();
             // assert that anchor is after maturity
@@ -286,7 +290,7 @@ namespace coupon_schedule
         // derive from schedule?
         inline auto make_quasi_coupon_schedule(
             const gregorian::days_period& issue_maturity,
-            const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
+            const duration_variant& frequency,
             const std::chrono::year_month_day& anchor
         ) -> gregorian::schedule
         {

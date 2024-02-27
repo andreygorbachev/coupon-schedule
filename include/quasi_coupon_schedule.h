@@ -285,10 +285,10 @@ namespace coupon_schedule
                 throw std::out_of_range{ "Empty frequency does not work for quasi coupon schedule" }; // or shold we do something else, like return some type of empty schedule
 
             const auto adjusted_anchor = _adjust_anchor(issue_maturity, frequency, anchor);
-            // are we ok to make adjustment first and then fill the schedule generation as a second step?
+            // are we ok to make adjustment first and then fill the schedule generation as a separate step?
             // (if anchor is after the issue we can adjust and generate the bit below the anchor at the same time, but then we'll have to combine this with the part above the anchor)
 
-            // alternatively we can always reverse the negative duration and always roll forward
+            // alternatively we can always reverse the negative duration and always advance
             // (we would not be able to do so for all coupon schedules, but would always work for quasi coupon schedules)
             auto s = is_forward(frequency) ?
                 _make_quasi_coupon_schedule_forward(issue_maturity, frequency, adjusted_anchor) |

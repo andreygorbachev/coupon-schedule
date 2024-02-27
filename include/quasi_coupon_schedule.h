@@ -235,10 +235,9 @@ namespace coupon_schedule
         ) -> auto
         {
             assert(is_forward(frequency));
+            assert(anchor <= issue_maturity.get_from());
 
-            const auto& issue = issue_maturity.get_from();
             const auto& maturity = issue_maturity.get_until();
-            assert(anchor <= issue);
 
             const auto is_not_past_just_after = [&](const auto d) // are these "business day conventions"? (but we should call them something differently?)
             {
@@ -258,10 +257,9 @@ namespace coupon_schedule
         ) -> auto
         {
             assert(is_backward(frequency));
+            assert(anchor >= issue_maturity.get_until());
 
             const auto& issue = issue_maturity.get_from();
-            const auto& maturity = issue_maturity.get_until();
-            assert(anchor >= maturity);
 
             const auto is_not_past_just_after = [&](const auto d)
             {

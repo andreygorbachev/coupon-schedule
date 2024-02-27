@@ -92,6 +92,7 @@ namespace coupon_schedule
 	}
 
 
+    // at the moment negative durations are not supported
 	inline auto make_quasi_coupon_schedule(
 		const gregorian::days_period& issue_maturity,
 		const duration_variant& frequency,

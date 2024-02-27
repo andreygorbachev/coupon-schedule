@@ -94,13 +94,13 @@ namespace coupon_schedule
 	inline auto make_quasi_coupon_schedule(
 		const gregorian::days_period& issue_maturity,
 		const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
-		const std::chrono::month_day& anchor
+		const std::chrono::year_month_day& anchor
 	) -> gregorian::schedule
 	{
 		const auto& issue = issue_maturity.get_from();
 		const auto& maturity = issue_maturity.get_until();
 
-		auto a = issue.year() / anchor;
+		auto a = anchor;
 
 		if (a < issue)
 			a = _increase_ymd_as_needed(a, issue, frequency);
@@ -116,6 +116,7 @@ namespace coupon_schedule
 
 		return gregorian::schedule{	std::move(p), std::move(s) };
 	}
+
 
 
 	namespace experimental
@@ -287,6 +288,19 @@ namespace coupon_schedule
             return gregorian::schedule{ std::move(p), std::move(s) };
         }
 
+    }
+
+
+
+    inline auto make_quasi_coupon_schedule(
+        const gregorian::days_period& issue_maturity,
+        const duration_variant& frequency, // at the moment we are not thinking about tricky situations towards the end of month
+        const std::chrono::month_day& anchor
+    ) -> gregorian::schedule
+    {
+        const auto a = issue_maturity.get_from().year() / anchor; // this would only work for situations where frequency is less that a year - how should we check for that?
+
+        return make_quasi_coupon_schedule(issue_maturity, frequency, a);
     }
 
 }

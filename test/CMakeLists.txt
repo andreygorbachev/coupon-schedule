@@ -10,7 +10,7 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(${PROJECT_NAME}
   duration_variant.cpp
-  date_adjuster.cpp
+  date_adjusters.cpp
   quasi_coupon_schedule.cpp
   coupon_period.cpp
   coupon_schedule.cpp

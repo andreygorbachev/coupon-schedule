@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <date_adjuster.h>
+#include <date_adjusters.h>
 
 #include <gtest/gtest.h>
 
@@ -32,7 +32,7 @@ using namespace std::chrono;
 namespace coupon_schedule
 {
 
-	TEST(not_after_quasi_coupon_date, adjust) // I wonder if we have "<=" "<" and ">=" ">" here is some sense
+	TEST(not_after_quasi_coupon_date, adjust) // I wonder if we have "<=" "<" and ">=" ">" here in some sense
 	{
 		// anchor is on the "date" ("date" is on the quasi date strip)
 		EXPECT_EQ(

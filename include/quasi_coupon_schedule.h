@@ -287,6 +287,8 @@ namespace coupon_schedule
             // are we ok to make adjustment first and then fill the schedule generation as a second step?
             // (if anchor is after the issue we can adjust and generate the bit below the anchor at the same time, but then we'll have to combine this with the part above the anchor)
 
+            // alternatively we can always reverse the negative duration and always roll forward
+            // (we would not be able to do so for all coupon schedules, but would always work for quasi coupon schedules)
             auto s = is_forward(frequency) ?
                 _make_quasi_coupon_schedule_forward(issue_maturity, frequency, adjusted_anchor) |
                 std::ranges::to<gregorian::schedule::storage>()

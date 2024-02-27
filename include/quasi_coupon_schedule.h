@@ -238,7 +238,7 @@ namespace coupon_schedule
 
             const auto& issue = issue_maturity.get_from();
             const auto& maturity = issue_maturity.get_until();
-            // assert that anchor is before issue
+            assert(anchor <= issue);
 
             const auto is_not_just_before = [&](const auto d) // are these "business day conventions"? (but we should call them something differently?)
             {
@@ -267,7 +267,7 @@ namespace coupon_schedule
 
             const auto& issue = issue_maturity.get_from();
             const auto& maturity = issue_maturity.get_until();
-            // assert that anchor is after maturity
+            assert(anchor >= maturity);
 
             const auto is_not_just_before = [&](const auto d)
             {

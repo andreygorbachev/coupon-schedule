@@ -35,7 +35,14 @@ namespace coupon_schedule
 
 	public:
 
+		date_adjuster() noexcept = default;
 		virtual ~date_adjuster() noexcept = default;
+
+		date_adjuster(const date_adjuster&) = delete;
+		date_adjuster(date_adjuster&&) noexcept = delete;
+
+		date_adjuster& operator=(const date_adjuster&) = delete;
+		date_adjuster& operator=(date_adjuster&&) noexcept = delete;
 
 	public:
 

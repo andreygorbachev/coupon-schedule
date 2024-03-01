@@ -36,7 +36,14 @@ namespace coupon_schedule
 
 	public:
 
+		day_count() noexcept = default;
 		virtual ~day_count() noexcept = default;
+
+		day_count(const day_count&) = delete;
+		day_count(day_count&&) noexcept = delete;
+
+		day_count& operator=(const day_count&) = delete;
+		day_count& operator=(day_count&&) noexcept = delete;
 
 	public:
 

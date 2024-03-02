@@ -48,12 +48,10 @@ namespace coupon_schedule
 	public:
 
 		auto fraction(const gregorian::days_period& period) const -> double; // noexcept?
-		// return a ratio?
 
 	private:
 
 		virtual auto _fraction(const gregorian::days_period& period) const -> double = 0; // noexcept?
-		// return a ratio?
 
 	};
 

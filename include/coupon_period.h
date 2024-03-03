@@ -47,6 +47,11 @@ namespace coupon_schedule
 			std::chrono::year_month_day ex_div
 		) noexcept;
 
+		coupon_period(
+			gregorian::days_period period,
+			std::chrono::year_month_day pay
+		) noexcept;
+
 		~coupon_period() noexcept = default;
 
 		coupon_period& operator=(const coupon_period&) = default;
@@ -86,6 +91,17 @@ namespace coupon_schedule
 		_ex_div{ std::move(ex_div) }
 	{
 		// should we check that the ex-div date at least "makes sense" against other dates available here?
+	}
+
+
+	inline coupon_period::coupon_period(
+		gregorian::days_period period,
+		std::chrono::year_month_day pay
+	) noexcept :
+		_period{ std::move(period) },
+		_pay{ std::move(pay) },
+		_ex_div{ _period.get_until()}
+	{
 	}
 
 }

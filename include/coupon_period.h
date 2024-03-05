@@ -23,6 +23,8 @@
 #pragma once
 
 #include <period.h>
+#include <calendar.h>
+#include <business_day_conventions.h>
 
 #include <chrono>
 #include <vector>
@@ -51,6 +53,12 @@ namespace coupon_schedule
 			gregorian::days_period period,
 			std::chrono::year_month_day pay
 		) noexcept;
+
+		coupon_period(
+			gregorian::days_period period,
+			const gregorian::calendar& cal,
+			const gregorian::business_day_convention* const bdc = &gregorian::Following
+		);
 
 		~coupon_period() noexcept = default;
 
@@ -103,5 +111,20 @@ namespace coupon_schedule
 		_ex_div{ _period.get_until()}
 	{
 	}
+
+
+	// should there also be a version with ex_divs? (for Gilts for example)
+	// could be that the adjustment for a good payment date should be outside coupon_period
+	inline coupon_period::coupon_period(
+		gregorian::days_period period,
+		const gregorian::calendar& cal,
+		const gregorian::business_day_convention* const bdc
+	) :
+		_period{ std::move(period) },
+		_pay{ bdc->adjust(_period.get_until(), cal) },
+		_ex_div{ _period.get_until() }
+	{
+	}
+
 
 }

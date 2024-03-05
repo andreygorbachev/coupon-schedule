@@ -29,6 +29,7 @@
 #include <chrono>
 
 
+using namespace gregorian;
 using namespace std::chrono;
 
 
@@ -59,6 +60,32 @@ namespace coupon_schedule
 		EXPECT_EQ(2023y / January / 1d, p._period.get_from());
 		EXPECT_EQ(2023y / June / 7d, p._period.get_until());
 		EXPECT_EQ(2023y / June / 7d, p._pay);
+		EXPECT_EQ(2023y / June / 7d, p._ex_div);
+	}
+
+	TEST(coupon_period, constructor3)
+	{
+		const auto s = schedule{
+			period{ 2023y / January / 1d, 2023y / June / 31d },
+			schedule::storage{
+				2023y / January / 1d,
+				2023y / June / 7d,
+			}
+		};
+
+		const auto c = calendar{
+			NoWeekend,
+			s
+		};
+
+		const auto p = coupon_period{
+			{ 2023y / January / 1d, 2023y / June / 7d },
+			c
+		};
+
+		EXPECT_EQ(2023y / January / 1d, p._period.get_from());
+		EXPECT_EQ(2023y / June / 7d, p._period.get_until());
+		EXPECT_EQ(2023y / June / 8d, p._pay);
 		EXPECT_EQ(2023y / June / 7d, p._ex_div);
 	}
 

@@ -66,7 +66,7 @@ namespace coupon_schedule
 	TEST(coupon_period, constructor3)
 	{
 		const auto s = schedule{
-			period{ 2023y / January / 1d, 2023y / June / 31d },
+			{ 2023y / January / 1d, 2023y / June / 31d },
 			{
 				2023y / January / 1d,
 				2023y / June / 7d,

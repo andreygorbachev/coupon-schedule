@@ -67,7 +67,7 @@ namespace coupon_schedule
 	{
 		const auto s = schedule{
 			period{ 2023y / January / 1d, 2023y / June / 31d },
-			schedule::storage{
+			{
 				2023y / January / 1d,
 				2023y / June / 7d,
 			}

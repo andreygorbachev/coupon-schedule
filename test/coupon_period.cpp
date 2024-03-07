@@ -89,4 +89,37 @@ namespace coupon_schedule
 		EXPECT_EQ(2023y / June / 7d, p._ex_div);
 	}
 
+	TEST(coupon_period, get_period)
+	{
+		const auto p = coupon_period{
+			{ 2023y / January / 1d, 2023y / June / 7d },
+			2023y / June / 7d,
+			2023y / June / 1d
+		};
+
+		EXPECT_EQ(days_period(2023y / January / 1d, 2023y / June / 7d), p.get_period());
+	}
+
+	TEST(coupon_period, get_pay_date)
+	{
+		const auto p = coupon_period{
+			{ 2023y / January / 1d, 2023y / June / 7d },
+			2023y / June / 7d,
+			2023y / June / 1d
+		};
+
+		EXPECT_EQ(2023y / June / 7d, p.get_pay_date());
+	}
+
+	TEST(coupon_period, get_ex_div_date)
+	{
+		const auto p = coupon_period{
+			{ 2023y / January / 1d, 2023y / June / 7d },
+			2023y / June / 7d,
+			2023y / June / 1d
+		};
+
+		EXPECT_EQ(2023y / June / 1d, p.get_ex_div_date());
+	}
+
 }

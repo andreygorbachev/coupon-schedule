@@ -71,6 +71,10 @@ namespace coupon_schedule
 
 	public:
 
+		auto get_period() const noexcept -> const gregorian::days_period&;
+		auto get_pay_date() const noexcept -> const std::chrono::year_month_day&;
+		auto get_ex_div_date() const noexcept -> const std::chrono::year_month_day&;
+
 		// we should consider start/end here (calling into from/until) as these are more natural for this domain
 
 //	private:
@@ -126,5 +130,23 @@ namespace coupon_schedule
 	{
 	}
 
+
+
+	inline auto coupon_period::get_period() const noexcept -> const gregorian::days_period&
+	{
+		return _period;
+	}
+
+
+	inline auto coupon_period::get_pay_date() const noexcept -> const std::chrono::year_month_day&
+	{
+		return _pay;
+	}
+
+
+	inline auto coupon_period::get_ex_div_date() const noexcept -> const std::chrono::year_month_day&
+	{
+		return _ex_div;
+	}
 
 }

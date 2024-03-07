@@ -78,19 +78,4 @@ namespace coupon_schedule
 		return result;
 	}
 
-
-	// at the moment long coupons are not supported
-	inline auto make_coupon_schedule(const gregorian::schedule& qcs, const gregorian::calendar& c) -> coupon_periods // bad name as we are not actually creating a schedule (just a verctor of periods)
-	{
-		auto result = _make_coupon_schedule(qcs);
-
-		// adjust for good payment dates
-		for (auto& p : result)
-			p._pay = gregorian::Following.adjust(p._period.get_until(), c); // in the future allow for other adjustments, not just following
-
-		// what do we need to do about ex-divs here?
-
-		return result;
-	}
-
 }

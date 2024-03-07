@@ -63,15 +63,15 @@ namespace coupon_schedule
 	// naive, recursive implementation for now
 	inline auto _make_compounding_schedule(const coupon_period& cp, const gregorian::calendar& c) -> compounding_periods
 	{
-		const auto& f = cp._period.get_from();
-		const auto& u = cp._period.get_until();
+		const auto& f = cp.get_period().get_from();
+		const auto& u = cp.get_period().get_until();
 
 		const auto effective = f;
 		const auto maturity = make_overnight_maturity(effective, c);
 		if (maturity < u)
 		{
 			auto result = _make_compounding_schedule(
-				coupon_period{ gregorian::period{ maturity, u }, cp._pay, cp._ex_div },
+				coupon_period{ gregorian::period{ maturity, u }, cp.get_pay_date(), cp.get_ex_div_date() },
 				c
 			);
 

@@ -77,8 +77,7 @@ namespace coupon_schedule
 
 		// we should consider start/end here (calling into from/until) as these are more natural for this domain
 
-//	private:
-	public:
+	private:
 
 		gregorian::days_period _period;
 

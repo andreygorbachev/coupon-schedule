@@ -44,10 +44,10 @@ namespace coupon_schedule
 			2023y / June / 1d
 		};
 
-		EXPECT_EQ(2023y / January / 1d, p._period.get_from());
-		EXPECT_EQ(2023y / June / 7d, p._period.get_until());
-		EXPECT_EQ(2023y / June / 7d, p._pay);
-		EXPECT_EQ(2023y / June / 1d, p._ex_div);
+		EXPECT_EQ(2023y / January / 1d, p.get_period().get_from());
+		EXPECT_EQ(2023y / June / 7d, p.get_period().get_until());
+		EXPECT_EQ(2023y / June / 7d, p.get_pay_date());
+		EXPECT_EQ(2023y / June / 1d, p.get_ex_div_date());
 	}
 
 	TEST(coupon_period, constructor2)
@@ -57,10 +57,10 @@ namespace coupon_schedule
 			2023y / June / 7d
 		};
 
-		EXPECT_EQ(2023y / January / 1d, p._period.get_from());
-		EXPECT_EQ(2023y / June / 7d, p._period.get_until());
-		EXPECT_EQ(2023y / June / 7d, p._pay);
-		EXPECT_EQ(2023y / June / 7d, p._ex_div);
+		EXPECT_EQ(2023y / January / 1d, p.get_period().get_from());
+		EXPECT_EQ(2023y / June / 7d, p.get_period().get_until());
+		EXPECT_EQ(2023y / June / 7d, p.get_pay_date());
+		EXPECT_EQ(2023y / June / 7d, p.get_ex_div_date());
 	}
 
 	TEST(coupon_period, constructor3)
@@ -83,10 +83,10 @@ namespace coupon_schedule
 			c
 		};
 
-		EXPECT_EQ(2023y / January / 1d, p._period.get_from());
-		EXPECT_EQ(2023y / June / 7d, p._period.get_until());
-		EXPECT_EQ(2023y / June / 8d, p._pay);
-		EXPECT_EQ(2023y / June / 7d, p._ex_div);
+		EXPECT_EQ(2023y / January / 1d, p.get_period().get_from());
+		EXPECT_EQ(2023y / June / 7d, p.get_period().get_until());
+		EXPECT_EQ(2023y / June / 8d, p.get_pay_date());
+		EXPECT_EQ(2023y / June / 7d, p.get_ex_div_date());
 	}
 
 	TEST(coupon_period, get_period)

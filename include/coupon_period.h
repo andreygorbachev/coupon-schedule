@@ -75,7 +75,10 @@ namespace coupon_schedule
 		auto get_pay_date() const noexcept -> const std::chrono::year_month_day&;
 		auto get_ex_div_date() const noexcept -> const std::chrono::year_month_day&;
 
-		// we should consider start/end here (calling into from/until) as these are more natural for this domain
+	public:
+
+		auto get_accrual_start_date() const noexcept -> const std::chrono::year_month_day&;
+		auto get_accrual_end_date() const noexcept -> const std::chrono::year_month_day&;
 
 	private:
 
@@ -146,6 +149,19 @@ namespace coupon_schedule
 	inline auto coupon_period::get_ex_div_date() const noexcept -> const std::chrono::year_month_day&
 	{
 		return _ex_div;
+	}
+
+
+
+	inline auto coupon_period::get_accrual_start_date() const noexcept -> const std::chrono::year_month_day&
+	{
+		return _period.get_from();
+	}
+
+
+	inline auto coupon_period::get_accrual_end_date() const noexcept -> const std::chrono::year_month_day&
+	{
+		return _period.get_until();
 	}
 
 }

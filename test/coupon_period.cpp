@@ -44,8 +44,8 @@ namespace coupon_schedule
 			2023y / June / 1d
 		};
 
-		EXPECT_EQ(2023y / January / 1d, p.get_period().get_from());
-		EXPECT_EQ(2023y / June / 7d, p.get_period().get_until());
+		EXPECT_EQ(2023y / January / 1d, p.get_accrual_start_date());
+		EXPECT_EQ(2023y / June / 7d, p.get_accrual_end_date());
 		EXPECT_EQ(2023y / June / 7d, p.get_pay_date());
 		EXPECT_EQ(2023y / June / 1d, p.get_ex_div_date());
 	}
@@ -57,8 +57,8 @@ namespace coupon_schedule
 			2023y / June / 7d
 		};
 
-		EXPECT_EQ(2023y / January / 1d, p.get_period().get_from());
-		EXPECT_EQ(2023y / June / 7d, p.get_period().get_until());
+		EXPECT_EQ(2023y / January / 1d, p.get_accrual_start_date());
+		EXPECT_EQ(2023y / June / 7d, p.get_accrual_end_date());
 		EXPECT_EQ(2023y / June / 7d, p.get_pay_date());
 		EXPECT_EQ(2023y / June / 7d, p.get_ex_div_date());
 	}
@@ -83,8 +83,8 @@ namespace coupon_schedule
 			c
 		};
 
-		EXPECT_EQ(2023y / January / 1d, p.get_period().get_from());
-		EXPECT_EQ(2023y / June / 7d, p.get_period().get_until());
+		EXPECT_EQ(2023y / January / 1d, p.get_accrual_start_date());
+		EXPECT_EQ(2023y / June / 7d, p.get_accrual_end_date());
 		EXPECT_EQ(2023y / June / 8d, p.get_pay_date());
 		EXPECT_EQ(2023y / June / 7d, p.get_ex_div_date());
 	}
@@ -120,6 +120,28 @@ namespace coupon_schedule
 		};
 
 		EXPECT_EQ(2023y / June / 1d, p.get_ex_div_date());
+	}
+
+	TEST(coupon_period, get_accrual_start_date)
+	{
+		const auto p = coupon_period{
+			{ 2023y / January / 1d, 2023y / June / 7d },
+			2023y / June / 7d,
+			2023y / June / 1d
+		};
+
+		EXPECT_EQ(2023y / January / 1d, p.get_accrual_start_date());
+	}
+
+	TEST(coupon_period, get_accrual_end_date)
+	{
+		const auto p = coupon_period{
+			{ 2023y / January / 1d, 2023y / June / 7d },
+			2023y / June / 7d,
+			2023y / June / 1d
+		};
+
+		EXPECT_EQ(2023y / June / 7d, p.get_accrual_end_date());
 	}
 
 }

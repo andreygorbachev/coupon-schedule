@@ -45,7 +45,7 @@ namespace coupon_schedule
 		const auto publication = calendar{
 			SaturdaySundayWeekend,
 			schedule{
-				period{ 2023y / May / 26d, 2023y / May / 30d },
+				{ 2023y / May / 26d, 2023y / May / 30d },
 				{ 2023y / May / 29d }
 			}
 		};
@@ -58,7 +58,7 @@ namespace coupon_schedule
 		const auto publication = calendar{
 			SaturdaySundayWeekend,
 			schedule{
-				period{ 2023y / May / 26d, 2023y / May / 30d },
+				{ 2023y / May / 26d, 2023y / May / 30d },
 				{ 2023y / May / 29d }
 			}
 		};

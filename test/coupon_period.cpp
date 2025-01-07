@@ -39,7 +39,7 @@ namespace coupon_schedule
 	TEST(coupon_period, constructor1)
 	{
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			2023y / June / 7d,
 			2023y / June / 1d
 		};
@@ -53,7 +53,7 @@ namespace coupon_schedule
 	TEST(coupon_period, constructor2)
 	{
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			2023y / June / 7d
 		};
 
@@ -66,7 +66,7 @@ namespace coupon_schedule
 	TEST(coupon_period, constructor3)
 	{
 		const auto s = schedule{
-			{ 2023y / January / 1d, 2023y / June / 31d },
+			days_period{ 2023y / January / 1d, 2023y / June / 31d },
 			{
 				2023y / January / 1d,
 				2023y / June / 7d,
@@ -79,7 +79,7 @@ namespace coupon_schedule
 		};
 
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			c
 		};
 
@@ -92,7 +92,7 @@ namespace coupon_schedule
 	TEST(coupon_period, get_period)
 	{
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			2023y / June / 7d,
 			2023y / June / 1d
 		};
@@ -103,7 +103,7 @@ namespace coupon_schedule
 	TEST(coupon_period, get_pay_date)
 	{
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			2023y / June / 7d,
 			2023y / June / 1d
 		};
@@ -114,7 +114,7 @@ namespace coupon_schedule
 	TEST(coupon_period, get_ex_div_date)
 	{
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			2023y / June / 7d,
 			2023y / June / 1d
 		};
@@ -125,7 +125,7 @@ namespace coupon_schedule
 	TEST(coupon_period, get_accrual_start_date)
 	{
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			2023y / June / 7d,
 			2023y / June / 1d
 		};
@@ -136,7 +136,7 @@ namespace coupon_schedule
 	TEST(coupon_period, get_accrual_end_date)
 	{
 		const auto p = coupon_period{
-			{ 2023y / January / 1d, 2023y / June / 7d },
+			days_period{ 2023y / January / 1d, 2023y / June / 7d },
 			2023y / June / 7d,
 			2023y / June / 1d
 		};

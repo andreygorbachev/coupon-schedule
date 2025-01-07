@@ -45,7 +45,7 @@ namespace coupon_schedule
 		const auto publication = calendar{
 			SaturdaySundayWeekend,
 			schedule{
-				{ 2023y / May / 26d, 2023y / May / 30d },
+				days_period{ 2023y / May / 26d, 2023y / May / 30d },
 				{ 2023y / May / 29d }
 			}
 		};
@@ -58,7 +58,7 @@ namespace coupon_schedule
 		const auto publication = calendar{
 			SaturdaySundayWeekend,
 			schedule{
-				{ 2023y / May / 26d, 2023y / May / 30d },
+				days_period{ 2023y / May / 26d, 2023y / May / 30d },
 				{ 2023y / May / 29d }
 			}
 		};
@@ -69,15 +69,15 @@ namespace coupon_schedule
 	TEST(compounding_schedule, make_compounding_schedule1)
 	{
 		const auto expected = compounding_periods{
-			{ { 2023y / June / 1d, 2023y / June / 2d }, 2023y / June / 1d },
-			{ { 2023y / June / 2d, 2023y / June / 5d }, 2023y / June / 2d },
-			{ { 2023y / June / 5d, 2023y / June / 6d }, 2023y / June / 5d },
-			{ { 2023y / June / 6d, 2023y / June / 7d }, 2023y / June / 6d },
-			{ { 2023y / June / 7d, 2023y / June / 8d }, 2023y / June / 7d },
+			{ days_period{ 2023y / June / 1d, 2023y / June / 2d }, 2023y / June / 1d },
+			{ days_period{ 2023y / June / 2d, 2023y / June / 5d }, 2023y / June / 2d },
+			{ days_period{ 2023y / June / 5d, 2023y / June / 6d }, 2023y / June / 5d },
+			{ days_period{ 2023y / June / 6d, 2023y / June / 7d }, 2023y / June / 6d },
+			{ days_period{ 2023y / June / 7d, 2023y / June / 8d }, 2023y / June / 7d },
 		};
 
 		const auto period = coupon_period{
-			{ 2023y / June / 1d, 2023y / June / 8d },
+			days_period{ 2023y / June / 1d, 2023y / June / 8d },
 			2023y / June / 8d,
 			2023y / June / 8d
 		};
@@ -93,14 +93,14 @@ namespace coupon_schedule
 	{
 		// non-standard first period
 		const auto expected = compounding_periods{
-			{ { 2023y / June / 3d, 2023y / June / 5d }, 2023y / June / 2d },
-			{ { 2023y / June / 5d, 2023y / June / 6d }, 2023y / June / 5d },
-			{ { 2023y / June / 6d, 2023y / June / 7d }, 2023y / June / 6d },
-			{ { 2023y / June / 7d, 2023y / June / 8d }, 2023y / June / 7d },
+			{ days_period{ 2023y / June / 3d, 2023y / June / 5d }, 2023y / June / 2d },
+			{ days_period{ 2023y / June / 5d, 2023y / June / 6d }, 2023y / June / 5d },
+			{ days_period{ 2023y / June / 6d, 2023y / June / 7d }, 2023y / June / 6d },
+			{ days_period{ 2023y / June / 7d, 2023y / June / 8d }, 2023y / June / 7d },
 		};
 
 		const auto period = coupon_period{
-			{ 2023y / June / 3d, 2023y / June / 8d },
+			days_period{ 2023y / June / 3d, 2023y / June / 8d },
 			2023y / June / 8d,
 			2023y / June / 8d
 		};
@@ -116,12 +116,12 @@ namespace coupon_schedule
 	{
 		// non-standard last period
 		const auto expected = compounding_periods{
-			{ { 2023y / June / 1d, 2023y / June / 2d }, 2023y / June / 1d },
-			{ { 2023y / June / 2d, 2023y / June / 4d }, 2023y / June / 2d },
+			{ days_period{ 2023y / June / 1d, 2023y / June / 2d }, 2023y / June / 1d },
+			{ days_period{ 2023y / June / 2d, 2023y / June / 4d }, 2023y / June / 2d },
 		};
 
 		const auto period = coupon_period{
-			{ 2023y / June / 1d, 2023y / June / 4d },
+			days_period{ 2023y / June / 1d, 2023y / June / 4d },
 			2023y / June / 8d,
 			2023y / June / 4d
 		};
@@ -137,11 +137,11 @@ namespace coupon_schedule
 	{
 		// non-standard first period, which is also a non-standard last period
 		const auto expected = compounding_periods{
-			{ { 2023y / June / 3d, 2023y / June / 4d }, 2023y / June / 2d },
+			{ days_period{ 2023y / June / 3d, 2023y / June / 4d }, 2023y / June / 2d },
 		};
 
 		const auto period = coupon_period{
-			{ 2023y / June / 3d, 2023y / June / 4d },
+			days_period{ 2023y / June / 3d, 2023y / June / 4d },
 			2023y / June / 8d,
 			2023y / June / 4d
 		};
@@ -157,11 +157,11 @@ namespace coupon_schedule
 	{
 		// compounding schedule for an empty coupon period
 		const auto expected = compounding_periods{
-			{ { 2023y / June / 1d, 2023y / June / 1d }, 2023y / June / 1d }, // or should it be an exception?
+			{ days_period{ 2023y / June / 1d, 2023y / June / 1d }, 2023y / June / 1d }, // or should it be an exception?
 		};
 
 		const auto period = coupon_period{
-			{ 2023y / June / 1d, 2023y / June / 1d },
+			days_period{ 2023y / June / 1d, 2023y / June / 1d },
 			2023y / June / 8d,
 			2023y / June / 1d
 		};

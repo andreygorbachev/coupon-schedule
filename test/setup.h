@@ -57,7 +57,7 @@ namespace coupon_schedule
 		};
 
 		const auto hs2018_2019 = make_holiday_schedule(
-			{ 2018y, 2019y },
+			years_period{ 2018y, 2019y },
 			rules
 		);
 
@@ -126,7 +126,7 @@ namespace coupon_schedule
 		);
 
 		const auto hs2024_2025 = make_holiday_schedule(
-			{ 2024y, 2025y },
+			years_period{ 2024y, 2025y },
 			rules
 		);
 
@@ -140,7 +140,7 @@ namespace coupon_schedule
 			SaturdaySundayWeekend,
 			make_holiday_schedule_england()
 		};
-		cal.substitute(&Following);
+		cal.substitute(Following);
 
 		return cal;
 	}
@@ -170,7 +170,7 @@ namespace coupon_schedule
 		// we should also consider election days (but as they are always on Sundays it probably does not matter here)
 
 		const auto hs2018_2025 = make_holiday_schedule(
-			{ 2018y, 2025y },
+			years_period{ 2018y, 2025y },
 			rules
 		);
 
@@ -184,7 +184,7 @@ namespace coupon_schedule
 			SaturdaySundayWeekend,
 			make_holiday_schedule_brazil()
 		};
-		cal.substitute(&NoAdjustment); // make it explicit that no adjustment is needed
+		cal.substitute(NoAdjustment); // make it explicit that no adjustment is needed
 
 		return cal;
 	}

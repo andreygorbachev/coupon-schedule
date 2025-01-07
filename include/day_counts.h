@@ -208,18 +208,18 @@ namespace coupon_schedule
 
 			const auto td1 = std::chrono::year_month_day{ sy + std::chrono::years{ 1 }, std::chrono::January, std::chrono::day{ 1u } };
 			if (!sy.is_leap())
-				result += _actual({ period.get_from(), td1 }) / 365.0;
+				result += _actual(days_period{ period.get_from(), td1 }) / 365.0;
 			else
-				result += _actual({ period.get_from(), td1 }) / 366.0;
+				result += _actual(days_period{ period.get_from(), td1 }) / 366.0;
 
 			const auto dur = ey - sy - std::chrono::years{ 1 };
 			result += static_cast<double>(dur.count());
 
 			const auto td2 = std::chrono::year_month_day{ ey, std::chrono::January, std::chrono::day{ 1u } };
 			if (!ey.is_leap())
-				result += _actual({ td2, period.get_until() }) / 365.0;
+				result += _actual(days_period{ td2, period.get_until() }) / 365.0;
 			else
-				result += _actual({ td2, period.get_until() }) / 366.0;
+				result += _actual(days_period{ td2, period.get_until() }) / 366.0;
 
 			return result;
 		}

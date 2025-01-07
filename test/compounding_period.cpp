@@ -29,6 +29,7 @@
 #include <chrono>
 
 
+using namespace gregorian;
 using namespace std::chrono;
 
 
@@ -37,7 +38,7 @@ namespace coupon_schedule
 
 	TEST(compounding_period, constructor)
 	{
-		const auto p = compounding_period{ { 2023y / January / 7d, 2023y / June / 8d }, 2023y / June / 7d };
+		const auto p = compounding_period{ days_period{ 2023y / January / 7d, 2023y / June / 8d }, 2023y / June / 7d };
 
 		EXPECT_EQ(2023y / January / 7d, p._period.get_from());
 		EXPECT_EQ(2023y / June / 8d, p._period.get_until());

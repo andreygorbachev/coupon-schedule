@@ -81,9 +81,9 @@ namespace coupon_schedule
 		std::chrono::year_month_day d,
 		const std::chrono::year_month_day& maturity,
 		const duration_variant& frequency
-	) -> gregorian::schedule::storage
+	) -> gregorian::schedule::dates
 	{
-		auto s = gregorian::schedule::storage{};
+		auto s = gregorian::schedule::dates{};
 
 		while (s.insert(d), d < maturity)
 			d = advance(d, frequency);
@@ -288,10 +288,10 @@ namespace coupon_schedule
             // (we would not be able to do so for all coupon schedules, but would always work for quasi coupon schedules)
             auto s = is_forward(frequency) ?
                 _make_quasi_coupon_schedule_forward(issue_maturity, frequency, adjusted_anchor) |
-                std::ranges::to<gregorian::schedule::storage>()
+                std::ranges::to<gregorian::schedule::dates>()
             :
                 _make_quasi_coupon_schedule_backward(issue_maturity, frequency, adjusted_anchor) |
-                std::ranges::to<gregorian::schedule::storage>(); // do we need to reverse it?
+                std::ranges::to<gregorian::schedule::dates>(); // do we need to reverse it?
             // can we have "to" directly to gregorian::schedule?
 
             assert(!s.empty());

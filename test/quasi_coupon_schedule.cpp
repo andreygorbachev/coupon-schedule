@@ -42,8 +42,8 @@ namespace coupon_schedule
 	{
 		// basic usage
 		const auto expected = schedule{
-			{ 2022y / December / 7d, 2023y / December / 7d },
-			schedule::storage{
+			days_period{ 2022y / December / 7d, 2023y / December / 7d },
+			schedule::dates{
 				2022y / December / 7d,
 				2023y / June / 7d,
 				2023y / December / 7d,
@@ -51,7 +51,7 @@ namespace coupon_schedule
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
-			{ 2023y / January / 1d,	2023y / December / 7d },
+			days_period{ 2023y / January / 1d,	2023y / December / 7d },
 			SemiAnnualy,
 			June / 7d
 		);
@@ -63,15 +63,15 @@ namespace coupon_schedule
 	{
 		// anchor is before the "from" ("from" is not on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / June / 7d, 2023y / December / 7d },
-			schedule::storage{
+			days_period{ 2023y / June / 7d, 2023y / December / 7d },
+			schedule::dates{
 				2023y / June / 7d,
 				2023y / December / 7d,
 			}
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
-			{ 2023y / July / 1d, 2023y / December / 7d },
+			days_period{ 2023y / July / 1d, 2023y / December / 7d },
 			SemiAnnualy,
 			June / 7d
 		);
@@ -83,15 +83,15 @@ namespace coupon_schedule
 	{
 		// anchor is before the "from" ("from" is on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / September / 20d, 2023y / December / 20d },
-			schedule::storage{
+			days_period{ 2023y / September / 20d, 2023y / December / 20d },
+			schedule::dates{
 				2023y / September / 20d,
 				2023y / December / 20d,
 			}
 		};
 
 		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
-			{ 2023y / September / 20d, 2023y / December / 20d },
+			days_period{ 2023y / September / 20d, 2023y / December / 20d },
 			Quarterly,
 			June / 20d
 		);
@@ -103,8 +103,8 @@ namespace coupon_schedule
 	{
 		// anchor is after the "from" ("from" is on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / June / 20d, 2023y / December / 20d },
-			schedule::storage{
+			days_period{ 2023y / June / 20d, 2023y / December / 20d },
+			schedule::dates{
 				2023y / June / 20d,
 				2023y / September / 20d,
 				2023y / December / 20d,
@@ -112,7 +112,7 @@ namespace coupon_schedule
 		};
 
 		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
-			{ 2023y / June / 20d, 2023y / December / 20d },
+			days_period{ 2023y / June / 20d, 2023y / December / 20d },
 			Quarterly,
 			September / 20d
 		);
@@ -124,15 +124,15 @@ namespace coupon_schedule
 	{
 		// anchor is after the "until" ("until" is not on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / June / 7d, 2023y / December / 7d },
-			schedule::storage{
+			days_period{ 2023y / June / 7d, 2023y / December / 7d },
+			schedule::dates{
 				2023y / June / 7d,
 				2023y / December / 7d,
 			}
 		};
 
 		const auto gilt_quasi_coupon_schedule = make_quasi_coupon_schedule(
-			{ 2023y / June / 7d, 2023y / December / 1d },
+			days_period{ 2023y / June / 7d, 2023y / December / 1d },
 			duration_variant{ months{ -6 } },
 			December / 7d
 		);
@@ -144,15 +144,15 @@ namespace coupon_schedule
 	{
 		// anchor is after the "until" ("until" is on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / March / 20d, 2023y / June / 20d },
-			schedule::storage{
+			days_period{ 2023y / March / 20d, 2023y / June / 20d },
+			schedule::dates{
 				2023y / March / 20d,
 				2023y / June / 20d,
 			}
 		};
 
 		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
-			{ 2023y / March / 20d, 2023y / June / 20d },
+			days_period{ 2023y / March / 20d, 2023y / June / 20d },
 			duration_variant{ months{ -3 } },
 			December / 20d
 		);
@@ -164,8 +164,8 @@ namespace coupon_schedule
 	{
 		// anchor is before the "until" ("until" is on the quasi date strip)
 		const auto expected = schedule{
-			{ 2023y / March / 20d, 2023y / September / 20d },
-			schedule::storage{
+			days_period{ 2023y / March / 20d, 2023y / September / 20d },
+			schedule::dates{
 				2023y / March / 20d,
 				2023y / June / 20d,
 				2023y / September / 20d,
@@ -173,7 +173,7 @@ namespace coupon_schedule
 		};
 
 		const auto cds_quasi_coupon_schedule = make_quasi_coupon_schedule(
-			{ 2023y / March / 20d, 2023y / September / 20d },
+			days_period{ 2023y / March / 20d, 2023y / September / 20d },
 			duration_variant{ months{ -3 } },
 			June / 20d
 		);
